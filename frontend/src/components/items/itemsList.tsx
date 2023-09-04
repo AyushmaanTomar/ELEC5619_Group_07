@@ -7,6 +7,7 @@ interface ItemsListProps {
 }
 
 export default function itemsList({columns}: ItemsListProps) {
+    //TODO: Implement for loop for a given list of items
     let cols = 12/columns; 
     
     return (
