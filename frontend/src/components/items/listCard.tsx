@@ -5,13 +5,13 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 
-interface itemCardProps {
+interface ItemCardProps {
     name: string
     price: number
     imgurl: string
 }
 
-export default function listingItemCard({name, price, imgurl}: itemCardProps) {
+export default function ListCard({name, price, imgurl}: ItemCardProps) {
     return (
         <Card sx={{ maxWidth: 345 }}>
         <CardActionArea>
