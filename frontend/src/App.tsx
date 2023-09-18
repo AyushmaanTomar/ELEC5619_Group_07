@@ -1,42 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  NavLink,
+} from 'react-router-dom';
+
 import './App.css';
+import HomePage from './components/home/homepage';
+import ProductPage from './components/items/listingPage';
+import ProductsPage from './components/items/listingsPage';
 
 function App() {
-
-  const [data, setdata] = useState({
-    api_version: "",
-  });
-
-  useEffect(() => {
-    fetch("/api/").then((res) =>
-        res.json().then((data) => {
-            setdata({
-                api_version: data.api_version,
-            });
-        })
-    );
-}, []);
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-        <p> API_Version = {data.api_version} </p>
+    <Router>
+      <header className="navbar justify-around bg-secondary text-secondary-content border-b-2 border-b-solid border-b-primary ">
+        <div className="flex-1">
+          <a href="/" className="unix-intro">
+            <span><img src="/assets/unix_logo.png" className='relative right-10' alt='home-logo' width="200" height="100" /></span>
+          </a>
+        </div>
+        <div className="flex-auto">
+          <ul className="menu menu-horizontal font-semibold space-x-2"> {/*(border-b-2 border-b-primary) To add underline*/} 
+            <li>
+              <NavLink to="/" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Home</NavLink>
+            </li>
+            <li>
+              <NavLink to="/products/" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Products</NavLink>
+            </li>
+          </ul>
+        </div>
       </header>
-    </div>
+      <main className="mx-10">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:id" element={<ProductPage />} />
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
