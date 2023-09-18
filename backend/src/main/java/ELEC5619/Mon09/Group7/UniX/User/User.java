@@ -1,7 +1,16 @@
 package ELEC5619.Mon09.Group7.UniX.User;
 
+import lombok.Data;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Data
+@Entity
+@Table(name = "Users")
 abstract class User {
 
+    @Id
     private int userId;
     private Boolean isAdmin;
     private String email;
