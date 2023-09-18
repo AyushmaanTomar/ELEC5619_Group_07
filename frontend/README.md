@@ -6,6 +6,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm run api`
+
+Runs the api related to the database.\
+  Resources
+  http://localhost:4000/products
+
+  Home
+  http://localhost:4000
+
 ### `npm start`
 
 Runs the app in the development mode.\
