@@ -1,30 +1,59 @@
+// plugins {
+// 	id 'java'
+// 	id 'org.springframework.boot' version '3.1.2'
+// 	id 'io.spring.dependency-management' version '1.1.2'
+// }
+
+// group = 'ELEC5619.Mon09.Group.7'
+// version = '0.0.1-SNAPSHOT'
+
+// java {
+// 	sourceCompatibility = '17'
+// }
+
+// repositories {
+// 	mavenCentral()
+// }
+
+// dependencies {
+// 	implementation 'org.springframework.boot:spring-boot-starter-web'
+// 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+// 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+// 	compileOnly 'org.projectlombok:lombok:1.18.22'
+// 	implementation 'javax.persistence:javax.persistence-api:2.2'
+// 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+// 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+// }
+
+// tasks.named('test') {
+// 	useJUnitPlatform()
+// }
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.2'
-	id 'io.spring.dependency-management' version '1.1.2'
-}
-
-group = 'ELEC5619.Mon09.Group.7'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	sourceCompatibility = '17'
+	id 'org.springframework.boot' version '3.0.0'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id "me.champeau.jmh" version "0.7.0"
 }
 
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	implementation 'javax.persistence:javax.persistence-api:2.2'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation 'net.jqwik:jqwik:1.7.2'
+	testImplementation 'org.mockito:mockito-core:5.2.0'
+
+    implementation 'org.xerial:sqlite-jdbc:3.32.3.3'
+
 }
 
-tasks.named('test') {
+
+test {
 	useJUnitPlatform()
 }

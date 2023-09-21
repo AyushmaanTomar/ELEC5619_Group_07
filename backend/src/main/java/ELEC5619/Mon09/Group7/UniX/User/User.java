@@ -1,16 +1,7 @@
 package ELEC5619.Mon09.Group7.UniX.User;
 
-import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Data
-@Entity
-@Table(name = "Users")
 abstract class User {
 
-    @Id
     private int userId;
     private Boolean isAdmin;
     private String email;
@@ -27,10 +18,16 @@ abstract class User {
         this.phone = phone;
     }
 
+    /*
+     * User ID 
+     */
     public int getUserId() {
         return userId;
     }
 
+    /*
+     * User Name 
+     */
     public String getUsername() {
         return username;
     }
@@ -39,14 +36,23 @@ abstract class User {
         this.username = username;
     }
 
+    /*
+     * admin 
+     */
     public Boolean getisAdmin() {
         return isAdmin;
     }
 
+     /*
+     * Emaial, we used it to determine user identity, hence can not be modified 
+     */
     public String getEmail() {
         return email;
     }
 
+    /*
+     * Password
+     */
     public String getPassword() {
         return password;
     }
@@ -55,6 +61,9 @@ abstract class User {
         this.password = password;
     }
 
+     /*
+     * Phone 
+     */
     public String getPhone() {
         return phone;
     }

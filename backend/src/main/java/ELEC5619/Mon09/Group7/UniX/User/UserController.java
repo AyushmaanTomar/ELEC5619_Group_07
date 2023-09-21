@@ -1,63 +1,35 @@
 package ELEC5619.Mon09.Group7.UniX.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.net.URI;
+import java.security.SecureRandom;
+import java.sql.SQLException;
+import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/users")
+
+@Controller
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final SecureRandom randomNumberGenerator = new SecureRandom();
+    private final HexFormat hexFormatter = HexFormat.of();
 
-    // Create a new user
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
+    List<String> users = null;
+    UserDatabaseHelper dbHelper = null;
 
-    // Get all users
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+/**
+ * @param userID
+ * @param model
+ * @return
+ */
+@PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam(value = "user", defaultValue = "") int userID, Model model) {
 
-    // Get user by ID
-    @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
-    // Update username by ID
-    @PutMapping("/{id}")
-    public User updateUsername(@PathVariable Long id, @RequestBody String username) {
-        return userService.updateUsername(id, username);
-    }
-
-    // Update password by ID
-    @PutMapping("/{id}")
-    public User updatePassword(@PathVariable Long id, @RequestBody String password) {
-        return userService.updatePassword(id, password);
-    }
-
-    // Update phone by ID
-    @PutMapping("/{id}")
-    public User updatePhone(@PathVariable Long id, @RequestBody String phone) {
-        return userService.updatePassword(id, phone);
-    }
-
-    // Delete all users
-    @DeleteMapping
-    public String deleteAllUsers() {
-        userService.deleteAllUsers();
-        return "All users have been deleted successfully.";
-    }
-
-    // Delete user by ID
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("/cart")).build();
     }
 }

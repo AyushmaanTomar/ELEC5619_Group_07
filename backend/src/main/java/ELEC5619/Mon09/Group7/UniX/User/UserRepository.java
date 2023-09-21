@@ -1,8 +1,12 @@
-package ELEC5619.Mon09.Group7.UniX.User;
+// package ELEC5619.Mon09.Group7.UniX.User;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+// import org.springframework.boot.SpringApplication;
+// import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@EnableJpaRepositories
-public interface UserRepository extends JpaRepository<User, Long> {
-}
+// @SpringBootApplication
+// public class U {
+
+// 	public static void main(String[] args) {
+// 		SpringApplication.run(ShoppingServiceApplication.class, args);
+// 	}
+// }
