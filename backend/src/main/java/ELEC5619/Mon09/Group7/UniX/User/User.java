@@ -3,15 +3,13 @@ package ELEC5619.Mon09.Group7.UniX.User;
 abstract class User {
 
     private int userId;
-    private Boolean isAdmin;
     private String email;
     private String username;
     private String password;
     private String phone;
 
-    public User(int userId, Boolean isAdmin, String username, String email, String password, String phone) {
+    public User(int userId, String username, String email, String password, String phone) {
         this.userId = userId;
-        this.isAdmin = isAdmin;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -19,14 +17,14 @@ abstract class User {
     }
 
     /*
-     * User ID 
+     * User ID
      */
-    public int getUserId() {
+    public int getId() {
         return userId;
     }
 
     /*
-     * User Name 
+     * User Name
      */
     public String getUsername() {
         return username;
@@ -37,14 +35,7 @@ abstract class User {
     }
 
     /*
-     * admin 
-     */
-    public Boolean getisAdmin() {
-        return isAdmin;
-    }
-
-     /*
-     * Emaial, we used it to determine user identity, hence can not be modified 
+     * Emaial, we used it to determine user identity, hence can not be modified
      */
     public String getEmail() {
         return email;
@@ -61,8 +52,8 @@ abstract class User {
         this.password = password;
     }
 
-     /*
-     * Phone 
+    /*
+     * Phone
      */
     public String getPhone() {
         return phone;
