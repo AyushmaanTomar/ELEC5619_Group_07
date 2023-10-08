@@ -1,13 +1,62 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+  font-family: GI, Overpass, Arial, sans-serif;
+} */
+
+h2, h3, h6 {
+  text-transform: uppercase;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* h2.break,
+h6.break {
+  flex-basis: 100%;
+  height: 0;
+} */
+
+/* h2 {
+  display: inline-block;
+} */
+
+h3.card-title, h6.card-title{
+    display: block;
 }
+
+h2:after, h3:after, h6:after {
+  background: #ef4444;
+  content: '';
+  display: block;
+  height: 5px;
+  margin: 5px auto 0 0;
+  width: 60px;
+}
+
+/* h2:after,
+.card-title:after {
+  background: #ffcc01;
+  content: '';
+  display: flex;
+  height: 5px;
+  margin: 10px auto 0;
+  width: 60px;
+} */
+
+header.navbar ul.menu a {
+  text-transform: uppercase;
+}
+
+#unix-intro {
+  background: transparent
+    url(../public/assets/unix_logo.png)
+    no-repeat scroll;
+  display: block;
+  height: 50px;
+  width: 150px;
+  align-self: center;
+}
+.unix-intro {
+  text-indent: -99999px;
+}
+
