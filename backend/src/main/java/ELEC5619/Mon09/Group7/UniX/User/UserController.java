@@ -27,9 +27,17 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam(value = "user", defaultValue = "") int userID, Model model) {
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("/cart")).build();
+    public ResponseEntity<String> login(@RequestBody String username_or_email,
+            @RequestBody String password) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equals(username_or_email)
+                    || users.get(i).getEmail().equals(username_or_email)) {
+                if (users.get(i).getPassword().equals(password)) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("/main")).build();
+                }
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid user.\n");
     }
 
     /**
@@ -43,16 +51,16 @@ public class UserController {
 
         // Email is not an usyd email
         if (!email.split("@", 2).equals("uni.sydney.edu.au"))
-            System.out.println("Error: Incorrect email");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Incorrect email");
 
         // Password doesnt match re-entered password
         if (!password.equals(re_password))
-            System.out.println("Error: Password doesn't match");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Password doesn't match");
 
         if (password.length() < 6)
-            System.out.println("Error: Password is too short");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Password is too short");
         else if (password.length() > 20)
-            System.out.println("Error: Password is too long");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Password is too long");
 
         boolean have_special = false;
 
@@ -63,21 +71,23 @@ public class UserController {
         }
 
         if (have_special)
-            System.out.println("Error: Password doesn't contain at least one special character");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Error: Password doesn't contain at least one special character");
 
         for (int i = 0; i < users.size(); i++) {
 
             // Same username exists
             if (users.get(i).getUsername().equals(username))
-                System.out.println("Error: Entered an existing username");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Entered an existing username");
 
             // Same email exists
             if (users.get(i).getEmail().equals(email))
-                System.out.println("Error: Entered an exisiting email");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Entered an exisiting email");
 
         }
-        // User user = new User(users.size(), false, username, email, password, phone);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("/cart")).build();
+        // User user1 = new User(users.size(), username, email, password, phone);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).location(URI.create("/main")).build();
     }
+
 }
