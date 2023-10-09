@@ -1,4 +1,4 @@
-package ELEC5619.Mon09.Group7.UniX.User;
+package ELEC5619.Mon09.Group7.UniX;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import ELEC5619.Mon09.Group7.UniX.User.User;
+import ELEC5619.Mon09.Group7.UniX.User.UserDatabaseHelper;
+
 import java.util.*;
 import java.net.URI;
 import java.security.SecureRandom;
@@ -14,7 +17,7 @@ import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 @Controller
-public class UserController {
+public class MappingController {
     private final SecureRandom randomNumberGenerator = new SecureRandom();
     private final HexFormat hexFormatter = HexFormat.of();
 
