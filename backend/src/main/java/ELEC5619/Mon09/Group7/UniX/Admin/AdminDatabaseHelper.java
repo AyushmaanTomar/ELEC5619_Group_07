@@ -1,4 +1,4 @@
-package ELEC5619.Mon09.Group7.UniX.User;
+package ELEC5619.Mon09.Group7.UniX.Admin;
 
 import java.io.File;
 import java.sql.Connection;
@@ -10,8 +10,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDatabaseHelper {
-  private static final String DB_NAME = "user.db";
+public class AdminDatabaseHelper {
+  private static final String DB_NAME = "admin.db";
 
   private Connection connection;
 
@@ -41,22 +41,20 @@ public class UserDatabaseHelper {
   /*
    * Connect to the User Table
    */
-  public UserDatabaseHelper() throws SQLException {
+  public AdminDatabaseHelper() throws SQLException {
     connect();
-    ensureUserTable();
+    ensureAdminTable();
   }
 
   /*
    * Change the data type of phone number type to char
    */
-  private void ensureUserTable() throws SQLException {
+  private void ensureAdminTable() throws SQLException {
     String sql = """
-        CREATE TABLE IF NOT EXISTS user (
-        UserID int PRIMARY KEY,
-        Email varchar(50) NOT NUll,
+        CREATE TABLE IF NOT EXISTS admin (
+        AdminID int PRIMARY KEY,
         Username varchar(20) NOT NULL,
         Password varchar(20) NOT NULL,
-        Phone char(10)
         );
         """;
     try (Statement statement = connection.createStatement()) {
@@ -67,30 +65,24 @@ public class UserDatabaseHelper {
   /*
    * Delete User table
    */
-  private void deleteUserTable() throws SQLException {
-    String sql = "DROP TABLE IF EXISTS user";
+  private void deleteAdminTable() throws SQLException {
+    String sql = "DROP TABLE IF EXISTS admin";
     try (Statement statement = connection.createStatement()) {
       statement.execute(sql);
     }
   }
 
   /*
-   * Add new user to the database
+   * Add new admin to the database
    */
-  public void addUser(int userID, String email, String userName, String passWord,
-      boolean isAdmin, String phone) throws SQLException {
-    String sql = "INSERT INTO user (UserID, Email, Username, Password, Phone) VALUES (?, ?, ?, ?, ?)";
+  public void addAdmin(int adminId, String username, String password) throws SQLException {
+    String sql = "INSERT INTO admin (AdminID, Email, UserName, Password) VALUES (?, ?, ?, ?)";
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-      preparedStatement.setInt(1, userID);
-      if (email != null)
-        preparedStatement.setString(2, email);
-      if (userName != null)
-        preparedStatement.setString(3, userName);
-      if (passWord != null)
-        preparedStatement.setString(4, passWord);
-      preparedStatement.setBoolean(5, isAdmin);
-      if (phone != null)
-        preparedStatement.setString(6, phone);
+      preparedStatement.setInt(1, adminId);
+      if (username != null)
+        preparedStatement.setString(2, username);
+      if (password != null)
+        preparedStatement.setString(3, password);
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       System.out.println(e);
@@ -99,29 +91,27 @@ public class UserDatabaseHelper {
   }
 
   /*
-   * Get all users from the database
+   * Get all admin from the database
    */
-  public List<User> getUser() {
-    String sql = "SELECT * FROM user";
+
+  public List<Admin> getAdmin() throws SQLException {
+    String sql = "SELECT * FROM admin";
 
     try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
       ResultSet resultSet = preparedStatement.executeQuery();
-      List<User> userList = new ArrayList<User>();
+      List<Admin> adminList = new ArrayList<Admin>();
       while (resultSet.next()) {
-        int userID = resultSet.getInt("UserID");
+        int adminId = resultSet.getInt("AdminID");
         String username = resultSet.getString("Username");
-        String email = resultSet.getString("Email");
         String password = resultSet.getString("Password");
-        String phone = resultSet.getString("Phone");
-        User user = new User(userID, username, email, password, phone);
-        userList.add(user);
+        Admin admin = new Admin(adminId, username, password);
+        adminList.add(admin);
       }
-      return userList;
+      return adminList;
     } catch (SQLException e) {
       System.out.println(e);
       System.exit(-1);
     }
     return null;
   }
-
 }
