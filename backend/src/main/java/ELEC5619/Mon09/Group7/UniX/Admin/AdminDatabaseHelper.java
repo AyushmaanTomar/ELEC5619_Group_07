@@ -82,7 +82,7 @@ public class AdminDatabaseHelper {
       if (username != null)
         preparedStatement.setString(2, username);
       if (password != null)
-        preparedStatement.setString(4, password);
+        preparedStatement.setString(3, password);
       preparedStatement.executeUpdate();
     } catch (SQLException e) {
       System.out.println(e);
