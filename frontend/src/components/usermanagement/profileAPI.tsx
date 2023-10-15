@@ -1,4 +1,4 @@
-import { Item } from '../items/listings';
+import { User } from './userClass';
 
 const baseUrl = 'http://localhost:4000';
 const url = `${baseUrl}/profile`;
@@ -39,17 +39,16 @@ function delay(ms: number) {
   };
 }
 
-function convertToProjectModels(data: any[]): Item[] {
-  let products: Item[] = data;
-  return products;
+function convertToProjectModels(data: any): User {
+  let profile: User = data;
+  return profile;
 }
 
-function convertToProjectModel(item: any): Item {
-  return new Item(item);
-}
 
 const userAPI = {
+  
   get(page = 1, limit = 12) {
+    return new User({username: 'John', email: 'john@mail.com', phoneNumber: '1234567890', imageUrl: "/assets/profile.png"});
     return (
       fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
         // .then(delay(2000))
@@ -65,31 +64,7 @@ const userAPI = {
     );
   },
 
-  find(id: number): Promise<Item> {
-    return fetch(`${url}/${id}`)
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(convertToProjectModel);
-  },
-
-  put(project: Item) {
-    return fetch(`${url}/${project.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(project),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(delay(2000))
-      .then(checkStatus)
-      .then(parseJSON)
-      .catch((error: TypeError) => {
-        console.log('log client error ' + error);
-        throw new Error(
-          'There was an error updating the project. Please try again.'
-        );
-      });
-  },
+  
 };
 
 export { userAPI };
