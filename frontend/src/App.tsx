@@ -10,6 +10,7 @@ import './App.css';
 import HomePage from './components/home/homepage';
 import ProductPage from './components/items/listingPage';
 import ProductsPage from './components/items/listingsPage';
+import UserProfile from './components/miscellaneous/userProfile';
 
 function App() {
   return (
@@ -30,12 +31,14 @@ function App() {
             </li>
           </ul>
         </div>
+        <NavLink to="/profile/" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Profile</NavLink>
       </header>
       <main className="mx-10">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/profile" element={<UserProfile name="John Doe" age={20} />} />
         </Routes>
       </main>
     </Router>
