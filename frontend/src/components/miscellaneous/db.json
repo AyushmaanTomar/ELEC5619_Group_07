@@ -1,0 +1,334 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "MacBook Air",
+      "description": "Sleek and powerful laptop for your computing needs.",
+      "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
+      "seller": "TechStore",
+      "listingDate": "2023-09-18T10:00:00Z",
+      "price": 899,
+      "isActive": false
+    },
+    {
+      "id": 2,
+      "name": "PS5",
+      "description": "Next-gen gaming console for an immersive gaming experience.",
+      "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
+      "seller": "GameZone",
+      "listingDate": "2023-09-18T12:00:00Z",
+      "price": 499,
+      "isActive": true
+    },
+    {
+      "id": 3,
+      "name": "Cards Against Humanity",
+      "description": "Hilarious party game for as breather for your exams.",
+      "imageUrl": "/assets/placeimg_500_300_arch3.jpg",
+      "seller": "GameNight",
+      "listingDate": "2023-09-18T14:00:00Z",
+      "price": 25,
+      "isActive": true
+    },
+    {
+      "id": 4,
+      "name": "Water Bottle",
+      "description": "Reusable and eco-friendly water bottle for staying hydrated.",
+      "imageUrl": "/assets/placeimg_500_300_arch4.jpg",
+      "seller": "EcoSolutions",
+      "listingDate": "2023-09-18T16:00:00Z",
+      "price": 15,
+      "isActive": true
+    },
+    {
+      "id": 5,
+      "name": "Medicines",
+      "description": "Essential medications for your health needs.",
+      "imageUrl": "/assets/placeimg_500_300_arch5.jpg",
+      "seller": "PharmaCare",
+      "listingDate": "2023-09-18T18:00:00Z",
+      "price": 50,
+      "isActive": true
+    },
+    {
+      "id": 6,
+      "name": "Backpack",
+      "description": "Stylish and spacious backpack for your daily commute.",
+      "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
+      "seller": "FashionFusion",
+      "listingDate": "2023-09-18T20:00:00.000Z",
+      "price": 40,
+      "isActive": false
+    },
+    {
+      "id": 7,
+      "name": "Bed",
+      "description": "Comfortable and elegant bed for a good night's sleep.",
+      "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
+      "seller": "HomeComfort",
+      "listingDate": "2023-09-19T10:00:00Z",
+      "price": 799,
+      "isActive": true
+    },
+    {
+      "id": 8,
+      "name": "Study Table",
+      "description": "Functional study table for productive work or study sessions.",
+      "imageUrl": "/assets/placeimg_500_300_arch8.jpg",
+      "seller": "StudySmart",
+      "listingDate": "2023-09-19T12:00:00Z",
+      "price": 149,
+      "isActive": true
+    },
+    {
+      "id": 9,
+      "name": "Sony Headphones",
+      "description": "High-quality headphones for an immersive audio experience.",
+      "imageUrl": "/assets/placeimg_500_300_arch9.jpg",
+      "seller": "AudioBliss",
+      "listingDate": "2023-09-19T14:00:00Z",
+      "price": 129,
+      "isActive": false
+    },
+    {
+      "id": 10,
+      "name": "Stationery",
+      "description": "Assortment of essential stationery items for school.",
+      "imageUrl": "/assets/placeimg_500_300_arch10.jpg",
+      "seller": "OfficeSupplies",
+      "listingDate": "2023-09-19T16:00:00Z",
+      "price": 10,
+      "isActive": false
+    },
+    {
+      "id": 11,
+      "name": "Dyson Fan",
+      "description": "Innovative bladeless fan for cooling your space efficiently.",
+      "imageUrl": "/assets/placeimg_500_300_arch11.jpg",
+      "seller": "CoolBreeze",
+      "listingDate": "2023-09-19T18:00:00Z",
+      "price": 299,
+      "isActive": false
+    },
+    {
+      "id": 12,
+      "name": "Umbrella",
+      "description": "Compact and durable umbrella for rainy days.",
+      "imageUrl": "/assets/placeimg_500_300_arch12.jpg",
+      "seller": "RainShield",
+      "listingDate": "2023-09-19T20:00:00Z",
+      "price": 15,
+      "isActive": true
+    },
+    {
+      "id": 13,
+      "name": "Pollich Group",
+      "description": "Ergonomic heuristic firmware. Commodi dolore vel et quasi tenetur perspiciatis sit dolor itaque.",
+      "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
+      "seller": "6",
+      "listingDate": "2011-10-12T13:19:03.691Z",
+      "price": 61891,
+      "isActive": false
+    },
+    {
+      "id": 14,
+      "name": "Bruen and Sons",
+      "description": "Switchable composite strategy. Non accusamus quo ipsam animi unde quas ut et voluptate.",
+      "imageUrl": "/assets/placeimg_500_300_arch8.jpg",
+      "seller": "3",
+      "listingDate": "2014-08-19T07:03:27.419Z",
+      "price": 80726,
+      "isActive": false
+    },
+    {
+      "id": 15,
+      "name": "Weissnat - Reynolds",
+      "description": "Vision-oriented regional workforce. Velit eum tempora natus magnam doloremque id quis natus quibusdam.",
+      "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
+      "seller": "7",
+      "listingDate": "2015-12-23T01:00:34.527Z",
+      "price": 58514,
+      "isActive": true
+    },
+    {
+      "id": 16,
+      "name": "Haag - O'Keefe",
+      "description": "Vision-oriented dedicated knowledge user. Et rem vero et exercitationem et veritatis accusamus id optio.",
+      "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
+      "seller": "5",
+      "listingDate": "2017-02-16T12:28:52.794Z",
+      "price": 55137,
+      "isActive": false
+    },
+    {
+      "id": 17,
+      "name": "Murray, Gutmann and Ankunding",
+      "description": "Implemented next generation flexibility. Enim quibusdam voluptatibus eum enim quas commodi et corporis id.",
+      "imageUrl": "/assets/placeimg_500_300_arch11.jpg",
+      "seller": "4",
+      "listingDate": "2018-02-17T03:45:46.028Z",
+      "price": 43916,
+      "isActive": true
+    },
+    {
+      "id": 18,
+      "name": "Kutch Group",
+      "description": "Decentralized explicit conglomeration. Reprehenderit possimus tempora vel quis non ea officiis quia a.",
+      "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
+      "seller": "1",
+      "listingDate": "2011-02-27T11:56:25.464Z",
+      "price": 31924,
+      "isActive": true
+    },
+    {
+      "id": 19,
+      "name": "Moen, Volkman and Jacobson",
+      "description": "Reactive attitude-oriented contingency. Dolorum dolorem esse est voluptas provident sunt quidem laboriosam delectus.",
+      "imageUrl": "/assets/placeimg_500_300_arch10.jpg",
+      "seller": "3",
+      "listingDate": "2014-07-20T03:49:52.933Z",
+      "price": 31425,
+      "isActive": false
+    },
+    {
+      "id": 20,
+      "name": "Durgan and Sons",
+      "description": "Universal incremental definition. Voluptatem dolores distinctio qui blanditiis impedit dolores maiores rerum et.",
+      "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
+      "seller": "2",
+      "listingDate": "2014-02-17T09:09:54.542Z",
+      "price": 79434,
+      "isActive": false
+    },
+    {
+      "id": 21,
+      "name": "Mueller and Sons",
+      "description": "Intuitive bifurcated flexibility. Necessitatibus aliquam asperiores qui facere voluptatum esse velit aut distinctio.",
+      "imageUrl": "/assets/placeimg_500_300_arch5.jpg",
+      "seller": "1",
+      "listingDate": "2012-12-03T12:27:29.470Z",
+      "price": 68608,
+      "isActive": false
+    },
+    {
+      "id": 22,
+      "name": "Rolfson, Kertzmann and Block",
+      "description": "Optional context-sensitive concept. Tempore nam saepe aperiam neque id et fugiat aut beatae.",
+      "imageUrl": "/assets/placeimg_500_300_arch1.jpg",
+      "seller": "4",
+      "listingDate": "2011-01-24T08:57:49.624Z",
+      "price": 94173,
+      "isActive": false
+    },
+    {
+      "id": 23,
+      "name": "Gleichner Inc",
+      "description": "Seamless incremental knowledge base. Nobis optio omnis esse qui doloremque non odit voluptatem molestiae.",
+      "imageUrl": "/assets/placeimg_500_300_arch4.jpg",
+      "seller": "2",
+      "listingDate": "2015-07-02T19:53:04.455Z",
+      "price": 65773,
+      "isActive": false
+    },
+    {
+      "id": 24,
+      "name": "Carroll - O'Keefe",
+      "description": "Implemented foreground instruction set. Dolores temporibus libero non quos voluptas quis sapiente dolores deserunt.",
+      "imageUrl": "/assets/placeimg_500_300_arch3.jpg",
+      "seller": "7",
+      "listingDate": "2018-01-11T17:09:55.953Z",
+      "price": 36862,
+      "isActive": true
+    },
+    {
+      "id": 25,
+      "name": "Kuhic Inc",
+      "description": "Balanced intermediate task-force. Dolor cupiditate autem tenetur esse quis dolorem veniam fugiat qui.",
+      "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
+      "seller": "1",
+      "listingDate": "2010-03-15T22:45:27.341Z",
+      "price": 25165,
+      "isActive": false
+    },
+    {
+      "id": 26,
+      "name": "Gutmann - Rogahn",
+      "description": "Business-focused even-keeled hub. Dignissimos dolorem sed sint nostrum repellat et voluptas voluptatem eaque.",
+      "imageUrl": "/assets/placeimg_500_300_arch9.jpg",
+      "seller": "6",
+      "listingDate": "2012-07-18T12:04:53.879Z",
+      "price": 82401,
+      "isActive": false
+    },
+    {
+      "id": 27,
+      "name": "Davis and Sons",
+      "description": "Up-sized fresh-thinking complexity. Totam vel possimus omnis delectus dolor non nostrum maxime corporis.",
+      "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
+      "seller": "1",
+      "listingDate": "2012-09-21T07:38:01.624Z",
+      "price": 96726,
+      "isActive": true
+    },
+    {
+      "id": 28,
+      "name": "Donnelly and Sons",
+      "description": "Integrated cohesive process improvement. Non aut qui ullam alias qui ea dolorum voluptatem accusamus.",
+      "imageUrl": "/assets/placeimg_500_300_arch10.jpg",
+      "seller": "3",
+      "listingDate": "2013-07-25T14:44:08.646Z",
+      "price": 97304,
+      "isActive": true
+    },
+    {
+      "id": 29,
+      "name": "O'Reilly and Sons",
+      "description": "Realigned responsive moratorium. Qui distinctio non assumenda sunt vel a veritatis molestias et.",
+      "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
+      "seller": "6",
+      "listingDate": "2016-01-29T07:28:39.169Z",
+      "price": 53052,
+      "isActive": false
+    },
+    {
+      "id": 30,
+      "name": "Schiller - Stehr",
+      "description": "Profound optimal protocol. Fugit praesentium ex iste aperiam sequi recusandae voluptatibus ullam a.",
+      "imageUrl": "/assets/placeimg_500_300_arch10.jpg",
+      "seller": "6",
+      "listingDate": "2017-04-22T17:11:09.683Z",
+      "price": 95130,
+      "isActive": true
+    },
+    {
+      "id": 31,
+      "name": "Stamm, Brown and Rippin",
+      "description": "Fundamental modular definition. Beatae est recusandae quia esse voluptatem est quae sint quos.",
+      "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
+      "seller": "6",
+      "listingDate": "2012-02-18T19:24:11.781Z",
+      "price": 98884,
+      "isActive": false
+    },
+    {
+      "id": 32,
+      "name": "Daniel, Howell and Nader",
+      "description": "Horizontal zero administration time-frame. Hic rerum est quo id aut adipisci odio ipsa ab.",
+      "imageUrl": "/assets/placeimg_500_300_arch5.jpg",
+      "seller": "3",
+      "listingDate": "2018-01-24T18:59:39.035Z",
+      "price": 80065,
+      "isActive": true
+    },
+    {
+      "id": 33,
+      "name": "Homenick Group",
+      "description": "Fully-configurable object-oriented info-mediaries. Nemo omnis suscipit eius est impedit dolorem vitae dolores vel.",
+      "imageUrl": "/assets/placeimg_500_300_arch7.jpg",
+      "seller": "1",
+      "listingDate": "2013-03-31T02:03:02.721Z",
+      "price": 42390,
+      "isActive": true
+    }
+  ]
+}

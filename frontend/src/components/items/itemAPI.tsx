@@ -34,7 +34,6 @@ function parseJSON(response: Response) {
   return response.json();
 }
 
-// eslint-disable-next-line
 function delay(ms: number) {
   return function (x: any): Promise<any> {
     return new Promise((resolve) => setTimeout(() => resolve(x), ms));
@@ -54,7 +53,6 @@ const productAPI = {
   get(page = 1, limit = 12) {
     return (
       fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
-        // .then(delay(2000))
         .then(checkStatus)
         .then(parseJSON)
         .then(convertToProjectModels)

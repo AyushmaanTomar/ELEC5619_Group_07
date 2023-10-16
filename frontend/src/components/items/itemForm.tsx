@@ -37,11 +37,6 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
     };
 
     let updatedProject: Item;
-    // need to do functional update b/c
-    // the new project state is based on the previous project state
-    // so we can keep the project properties that aren't being edited like project.id
-    // the spread operator (...) is used to
-    // spread the previous project properties and the new change
     setProject((p) => {
       updatedProject = new Item({ ...p, ...change });
       return updatedProject;
@@ -85,7 +80,6 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
       )}
       <section className="card-body">
         <form className="  " onSubmit={handleSubmit}>
-          {/* {isLoading && <span className="toast">Saving...</span>} */}
 
           <div className="form-control mb-2">
             <label className="label" htmlFor="name">
@@ -153,17 +147,6 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
               onChange={handleChange}
             />
           </div>
-          {/* <div className="form-control mb-4">
-            <label className="label" htmlFor="contractType">
-              Contract Type
-            </label>
-            <select className="form-control select" name="contractType">
-              <option value="">Select...</option>
-              <option value="">Fixed Bid</option>
-              <option value="">Time & Materials</option>
-              <option value="">Value Proposition</option>
-            </select>
-          </div> */}
 
           <div className="card-actions justify-end">
             <button className="btn btn-primary">Save</button>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useProducts } from './itemHooks';
 import ItemList from './itemList';
+import SearchBarFilter from "src/components/miscellaneous/Search_Bar"
+
 
 function ProductsPage() {
   const {
@@ -20,8 +22,7 @@ function ProductsPage() {
 
   return (
     <>
-      <h2 className="text-2xl font-extrabold my-8">Products</h2>
-
+      <h2 className="text-2xl font-extrabold my-8">Products  <SearchBarFilter /> </h2>
       {data ? (
         <>
           {isFetching && (

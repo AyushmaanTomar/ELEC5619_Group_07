@@ -1,5 +1,5 @@
 export class Item {
-    id: number | undefined;
+    id!: number;
     name: string = '';
     description: string = '';
     imageUrl: string = '';

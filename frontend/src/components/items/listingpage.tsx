@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
-  const [project, setProject] = useState<Item | null>(null);
+  const [product, setProduct] = useState<Item | null>(null);
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
   const id = Number(params.id);
@@ -16,7 +16,7 @@ function ProductPage(props: any) {
     productAPI
       .find(id)
       .then((data) => {
-        setProject(data);
+        setProduct(data);
         setLoading(false);
       })
       .catch((e) => {
@@ -49,7 +49,7 @@ function ProductPage(props: any) {
           </div>
         )}
 
-        {project && <ProductDetail project={project} />}
+        {product && <ProductDetail project={product} />}
       </>
     </div>
   );
