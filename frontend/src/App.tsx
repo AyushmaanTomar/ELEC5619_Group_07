@@ -11,6 +11,7 @@ import ProductPage from './components/items/listingPage';
 import ProductsPage from './components/items/listingsPage';
 import RegisterPage from './components/usermanagement/registerpage'
 import LoginPage from './components/usermanagement/loginpage'
+import UserProfile from './components/miscellaneous/userProfile';
 import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
 
@@ -26,6 +27,7 @@ function App() {
             <Route path="/products/:id" element={<ProductPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </main>
       </Router>

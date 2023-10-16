@@ -34,13 +34,13 @@ export function Navbar() {
             {loggedIn ? (
                 <ul className="menu menu-horizontal font-semibold space-x-2"> {/*(border-b-2 border-b-primary) To add underline*/} 
                     <li>
-                    <Button
+                    <NavLink
                         className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300"
-                        href="/profile"> Profile </Button>
+                        to="/profile"> Profile </NavLink>
                     </li>
                     <li>
                     <Button
-                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300"
+                        variant='contained'
                         onClick={handleLogoutClick}
                         href="/"> Logout </Button>
                     </li>
