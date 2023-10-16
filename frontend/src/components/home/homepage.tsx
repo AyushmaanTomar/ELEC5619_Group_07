@@ -27,7 +27,7 @@ function HomePage() {
             <p className="mb-5">
               Our aim is to create a centralized platform for students to exchange goods and promote environmental sustainability by requiring university email verification, facilitating waste reduction, and offering potential expansion into additional student-focused services.
             </p>
-            <form action='/products'>
+            <form action='/products/'>
               <button className="btn btn-natural">Get Started</button>
             </form>
           </div>
