@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode, PropsWithChildren } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
-const AuthContext = createContext({loggedIn: false, login:(s: string, p: string) => {}, logout: () => {}, register: (a: accountDetails) => {}});
+const AuthContext = createContext({loggedIn: false, login:(s: string, p: string): boolean => {return false}, logout: () => {}, register: (a: accountDetails) => {}});
 
 type accountDetails = {
   username: string;
@@ -15,7 +15,7 @@ interface AuthProviderProps {
 export function AuthProvider( {children} : AuthProviderProps ) {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const login = (username: string, password: string) => {
+  const login = (username: string, password: string): boolean => {
     // TODO: Implement password validation
     setLoggedIn(true);
     localStorage.setItem("username", username);

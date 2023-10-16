@@ -1,5 +1,6 @@
 import {NavLink} from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
+import { Button } from '@mui/material';
 
 export function Navbar() {
 
@@ -33,10 +34,15 @@ export function Navbar() {
             {loggedIn ? (
                 <ul className="menu menu-horizontal font-semibold space-x-2"> {/*(border-b-2 border-b-primary) To add underline*/} 
                     <li>
-                    <NavLink
+                    <Button
+                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300"
+                        href="/profile"> Profile </Button>
+                    </li>
+                    <li>
+                    <Button
                         className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300"
                         onClick={handleLogoutClick}
-                        to="/"> Logout </NavLink>
+                        href="/"> Logout </Button>
                     </li>
                 </ul>
             ) : (

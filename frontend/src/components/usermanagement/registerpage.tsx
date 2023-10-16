@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { Button, Grid, Link, Stack, TextField, Typography, colors, styled } from '@mui/material';
-import { text } from 'stream/consumers';
-import { alignProperty } from '@mui/material/styles/cssUtils';
+import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
 
 export default function RegisterAccount() {
     const navigate = useNavigate();
-    const { loggedIn, login, logout, register } = useAuth();
+    const { login, register } = useAuth();
     const [formError, setFormError] = useState("");
 
     const StyledTextField = styled(TextField) ({
@@ -54,13 +52,14 @@ export default function RegisterAccount() {
             setFormError("Password and Confirm Password do not match!");
             return;
         }
-        console.log(username);
-        console.log(loggedIn);
+    
         register({username, email, password});
-        var a = login(username, password);
-        console.log("FUNC", a);
-        console.log(loggedIn);
-        navigate("/login");
+        var result: boolean = login(username, password);
+        if (!result) {
+            setFormError("Account registered but failed to log in!");
+            return;
+        }
+        navigate("/");
     }
 
     return (
