@@ -11,14 +11,5 @@ import java.util.List;
 
 @Service
 public class ItemService {
-    @Autowired
-    private ItemRepository itemRepository;
-
-    @Transactional
-    public String createItem(Item item) {
-        try {
-            if (!itemRepository.existsById(item.getId())) {
-            }
-        }
-    }
+    
 }
