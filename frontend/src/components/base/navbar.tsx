@@ -32,14 +32,14 @@ export function Navbar() {
 
             <div className="flex-2">
             {loggedIn ? (
-                <ul className="menu menu-horizontal font-semibold space-x-2"> {/*(border-b-2 border-b-primary) To add underline*/} 
+                <ul className="menu menu-horizontal space-x-2"> {/*(border-b-2 border-b-primary) To add underline*/} 
                     <li>
                     <NavLink
-                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300"
+                        className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300 font-semibold "
                         to="/profile"> Profile </NavLink>
                     </li>
                     <li>
-                    <Button
+                    <Button className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-blue-500 duration-300 font-bold"
                         variant='contained'
                         onClick={handleLogoutClick}
                         href="/"> Logout </Button>
