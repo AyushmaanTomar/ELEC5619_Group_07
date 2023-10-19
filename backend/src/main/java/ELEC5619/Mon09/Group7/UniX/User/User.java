@@ -1,6 +1,6 @@
 package ELEC5619.Mon09.Group7.UniX.User;
 
-abstract class User {
+public class User {
 
     private int userId;
     private String email;
@@ -35,7 +35,7 @@ abstract class User {
     }
 
     /*
-     * Emaial, we used it to determine user identity, hence can not be modified
+     * Email, we used it to determine user identity, hence can not be modified
      */
     public String getEmail() {
         return email;
