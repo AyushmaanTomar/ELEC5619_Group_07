@@ -41,10 +41,11 @@ export default function RegisterAccount() {
         const data = new FormData(event.currentTarget);
         var username = data.get("username")?.toString();
         var email = data.get("email")?.toString();
+        var phone = data.get("phone")?.toString();
         var password = data.get("password")?.toString();
         var cpassword = data.get("cpassword")?.toString();
         
-        if (username == null || email == null || password == null || cpassword == null) {
+        if (username == null || email == null || password == null || cpassword == null || phone == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
@@ -53,7 +54,7 @@ export default function RegisterAccount() {
             return;
         }
     
-        register({username, email, password});
+        register({username, email, password, phone});
         var result: boolean = login(username, password);
         if (!result) {
             setFormError("Account registered but failed to log in!");
@@ -74,6 +75,7 @@ export default function RegisterAccount() {
             <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
                 <StyledTextField required id="username" label="Username" name="username" autoFocus />
                 <StyledTextField required id="email" label="Email" name="email" type="email"  autoComplete="email" />
+                <StyledTextField required id="phone" label="Phone" name="phone" type="tel" />
                 <StyledTextField required id="password" label="Password" name='password' type='password'/>
                 <StyledTextField required id="cpassword" label="Confirm Password" name='cpassword' type='password'/>
                 <Button type="submit" variant="contained">Register Account</Button>
