@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import axios from 'axios';
+import axiosConfig from '../../axiosConfig';
 
 const AuthContext = createContext({loggedIn: false, login:(s: string, p: string): boolean => {return false}, logout: () => {}, register: (a: accountDetails) => {}});
 
 type accountDetails = {
-  username: string;
+  name: string;
   email: string;
   password: string;
   phone: string;
@@ -30,7 +31,7 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   };
 
   const register = async (details: accountDetails) => {
-    const result = await axios.post("/createsUser", details)
+    const result = await axios.post("/createsUser", details, axiosConfig)
     .catch((error) => console.log(error));
   }
 
