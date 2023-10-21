@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useProducts } from './itemHooks';
 import ItemList from './itemList';
-import SearchBarFilter from "src/components/miscellaneous/Search_Bar"
+import SearchBarFilter from "../../components/miscellaneous/Search_Bar"
 
 
 function ProductsPage() {
