@@ -1,11 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import axios from 'axios';
+import axiosConfig from '../../axiosConfig';
 
 const AuthContext = createContext({loggedIn: false, login:(s: string, p: string): boolean => {return false}, logout: () => {}, register: (a: accountDetails) => {}});
 
 type accountDetails = {
-  username: string;
+  name: string;
   email: string;
   password: string;
+  phone: string;
 }
 
 interface AuthProviderProps {
@@ -27,8 +30,9 @@ export function AuthProvider( {children} : AuthProviderProps ) {
     localStorage.removeItem("username");
   };
 
-  const register = (details: accountDetails) => {
-    //TODO: Implement once backend route is made
+  const register = async (details: accountDetails) => {
+    const result = await axios.post("/createsUser", details, axiosConfig)
+    .catch((error) => console.log(error));
   }
 
   //   Need a useeffect to set logged
