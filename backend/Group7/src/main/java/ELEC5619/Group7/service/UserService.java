@@ -51,7 +51,7 @@ public class UserService {
                 throw e;
             }
         }else {
-            return "Student does not exists in the database.";
+            return "Student does not exist in the database.";
         }
     }
 
