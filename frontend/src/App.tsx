@@ -12,6 +12,7 @@ import ProductsPage from './components/items/listingsPage';
 import RegisterPage from './components/usermanagement/registerpage'
 import LoginPage from './components/usermanagement/loginpage'
 import UserProfile from './components/miscellaneous/userProfile';
+import AdminPage from './components/admin/adminPage';
 import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
       </Router>

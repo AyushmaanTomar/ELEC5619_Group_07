@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import itemList from 'src/components/items/itemList';
 import item from './db.json'
 
 
