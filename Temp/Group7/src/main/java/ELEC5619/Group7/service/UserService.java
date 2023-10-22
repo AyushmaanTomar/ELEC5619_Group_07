@@ -16,9 +16,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public String createStudent(User user) {
+    public String createStudent(User user){
         try {
-            if (!userRepository.existsByEmail(user.getEmail())) {
+            if (!userRepository.existsByEmail(user.getEmail())){
                 user.setId(null == userRepository.findMaxId()? 0 : userRepository.findMaxId() + 1);
                 userRepository.save(user);
                 return "Student record created successfully.";
@@ -51,7 +51,7 @@ public class UserService {
                 throw e;
             }
         }else {
-            return "Student does not exist in the database.";
+            return "Student does not exists in the database.";
         }
     }
 
