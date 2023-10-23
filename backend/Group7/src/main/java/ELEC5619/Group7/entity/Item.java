@@ -34,7 +34,7 @@ public class Item {
     private String description;
 
     @Column(name = "ListingDate ")
-//    sql has no datetype
+    // sql has no datetype
     private String listingDate;
 
     @Column(name = "isSold")
@@ -42,7 +42,6 @@ public class Item {
 
     @Column(name = "imagePath")
     private String imagePath;
-
 
     public Item() {
 
@@ -71,7 +70,6 @@ public class Item {
         this.productCategory = productCategory;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -80,7 +78,6 @@ public class Item {
         this.user = user;
     }
 
-
     public String getName() {
         return name;
     }
@@ -88,7 +85,6 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public double getPrice() {
         return price;

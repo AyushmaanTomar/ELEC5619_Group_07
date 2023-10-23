@@ -1,9 +1,7 @@
 package ELEC5619.Group7.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.lang.constant.Constable;
 
 @Entity
 @Table(name = "User")
@@ -24,9 +22,13 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_pic_id", referencedColumnName = "id")
+    private ProfilePic profilePic;
 
     public User() {
-
+        // Assign default profile pic when a user is created
+        this.profilePic = new ProfilePic();
     }
 
     public int getId() {
@@ -75,9 +77,31 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\''+
+                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 "}";
     }
 }
 
+@Entity
+@Table(name = "ProfilePic")
+class ProfilePic {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String filePath;
+
+    public ProfilePic() {
+        // Default profile picture file path
+        this.filePath = "../resources/static/default.jpg";
+    }
+
+    public String getProfilePic(){
+        return filePath;
+    }
+
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
+    }
+}
