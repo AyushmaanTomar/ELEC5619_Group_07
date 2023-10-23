@@ -24,9 +24,13 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_pic_id", referencedColumnName = "id")
+    private ProfilePic profilePic;
 
     public User() {
-
+        // Assign default profile pic when a user is created
+        this.profilePic = new ProfilePic();
     }
 
     public int getId() {
@@ -75,9 +79,31 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\''+
+                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 "}";
     }
 }
 
+@Entity
+@Table(name = "ProfilePic")
+public class ProfilePic {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String filePath;
+
+    public ProfilePic() {
+        // Default profile picture file path
+        this.filePath = "../resources/static/default.jpg";
+    }
+
+    public getProfilePic(){
+        return filePath;
+    }
+
+    public setProfilePic(String filePath){
+        this.filePath = filePath;
+    }
+}
