@@ -40,10 +40,21 @@ public class Item {
     @Column(name = "isSold")
     private boolean isSold;
 
+    @Column(name = "imagePath")
+    private String imagePath;
+
 
     public Item() {
 
     }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     public int getId() {
         return itemID;
     }
