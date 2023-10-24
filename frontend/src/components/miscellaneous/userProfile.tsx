@@ -1,48 +1,73 @@
 import * as React from 'react';
 import { useProfile } from '../usermanagement/profileHooks';
-import { User } from '../usermanagement/userClass';
 
-interface ItemsListProps {
-    columns: number
+interface UserProfileProps {
+    columns?: number;
 }
 
-export default function UserProfile() {
-    //TODO: Implement for loop for a given list of items
+const UserProfile: React.FC<UserProfileProps> = () => {
+    const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result as string);
+            }
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleButtonClick = () => {
+        fileInputRef.current?.click();
+    };
+
     const {
         data,
         isLoading,
-        error,
-        isError,
-        isFetching,
-        page,
-        setPage,
-        isPreviousData,
-      } = useProfile();
+    } = useProfile();
+
     return (
         <>
-        
-  
-        {data ? (
-            <div className="user-profile">
-                <div className="profile-picture">
-    <img src={data.imageUrl} alt="Profile Picture" style={{ width: '150px' }}/>
-  </div>
-                <h2 className="text-2xl font-extrabold my-8">{data.username}</h2>
-                <div className="profile-info">
-                <div>
-                    <strong>Email:</strong> {data.email}
+            {data ? (
+                <div className="user-profile">
+                    <div className="profile-picture">
+                        <img src={selectedImage || data.imageUrl} alt="Profile Picture" style={{ width: '150px' }} />
+
+                        {/* File Input */}
+                        <input 
+                            ref={fileInputRef}
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }} 
+                        />
+
+                        {/* Button */}
+                        <button className="upload-button" onClick={handleButtonClick}>
+                            Change Profile Image
+                        </button>
+                    </div>
+                    <h2 className="text-2xl font-extrabold my-8">{data.username}</h2>
+                    <div className="profile-info">
+                        <div>
+                            <strong>Email:</strong> {data.email}
+                        </div>
+                        <div>
+                            <strong>Phone Number:</strong> {data.phoneNumber}
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <strong>Phone Number:</strong> {data.phoneNumber}
+            ) : isLoading ? (
+                <div className="center-page">
+                    <span className="spinner primary"></span>
+                    <p>LOADING...</p>
                 </div>
-                </div>
-            </div>
-        ) : isLoading ? (
-          <div className="center-page">
-            <span className="spinner primary"></span>
-            <p>LOADING...</p>
-          </div>
-        )  : null}
-      </>
+            ) : null}
+        </>
     );
 }
+
+export default UserProfile;
