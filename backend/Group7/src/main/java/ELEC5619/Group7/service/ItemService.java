@@ -65,7 +65,7 @@ public class ItemService {
     /*
      * List all item with same Category
      */
-    List<Item> getItemWithSameCategoryWithCategory(ProductCategory productCategory) {
+    public List<Item> getItemWithSameCategoryWithCategory(ProductCategory productCategory) {
         return itemRepository.findAllItemByCategory(productCategory.getId());
     }
 

@@ -1,9 +1,6 @@
 package ELEC5619.Group7.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "User")
@@ -83,11 +80,15 @@ public class User {
                 ", phone='" + phone + '\'' +
                 "}";
     }
+
+    public String getUsername() {
+        return name;
+    }
 }
 
 @Entity
 @Table(name = "ProfilePic")
-public class ProfilePic {
+class ProfilePic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -99,11 +100,11 @@ public class ProfilePic {
         this.filePath = "../resources/static/default.jpg";
     }
 
-    public getProfilePic(){
+    public String getProfilePic(){
         return filePath;
     }
 
-    public setProfilePic(String filePath){
+    public void setProfilePic(String filePath){
         this.filePath = filePath;
     }
 }

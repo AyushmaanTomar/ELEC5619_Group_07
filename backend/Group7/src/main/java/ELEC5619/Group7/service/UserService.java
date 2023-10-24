@@ -128,4 +128,7 @@ public class UserService {
         return email.endsWith("@uni.sydney.edu.au");
     }
 
+    public User getUserById(Integer userId) {
+        return userRepository.getOne(userId);
+    }
 }

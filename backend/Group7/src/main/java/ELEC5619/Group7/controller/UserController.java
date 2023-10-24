@@ -20,7 +20,7 @@ public class UserController {
 
     @RequestMapping(value = "createsUser", method = RequestMethod.POST)
     public String createUser(
-            @RequestBody org.springframework.boot.autoconfigure.security.SecurityProperties.User user) {
+            @RequestBody User user) {
         return userService.createStudent(user);
     }
 
