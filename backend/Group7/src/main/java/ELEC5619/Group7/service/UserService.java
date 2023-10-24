@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -14,6 +16,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Transactional
     public String createStudent(User user) {
@@ -32,6 +37,29 @@ public class UserService {
 
     public List<User> readUser(){
         return userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).get(0);
+    }
+
+    public Map<String, String> login (String email, String password) {
+        Map<String, String> result = new HashMap<>();
+        result.put("status", "0");
+        result.put("message", "Failed to log in: " + email);
+
+        if (!userRepository.existsByEmail(email)) {
+            return result;
+        }
+
+        User user = userRepository.findByEmail(email).get(0);
+        if (password.equals(user.getPassword())) {
+            String jwt = jwtService.generateToken(user);
+            result.put("message", "Successfully logged in");
+            result.put("token", jwt);
+        }
+
+        return result;
     }
 
     @Transactional
