@@ -104,4 +104,27 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{userId}/profileImage")
+    public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId, @RequestParam String imagePath) {
+        String result = userService.setUserProfileImage(userId, imagePath);
+        switch (result) {
+            case "Profile image updated successfully.":
+                return new ResponseEntity<>("Profile image updated successfully", HttpStatus.OK); // HTTP 200
+            case "User not found.":
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
+            default:
+                return new ResponseEntity<>("Failed to set profile image", HttpStatus.BAD_REQUEST); // HTTP 400
+        }
+    }
+
+    @GetMapping("/{userId}/profileImage")
+    public ResponseEntity<String> getUserProfileImage(@PathVariable Integer userId) {
+        String result = userService.getUserProfileImage(userId);
+        if (!"User not found.".equals(result)) {
+            return new ResponseEntity<>(result, HttpStatus.OK); // HTTP 200 (returning the image path)
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
+        }
+    }
+
 }
