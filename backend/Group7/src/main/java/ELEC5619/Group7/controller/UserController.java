@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users") // This is to have a common prefix for user related endpoints.
+@RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
@@ -25,47 +25,68 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
         String result = userService.createStudent(user);
-        if(result.equals("success")) {
-            return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);
+        switch(result) {
+            case "success":
+                return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);  // HTTP 201
+            default:
+                return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
 
     @GetMapping
     public ResponseEntity<List<User>> readUser() {
-        return new ResponseEntity<>(userService.readUser(), HttpStatus.OK);
+        List<User> users = userService.readUser();
+        if(users.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // HTTP 204
+        }
+        return new ResponseEntity<>(users, HttpStatus.OK);  // HTTP 200
     }
 
     @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody User user) {
-        userService.updateUser(user);
-        return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+        String result = userService.updateUser(user);
+        switch(result) {
+            case "success":
+                return new ResponseEntity<>("User updated successfully", HttpStatus.OK);  // HTTP 200
+            default:
+                return new ResponseEntity<>("Failed to update user", HttpStatus.BAD_REQUEST);  // HTTP 400
+        }
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
-        userService.deleteUser(user);
-        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
+        String result = userService.deleteUser(user);
+        switch(result) {
+            case "success":
+                return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);  // HTTP 204
+            default:
+                return new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);  // HTTP 400
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody User user) {
         String result = userService.authenticateUser(user);
-        if(result.equals("success")) {
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+        switch(result) {
+            case "success":
+                return new ResponseEntity<>("Login successful", HttpStatus.OK);  // HTTP 200
+            case "user_not_found":
+                return new ResponseEntity<>("Unable to find username", HttpStatus.NOT_FOUND);  // HTTP 404
+            case "incorrect_password":
+                return new ResponseEntity<>("Incorrect password", HttpStatus.FORBIDDEN);  // HTTP 403
+            default:
+                return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);  // HTTP 401
         }
     }
 
     @PutMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody User user, @RequestParam String newPassword) {
         String result = userService.changePassword(user, newPassword);
-        if(result.equals("success")) {
-            return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Failed to change password", HttpStatus.BAD_REQUEST);
+        switch(result) {
+            case "success":
+                return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);  // HTTP 200
+            default:
+                return new ResponseEntity<>("Failed to change password", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
 }
