@@ -28,6 +28,12 @@ public class UserController {
         switch(result) {
             case "success":
                 return new ResponseEntity<>("User created successfully", HttpStatus.CREATED);  // HTTP 201
+            case "invalid_password":
+                return new ResponseEntity<>("Password does not meet the requirements", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "invalid_email":
+                return new ResponseEntity<>("Email is not a valid university email", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "email_exists":
+                return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);  // HTTP 400
             default:
                 return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
@@ -36,29 +42,34 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> readUser() {
         List<User> users = userService.readUser();
-        if(users.isEmpty()) {
+        if (users.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // HTTP 204
         }
-        return new ResponseEntity<>(users, HttpStatus.OK);  // HTTP 200
+        return ResponseEntity.ok(users);  // HTTP 200
     }
 
     @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody User user) {
         String result = userService.updateUser(user);
         switch(result) {
-            case "success":
+            case "updated":
                 return new ResponseEntity<>("User updated successfully", HttpStatus.OK);  // HTTP 200
+            case "student_not_found":
+                return new ResponseEntity<>("Student does not exist in the database", HttpStatus.NOT_FOUND);  // HTTP 404
             default:
                 return new ResponseEntity<>("Failed to update user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
 
+
     @DeleteMapping
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
         String result = userService.deleteUser(user);
         switch(result) {
-            case "success":
+            case "deleted":
                 return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);  // HTTP 204
+            case "student_not_found":
+                return new ResponseEntity<>("Student does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
             default:
                 return new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
@@ -68,7 +79,7 @@ public class UserController {
     public ResponseEntity<String> loginUser(@RequestBody User user) {
         String result = userService.authenticateUser(user);
         switch(result) {
-            case "success":
+            case "Authenticated successfully":
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);  // HTTP 200
             case "user_not_found":
                 return new ResponseEntity<>("Unable to find username", HttpStatus.NOT_FOUND);  // HTTP 404
@@ -85,8 +96,12 @@ public class UserController {
         switch(result) {
             case "success":
                 return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);  // HTTP 200
+            case "invalid_password":
+                return new ResponseEntity<>("Password does not meet the requirements", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "update_failure":
             default:
                 return new ResponseEntity<>("Failed to change password", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
+
 }
