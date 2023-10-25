@@ -16,14 +16,21 @@ function ProductsPage() {
     isPreviousData,
   } = useProducts();
 
-  const handleMoreClick = () => {
-    setPage((currentPage) => currentPage + 1);
-  };
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const filteredProducts = data?.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  ) || [];
 
   return (
     <>
-      <h2 className="text-2xl font-extrabold my-8">Products  <SearchBarFilter /> </h2>
-      {data ? (
+      <h2 className="text-2xl font-extrabold my-8">
+        Products
+        <div className="mt-2">
+        <SearchBarFilter value={searchTerm} onChange={setSearchTerm} />
+        </div> 
+      </h2>
+      {filteredProducts.length > 0 ? (
         <>
           {isFetching && (
             <div className="toast toast-center toast-top ">
@@ -32,7 +39,7 @@ function ProductsPage() {
               </div>
             </div>
           )}
-          <ItemList projects={data} />
+          <ItemList projects={filteredProducts} />
           <div>
             <div>Current page: {page + 1}</div>
             <div>
@@ -51,7 +58,7 @@ function ProductsPage() {
                       setPage((oldPage) => oldPage + 1);
                     }
                   }}
-                  disabled={data.length != 12}
+                  disabled={filteredProducts.length !== 12}
                 >
                   Next
                 </button>

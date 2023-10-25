@@ -1,40 +1,19 @@
-import React, { useState } from 'react'
-import itemList from 'src/components/items/itemList';
-import item from './db.json'
+import React, { useState, useEffect } from 'react';
 
+interface Props {
+  value: string;
+  onChange: (value: string) => void;
+}
 
-const SearchBarFilter = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredData, setFilteredData] = useState(item.products);
-
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setSearchTerm(value);
-    filterData(value);
-  };
-
-
-  const filterData = (searchTerm: string) => {
-    const filteredData = item.products.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredData(filteredData);
-  };
-
-
+const SearchBarFilter: React.FC<Props> = ({ value, onChange }) => {
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchTerm}
-        onChange={handleInputChange}
-      />
-    </div>
+    <input 
+      type="text" 
+      placeholder="Search products..." 
+      value={value} 
+      onChange={e => onChange(e.target.value)}
+    />
   );
-};
+}
 
 export default SearchBarFilter;
-
-;
