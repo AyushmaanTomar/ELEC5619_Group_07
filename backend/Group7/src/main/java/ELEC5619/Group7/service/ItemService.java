@@ -1,6 +1,5 @@
 package ELEC5619.Group7.service;
 
-
 import ELEC5619.Group7.entity.Item;
 import ELEC5619.Group7.entity.ProductCategory;
 import ELEC5619.Group7.entity.User;
@@ -22,13 +21,13 @@ public class ItemService {
     private LikeRepository likeRepository;
 
     /*
-    Add Item
+     * Add Item
      */
     @Transactional
     public String createItem(Item item) {
         try {
             if (!itemRepository.existsById(item.getId())) {
-                item.setId(null == itemRepository.findMaxId() ? 0: itemRepository.findMaxId() + 1);
+                item.setId(null == itemRepository.findMaxId() ? 0 : itemRepository.findMaxId() + 1);
                 itemRepository.save(item);
                 return "Item record created successfully.";
             } else {
@@ -39,9 +38,8 @@ public class ItemService {
         }
     }
 
-
     /*
-    For page Specific Item
+     * For page Specific Item
      */
     @Transactional
     public Item getItemByID(Integer id) {
@@ -57,22 +55,18 @@ public class ItemService {
         }
     }
 
-
     /*
-    For page profile page
+     * For page profile page
      */
     public List<Item> getAllItemByUser(User user) {
         return itemRepository.findAllItemByUser(user.getId());
     }
 
     /*
-    List all item with same Category
+     * List all item with same Category
      */
-    List<Item> getItemWithSameCategoryWithCategory(ProductCategory productCategory) {
+    public List<Item> getItemWithSameCategoryWithCategory(ProductCategory productCategory) {
         return itemRepository.findAllItemByCategory(productCategory.getId());
     }
-
-
-
 
 }

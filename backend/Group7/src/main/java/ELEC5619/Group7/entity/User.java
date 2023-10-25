@@ -1,9 +1,6 @@
 package ELEC5619.Group7.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "User")
@@ -24,9 +21,10 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Column(name = "profileImg", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'default_image_path.jpg'")
+    private String profileImg;
 
     public User() {
-
     }
 
     public int getId() {
@@ -69,15 +67,27 @@ public class User {
         this.phone = phone;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", email='" + email + '\''+
+                ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", profileImg='" + profileImg + '\'' +
                 "}";
     }
-}
 
+    public String getUsername() {
+        return name;
+    }
+}
