@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     public List<User> findByEmail(String email);
 
-    public boolean existsByUsername(String username);
+//    public boolean existsByUsername(String username);
 
     @Query("select max(u.id) from User u")
     public Integer findMaxId();

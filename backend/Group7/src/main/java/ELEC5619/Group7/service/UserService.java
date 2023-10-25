@@ -18,17 +18,14 @@ public class UserService {
 
     @Transactional
     public String createStudent(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            return "Username already exists.";
-        }
 
-        if (!isValidPassword(user.getPassword())) {
-            return "Password does not meet the requirements.";
-        }
-
-        if (!isValidEmail(user.getEmail())) {
-            return "Email is not a valid university email.";
-        }
+//        if (!isValidPassword(user.getPassword())) {
+//            return "Password does not meet the requirements.";
+//        }
+//
+//        if (!isValidEmail(user.getEmail())) {
+//            return "Email is not a valid university email.";
+//        }
 
         if (userRepository.existsByEmail(user.getEmail())) {
             return "Email already exists.";
@@ -90,45 +87,45 @@ public class UserService {
         }
     }
 
-    public String authenticateUser(User user) {
-        List<User> users = userRepository.findByEmail(user.getEmail());
-        if (!users.isEmpty() && user.getPassword().equals(users.get(0).getPassword())) {
-            return "Authenticated successfully";
-        }
-        return "Authentication failed";
-    }
-
-    public String changePassword(User user, String newPassword) {
-        // Check if the new password is valid
-        if (!isValidPassword(newPassword)) {
-            return "Password does not meet the requirements.";
-        }
-
-        List<User> users = userRepository.findByEmail(user.getEmail());
-        if (!users.isEmpty()) {
-            User existingUser = users.get(0);
-            existingUser.setPassword(newPassword);
-            userRepository.save(existingUser);
-            return "Password updated successfully";
-        }
-        return "Failed to update password";
-    }
-
-    private boolean isValidPassword(String password) {
-        if (password.length() < 6 || password.length() > 20)
-            return false;
-        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9]");
-        Matcher matcher = specialCharPatten.matcher(password);
-        if (!matcher.find())
-            return false; // doesn't have a special character
-        return true;
-    }
-
-    private boolean isValidEmail(String email) {
-        return email.endsWith("@uni.sydney.edu.au");
-    }
-
-    public User getUserById(Integer userId) {
-        return userRepository.getOne(userId);
-    }
+//    public String authenticateUser(User user) {
+//        List<User> users = userRepository.findByEmail(user.getEmail());
+//        if (!users.isEmpty() && user.getPassword().equals(users.get(0).getPassword())) {
+//            return "Authenticated successfully";
+//        }
+//        return "Authentication failed";
+//    }
+//
+//    public String changePassword(User user, String newPassword) {
+//        // Check if the new password is valid
+//        if (!isValidPassword(newPassword)) {
+//            return "Password does not meet the requirements.";
+//        }
+//
+//        List<User> users = userRepository.findByEmail(user.getEmail());
+//        if (!users.isEmpty()) {
+//            User existingUser = users.get(0);
+//            existingUser.setPassword(newPassword);
+//            userRepository.save(existingUser);
+//            return "Password updated successfully";
+//        }
+//        return "Failed to update password";
+//    }
+//
+//    private boolean isValidPassword(String password) {
+//        if (password.length() < 6 || password.length() > 20)
+//            return false;
+//        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9]");
+//        Matcher matcher = specialCharPatten.matcher(password);
+//        if (!matcher.find())
+//            return false; // doesn't have a special character
+//        return true;
+//    }
+//
+//    private boolean isValidEmail(String email) {
+//        return email.endsWith("@uni.sydney.edu.au");
+//    }
+//
+//    public User getUserById(Integer userId) {
+//        return userRepository.getOne(userId);
+//    }
 }

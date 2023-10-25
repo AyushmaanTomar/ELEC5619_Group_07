@@ -32,12 +32,12 @@ public class ItemController {
         return itemService.getItemByID(id);
     }
 
-    // Get all Items by a User
-    @GetMapping("/user/{userId}")
-    public List<Item> getAllItemByUser(@PathVariable Integer userId) {
-        User user = userService.getUserById(userId);
-        return itemService.getAllItemByUser(user);
-    }
+//    // Get all Items by a User
+//    @GetMapping("/user/{userId}")
+//    public List<Item> getAllItemByUser(@PathVariable Integer userId) {
+//        User user = userService.getUserById(userId);
+//        return itemService.getAllItemByUser(user);
+//    }
 
     // Get all Items with the same Category
     @GetMapping("/category/{categoryId}")
