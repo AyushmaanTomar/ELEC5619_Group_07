@@ -21,6 +21,9 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @Column(name = "profileImg", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'default_image_path.jpg'")
+    private String profileImg;
+
     public User() {
     }
 
@@ -64,6 +67,14 @@ public class User {
         this.phone = phone;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -72,6 +83,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", profileImg='" + profileImg + '\'' +
                 "}";
     }
 
