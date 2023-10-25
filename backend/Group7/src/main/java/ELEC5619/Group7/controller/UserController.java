@@ -39,14 +39,14 @@ public class UserController {
         return userService.deleteUser(user);
     }
 
-//    @RequestMapping(value = "login", method = RequestMethod.POST)
-//    public String loginUser(@RequestBody User user) {
-//        return userService.authenticateUser(user);
-//    }
-//
-//    @RequestMapping(value = "changePassword", method = RequestMethod.PUT)
-//    public String changePassword(@RequestBody User user, @RequestParam String newPassword) {
-//        return userService.changePassword(user, newPassword);
-//    }
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String loginUser(@RequestBody User user) {
+        return userService.authenticateUser(user);
+    }
+
+    @RequestMapping(value = "changePassword", method = RequestMethod.PUT)
+    public String changePassword(@RequestBody User user, @RequestParam String newPassword) {
+        return userService.changePassword(user, newPassword);
+    }
 
 }
