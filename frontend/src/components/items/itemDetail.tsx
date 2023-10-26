@@ -33,7 +33,7 @@ export default function ProductDetail({ project }: ProductDetailProps) {
               {project.seller}
             </p>
             <p className=" text-gray-500">
-              <span className="text-gray-800 font-semibold">Quality: </span>{' '}
+              <span className="text-gray-800 font-semibold">Active: </span>{' '}
               {project.isActive ? 'active' : 'inactive'}
             </p>
           </section>

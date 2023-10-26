@@ -19,3 +19,13 @@ export function useSaveProduct() {
     onSuccess: () => queryClient.invalidateQueries('products'),
   });
 }
+
+export function updateProduct(product: Item, setData: React.Dispatch<React.SetStateAction<Item[]>>) {
+  setData((prevData) => {
+    const index = prevData.findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      prevData[index] = product;
+    }
+    return [...prevData];
+  });
+}
