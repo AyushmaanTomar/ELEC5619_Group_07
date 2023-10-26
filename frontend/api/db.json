@@ -52,12 +52,12 @@
     },
     {
       "id": 6,
-      "name": "Backpacks",
+      "name": "Alexis's Backpack ",
       "description": "Stylish and spacious backpack for your daily commute for your easy use",
       "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
       "seller": "FashionFusion",
       "listingDate": "2023-09-18T20:00:00.000Z",
-      "price": 40,
+      "price": 30,
       "isActive": true
     },
     {
