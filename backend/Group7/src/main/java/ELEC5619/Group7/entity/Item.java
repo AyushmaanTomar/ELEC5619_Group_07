@@ -34,16 +34,19 @@ public class Item {
     private String description;
 
     @Column(name = "ListingDate ")
-//    sql has no datetype
+    // sql has no datetype
     private String listingDate;
 
     @Column(name = "isSold")
     private boolean isSold;
 
+    @Column(name = "img_path")
+    private String profile_pic;
 
     public Item() {
 
     }
+
     public int getId() {
         return itemID;
     }
@@ -60,7 +63,6 @@ public class Item {
         this.productCategory = productCategory;
     }
 
-
     public User getUser() {
         return user;
     }
@@ -69,7 +71,6 @@ public class Item {
         this.user = user;
     }
 
-
     public String getName() {
         return name;
     }
@@ -77,7 +78,6 @@ public class Item {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public double getPrice() {
         return price;
@@ -125,5 +125,13 @@ public class Item {
 
     public void setSold(boolean sold) {
         isSold = sold;
+    }
+
+    public String getProfilePic() {
+        return profile_pic;
+    }
+
+    public void setProfilePic(String file_path) {
+        this.profile_pic = file_path;
     }
 }
