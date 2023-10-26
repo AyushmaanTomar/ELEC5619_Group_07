@@ -40,15 +40,16 @@ export default function RegisterAccount() {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var name = data.get("name")?.toString();
+        var username = data.get("username")?.toString();
         var email = data.get("email")?.toString();
         var phone = data.get("phone")?.toString();
         var password = data.get("password")?.toString();
         var cpassword = data.get("cpassword")?.toString();
+        var profileImg = null;
 
 
 
-        if (name == null || email == null || password == null || cpassword == null || phone == null) {
+        if (username == null || email == null || password == null || cpassword == null || phone == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
@@ -64,9 +65,9 @@ export default function RegisterAccount() {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response);
+            console.log("sucessssss!")
             if (response.status === 201) {
-                var result: boolean = login(name, password);
+                var result: boolean = login(username, password);
                 if (!result) {
                     setFormError("Account registered but failed to log in!");
                     return;
@@ -91,7 +92,7 @@ export default function RegisterAccount() {
         <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
 
             <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                <StyledTextField required id="name" label="name" name="name" autoFocus />
+                <StyledTextField required id="username" label="username" name="username" autoFocus />
                 <StyledTextField required id="email" label="Email" name="email" type="email"  autoComplete="email" />
                 <StyledTextField required id="phone" label="Phone" name="phone" type="tel" />
                 <StyledTextField required id="password" label="Password" name='password' type='password'/>
