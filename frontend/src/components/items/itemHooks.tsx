@@ -29,3 +29,13 @@ export function updateProduct(product: Item, setData: React.Dispatch<React.SetSt
     return [...prevData];
   });
 }
+
+export function useAddProduct() {
+  const queryClient = useQueryClient();
+  return useMutation((product: Item) => productAPI.add(product), {
+    onSuccess: () => {
+      // Invalidate to refetch products after adding a new one
+      queryClient.invalidateQueries('product');
+    },
+  });
+}

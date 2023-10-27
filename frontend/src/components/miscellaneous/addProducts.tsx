@@ -1,40 +1,39 @@
 import React, { useState } from 'react';
-import { text } from 'stream/consumers';
 
 interface Props {
     onAdd?: (product: any) => void;
 }
 
 const AddProducts: React.FC<Props> = ({ onAdd }) => {
-  const initialProduct = {
-    name: "",
-    description: "",
-    imageUrl: "",
-    seller: "",
-    listingDate: new Date().toISOString(),
-    price: 0,
-    isActive: true
-  };
-  
-  const [product, setProduct] = useState(initialProduct);
+    const initialProduct = {
+        name: "",
+        description: "",
+        imageUrl: "",
+        seller: "",
+        listingDate: new Date().toISOString(),
+        price: 0,
+        isActive: true
+    };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if(onAdd) {
-        onAdd(product);
-    }
-    setProduct(initialProduct);  // Reset form after adding
-  };
+    const [product, setProduct] = useState(initialProduct);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setProduct(prev => ({ ...prev, [name]: value }));
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (onAdd) {
+            onAdd(product);
+        }
+        window.location.href = "/products";
+    };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setProduct(prev => ({ ...prev, [name]: checked }));
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setProduct(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setProduct(prev => ({ ...prev, [name]: checked }));
+    };
 
   const formStyle: React.CSSProperties = {
     display: 'flex',
@@ -61,11 +60,7 @@ const whiteTextStyle: React.CSSProperties = {
 };
 
   return (
-    <form style={formStyle} onSubmit={(e) => {
-        e.preventDefault();
-        if (onAdd)
-            onAdd(product);
-    }}>
+    <form style={formStyle} onSubmit={handleSubmit}>
       <input 
         style={inputStyle}
         name="name" 
