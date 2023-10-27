@@ -164,6 +164,23 @@ const productAPI = {
         );
       });
   },
+  add(product: Item) {
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(product),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .catch((error: TypeError) => {
+      console.log('log client error ' + error);
+      throw new Error(
+        'There was an error adding the product. Please try again.'
+      );
+    });
+  },
 };
 
 export { productAPI };
