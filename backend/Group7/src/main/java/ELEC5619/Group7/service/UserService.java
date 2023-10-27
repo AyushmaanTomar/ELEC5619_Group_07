@@ -21,8 +21,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private JwtService jwtService;
 
     @Transactional
     public String createStudent(User user) {
