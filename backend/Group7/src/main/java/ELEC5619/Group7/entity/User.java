@@ -1,7 +1,7 @@
 package ELEC5619.Group7.entity;
 
 import javax.persistence.*;
-import java.lang.constant.Constable;
+
 
 @Entity
 @Table(name = "User")
@@ -22,13 +22,10 @@ public class User {
     @Column(name = "phone", nullable = false)
     private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_pic_id", referencedColumnName = "id")
-    private ProfilePic profilePic;
+    @Column(name = "profileImg", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'default_image_path.jpg'")
+    private String profileImg;
 
     public User() {
-        // Assign default profile pic when a user is created
-        this.profilePic = new ProfilePic();
     }
 
     public int getId() {
@@ -71,6 +68,14 @@ public class User {
         this.phone = phone;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -79,6 +84,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", profileImg='" + profileImg + '\'' +
                 "}";
     }
 }
@@ -87,7 +93,7 @@ public class User {
 @Table(name = "ProfilePic")
 class ProfilePic {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String filePath;
@@ -101,7 +107,7 @@ class ProfilePic {
         return filePath;
     }
 
-    public void setFilePath(String filePath){
+    public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
 }

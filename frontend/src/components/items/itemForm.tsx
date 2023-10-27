@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { Item } from './listings';
-import { useSaveProduct } from './itemHooks';
+import { updateProduct, useSaveProduct } from './itemHooks';
 
 interface ProjectFormProps {
   project: Item;
@@ -15,11 +15,14 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
     price: '',
   });
 
-  const { mutate: saveProduct, isLoading } = useSaveProduct();
+  const { mutate: updateProduct, isLoading } = useSaveProduct();
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     if (!isValid()) return;
-    saveProduct(project);
+    updateProduct(project);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   };
 
   const handleChange = (event: any) => {
@@ -45,7 +48,7 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
   };
 
   function validate(project: Item) {
-    let errors: any = { name: '', description: '', budget: '' };
+    let errors: any = { name: '', description: '', price: '' };
     if (project.name.length === 0) {
       errors.name = 'Name is required';
     }
@@ -118,13 +121,13 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
             )}
           </div>
           <div className="form-control mb-2">
-            <label className="label" htmlFor="budget">
+            <label className="label" htmlFor="price">
               <span className="label-text">Product Price</span>
             </label>
             <input
               className="input input-bordered"
               type="number"
-              name="prince"
+              name="price"
               placeholder="enter price"
               value={project.price}
               onChange={handleChange}

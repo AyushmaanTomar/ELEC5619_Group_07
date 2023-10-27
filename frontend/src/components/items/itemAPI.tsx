@@ -1,3 +1,77 @@
+// import axios from 'axios';
+// import { Item } from './listings';
+
+// const baseUrl = 'http://localhost:8080';
+// const url = `${baseUrl}/products`;
+
+// function translateStatusToErrorMessage(status: number): string {
+//   switch (status) {
+//     case 401:
+//       return 'Please login again.';
+//     case 403:
+//       return 'You do not have permission to view the product(s).';
+//     default:
+//       return 'There was an error retrieving the product(s). Please try again.';
+//   }
+// }
+
+// function handleAxiosError(error: any): never {
+//   if (error.response) {
+//     console.log(`log server http error: ${JSON.stringify(error.response.data)}`);
+
+//     let errorMessage = translateStatusToErrorMessage(error.response.status);
+//     throw new Error(errorMessage);
+//   } else if (error.request) {
+//     throw new Error('No response received from the server.');
+//   } else {
+//     throw error;
+//   }
+// }
+
+// function convertToProductModels(data: any[]): Item[] {
+//   return data.map(item => new Item(item));
+// }
+
+// const productAPI = {
+//   async get(page = 1, limit = 12): Promise<Item[]> {
+//     try {
+//       const response = await axios.get(`${url}?_page=${page}&_limit=${limit}&_sort=name`);
+//       return convertToProductModels(response.data);
+//     } catch (error) {
+//       handleAxiosError(error);
+//     }
+//   },
+
+//   async find(id: number): Promise<Item> {
+//     try {
+//       const response = await axios.get(`${url}/${id}`);
+//       return new Item(response.data);
+//     } catch (error) {
+//       handleAxiosError(error);
+//     }
+//   },
+
+//   async put(product: Item): Promise<any> {
+//     try {
+//       const response = await axios.put(`${url}/${product.id}`, product, {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//       });
+
+//       // Introduce delay
+//       await new Promise(resolve => setTimeout(resolve, 2000));
+
+//       return response.data;
+//     } catch (error) {
+//       handleAxiosError(error);
+//     }
+//   },
+// };
+
+// export { productAPI };
+
+
 import { Item } from './listings';
 
 const baseUrl = 'http://localhost:4000';
