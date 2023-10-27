@@ -3,7 +3,6 @@ import { useProducts } from './itemHooks';
 import ItemList from './itemList';
 import SearchBarFilter from "../miscellaneous/searchBar"
 
-
 function ProductsPage() {
   const {
     data,
