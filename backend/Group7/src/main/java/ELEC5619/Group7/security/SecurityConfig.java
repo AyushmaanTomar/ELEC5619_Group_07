@@ -27,10 +27,10 @@ public class SecurityConfig {
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.cors();
-        http.authorizeRequests().antMatchers("/login", "/createsUser").permitAll();
-        http.authorizeRequests().anyRequest().authenticated();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(new AuthenticationFilter(jwtService, userService), UsernamePasswordAuthenticationFilter.class);
+//        http.authorizeRequests().antMatchers("/login", "/createsUser").permitAll();
+//        http.authorizeRequests().anyRequest().authenticated();
+//        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.addFilterBefore(new AuthenticationFilter(jwtService, userService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

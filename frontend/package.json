@@ -36,7 +36,7 @@
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "scripts": {
-    "start": "SET PORT=8080 && react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

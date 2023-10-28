@@ -34,7 +34,7 @@ export default function RegisterAccount() {
         }
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setFormError("");
         event.preventDefault();
 
@@ -54,13 +54,11 @@ export default function RegisterAccount() {
             return;
         }
     
-        register({name, email, password, phone});
-        var result: boolean = login(name, password);
-        if (!result) {
-            setFormError("Account registered but failed to log in!");
-            return;
-        }
+        try {
+        await register({name, email, password, phone});
+        await login(email, password);
         navigate("/");
+        } catch {}
     }
 
     return (
