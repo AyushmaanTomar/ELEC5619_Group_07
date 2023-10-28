@@ -1,7 +1,7 @@
 package ELEC5619.Group7.controller;
 
-import ELEC5619.Group7.controller.POJO.LoginRequest;
 import ELEC5619.Group7.entity.User;
+import ELEC5619.Group7.service.ItemService;
 import ELEC5619.Group7.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,22 +18,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/info")
-    public ResponseEntity<String> info() {
-        return new ResponseEntity<>("The application is up...", HttpStatus.OK);
-    }
-
-//    @RequestMapping(value = "login", method = RequestMethod.POST)
-//    public Map<String, String> login(@RequestBody LoginRequest loginRequest) {
-//        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-//    }
-//
-//    @RequestMapping(value = "createsUser", method = RequestMethod.POST)
-//    public String createUser(@RequestBody User user){
-//        return userService.createStudent(user);
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+
+        if (user == null) return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);
+        if (user.getPassword() == null || user.getUserName() == null
+                || user.getEmail() == null || user.getPhone() == null
+        ) {
+            return new ResponseEntity<>("Failed to create user (bad input)", HttpStatus.BAD_REQUEST);
+        }
         String result = userService.createStudent(user);
         switch(result) {
             case "success":
@@ -49,17 +43,14 @@ public class UserController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> readUser() {
-        List<User> users = userService.readUser();
-        if (users.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // HTTP 204
-        }
-        return ResponseEntity.ok(users);  // HTTP 200
-    }
 
-    @PutMapping
+    @PutMapping("/updateUser")
     public ResponseEntity<String> updateUser(@RequestBody User user) {
+        if (user.getPassword() == null || user.getUserName() == null
+                || user.getEmail() == null || user.getPhone() == null
+        ) {
+            return new ResponseEntity<>("Failed to update user", HttpStatus.BAD_REQUEST);
+        }
         String result = userService.updateUser(user);
         switch(result) {
             case "updated":
@@ -72,22 +63,11 @@ public class UserController {
     }
 
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteUser(@RequestBody User user) {
-        String result = userService.deleteUser(user);
-        switch(result) {
-            case "deleted":
-                return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);  // HTTP 204
-            case "student_not_found":
-                return new ResponseEntity<>("Student does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
-            default:
-                return new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);  // HTTP 400
-        }
-    }
-
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        String result = userService.authenticateUser(user);
+    public ResponseEntity<String> loginUser(@RequestParam String username,
+                                            @RequestParam String password) {
+        if ( username == null || password == null ) return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
+        String result = userService.authenticateUser(username, password);
         switch(result) {
             case "Authenticated successfully":
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);  // HTTP 200
@@ -101,7 +81,10 @@ public class UserController {
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody User user, @RequestParam String newPassword) {
+    public ResponseEntity<String> changePassword(@RequestBody User user,
+                                                 @RequestParam String newPassword) {
+        if (user == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
+        if (newPassword == null) return new ResponseEntity<>("Password does not meet the requirements (password is null)", HttpStatus.BAD_REQUEST);
         String result = userService.changePassword(user, newPassword);
         switch(result) {
             case "success":
@@ -109,6 +92,7 @@ public class UserController {
             case "invalid_password":
                 return new ResponseEntity<>("Password does not meet the requirements", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "update_failure":
+                return new ResponseEntity<>("Update Fail", HttpStatus.BAD_REQUEST);
             default:
                 return new ResponseEntity<>("Failed to change password", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
@@ -136,5 +120,4 @@ public class UserController {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
         }
     }
-
 }

@@ -40,7 +40,7 @@ class UserServiceTest {
         User newUser = new User();
         newUser.setEmail("test@example.com");
 
-        Mockito.when(userRepository.existsByEmail(newUser.getEmail())).thenReturn(false);
+        Mockito.when(userRepository.existsByEmail(newUser.getEmail()) > 0).thenReturn(false);
         Mockito.when(userRepository.findMaxId()).thenReturn(0);
         
         String result = userService.createStudent(newUser);
@@ -53,7 +53,7 @@ class UserServiceTest {
         User existingUser = new User();
         existingUser.setEmail("test@example.com");
 
-        Mockito.when(userRepository.existsByEmail(existingUser.getEmail())).thenReturn(true);
+        Mockito.when(userRepository.existsByEmail(existingUser.getEmail()) > 0).thenReturn(true);
 
         String result = userService.createStudent(existingUser);
         assertEquals("Student already exists in the database.", result);
@@ -76,7 +76,7 @@ class UserServiceTest {
         existingUser.setPhone("9876543210");
         users.add(existingUser);
 
-        Mockito.when(userRepository.existsByEmail(userToUpdate.getEmail())).thenReturn(true);
+        Mockito.when(userRepository.existsByEmail(userToUpdate.getEmail()) > 0).thenReturn(true);
         Mockito.when(userRepository.findByEmail(userToUpdate.getEmail())).thenReturn(users);
         Mockito.when(userRepository.findById(existingUser.getId())).thenReturn(Optional.of(existingUser));
 
@@ -94,7 +94,7 @@ class UserServiceTest {
         User userToUpdate = new User();
         userToUpdate.setEmail("nonexistent@example.com");
 
-        Mockito.when(userRepository.existsByEmail(userToUpdate.getEmail())).thenReturn(false);
+        Mockito.when(userRepository.existsByEmail(userToUpdate.getEmail()) > 0).thenReturn(false);
 
         String result = userService.updateUser(userToUpdate);
         assertEquals("Student does not exist in the database.", result);
@@ -111,7 +111,7 @@ class UserServiceTest {
         existingUser.setEmail("test@example.com");
         users.add(existingUser);
 
-        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(true);
+        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail()) > 0).thenReturn(true);
         Mockito.when(userRepository.findByEmail(userToDelete.getEmail())).thenReturn(users);
 
         String result = userService.deleteUser(userToDelete);
@@ -126,7 +126,7 @@ class UserServiceTest {
         User userToDelete = new User();
         userToDelete.setEmail("nonexistent@example.com");
 
-        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(false);
+        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail()) > 0).thenReturn(false);
 
         String result = userService.deleteUser(userToDelete);
         assertEquals("Student does not exist", result);

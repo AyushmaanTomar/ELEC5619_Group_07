@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
+import axios from "axios";
 
 export default function RegisterAccount() {
     const navigate = useNavigate();
@@ -34,33 +35,51 @@ export default function RegisterAccount() {
         }
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setFormError("");
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var name = data.get("name")?.toString();
+        var username = data.get("username")?.toString();
         var email = data.get("email")?.toString();
         var phone = data.get("phone")?.toString();
         var password = data.get("password")?.toString();
         var cpassword = data.get("cpassword")?.toString();
-        
-        if (name == null || email == null || password == null || cpassword == null || phone == null) {
+        var profileImg = null;
+
+
+
+        if (username == null || email == null || password == null || cpassword == null || phone == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
-        if (password != cpassword) {
+        if (password !== cpassword) {
             setFormError("Password and Confirm Password do not match!");
             return;
         }
-    
-        register({name, email, password, phone});
-        var result: boolean = login(name, password);
-        if (!result) {
-            setFormError("Account registered but failed to log in!");
-            return;
+        const data_json = JSON.stringify(Object.fromEntries(data.entries()))
+
+        try {
+            const response = await axios.post('http://localhost:8080/users/register', data_json, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("sucessssss!")
+            if (response.status === 201) {
+                var result: boolean = login(username, password);
+                if (!result) {
+                    setFormError("Account registered but failed to log in!");
+                    return;
+                }
+                navigate("/");
+            } else {
+                setFormError(response.data);
+            }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            setFormError("Failed to register. Please try again.");
         }
-        navigate("/");
     }
 
     return (
@@ -73,7 +92,7 @@ export default function RegisterAccount() {
         <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
 
             <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                <StyledTextField required id="name" label="name" name="name" autoFocus />
+                <StyledTextField required id="username" label="username" name="username" autoFocus />
                 <StyledTextField required id="email" label="Email" name="email" type="email"  autoComplete="email" />
                 <StyledTextField required id="phone" label="Phone" name="phone" type="tel" />
                 <StyledTextField required id="password" label="Password" name='password' type='password'/>

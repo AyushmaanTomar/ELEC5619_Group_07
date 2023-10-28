@@ -4,6 +4,8 @@ import Container from '@mui/material/Container';
 import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
+import axios from 'axios';
+
 
 export default function LoginAccount() {
     const navigate = useNavigate();
@@ -34,25 +36,51 @@ export default function LoginAccount() {
         }
     });
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setFormError("");
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
         var username = data.get("username")?.toString();
         var password = data.get("password")?.toString();
-        
-        if (username == null || password == null ) {
+
+        if (username == null || password == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
-    
-        var result: boolean = login(username, password);
-        if (!result) {
-            setFormError("Account details incorrect!");
-            return;
+
+        // Convert FormData to JSON
+        const data_json = JSON.stringify(Object.fromEntries(data.entries()));
+
+        try {
+            const response = await axios.post('http://localhost:8080/login', data_json, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response);
+            if (response.status === 200) {
+                navigate("/");
+            } else {
+                setFormError(response.data);
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    setFormError(error.response.data);
+                } else if (error.request) {
+                    setFormError("No response from server. Please try again later.");
+                } else {
+                    setFormError("Error in sending request.");
+                }
+            } else {
+                setFormError("An unknown error occurred.");
+            }
         }
-        navigate("/");
+
     }
 
     return (

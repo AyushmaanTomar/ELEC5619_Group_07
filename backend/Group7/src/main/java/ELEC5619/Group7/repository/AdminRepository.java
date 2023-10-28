@@ -14,4 +14,9 @@ public interface AdminRepository extends JpaRepository<Admin, Integer>{
     @Query("select max(a.id) from Admin a")
     public Integer findMaxId();
 
+
+    @Query("select a.userName from Admin a")
+    public List<String> findAllUserName();
+
+
 }
