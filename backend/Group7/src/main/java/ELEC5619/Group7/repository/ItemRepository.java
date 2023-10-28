@@ -16,9 +16,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query(value = "select * from Item where userID = ?1", nativeQuery = true)
     List<Item> findAllItemByUser(Integer userID);
 
-    @Query(value = "select * from Item where categoryID = ?1", nativeQuery = true)
-    List<Item> findAllItemByCategory(Integer categoryID);
-
+    List<Item> findAll();
 
 
 

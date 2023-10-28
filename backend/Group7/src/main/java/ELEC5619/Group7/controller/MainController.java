@@ -35,7 +35,7 @@ public class MainController {
         User user = null;
 
         for (User i: users) {
-            if (i.getName().equals(userName) && i.getPassword().equals(password)) {
+            if (i.getUserName().equals(userName) && i.getPassword().equals(password)) {
                 user = i;
             }
         }

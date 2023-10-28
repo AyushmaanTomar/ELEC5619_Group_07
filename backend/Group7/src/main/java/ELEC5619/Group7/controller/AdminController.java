@@ -1,10 +1,12 @@
 package ELEC5619.Group7.controller;
 
 import ELEC5619.Group7.entity.Admin;
+import ELEC5619.Group7.entity.Item;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.repository.AdminRepository;
 import ELEC5619.Group7.repository.UserRepository;
 import ELEC5619.Group7.service.AdminService;
+import ELEC5619.Group7.service.ItemService;
 import ELEC5619.Group7.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ItemService itemService;
 
 
     @PostMapping("/login")
@@ -68,12 +73,17 @@ public class AdminController {
     }
 
 
-    @PostMapping("/deleteUser")
+
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(@RequestBody User user) {
-        if (userService.deleteUser(user.getName(), user.getPassword())) {
-            return new ResponseEntity<>("Delete Successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Delete Fail", HttpStatus.NOT_FOUND);
+        String result = userService.deleteUser(user);
+        switch(result) {
+            case "deleted":
+                return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);  // HTTP 204
+            case "student_not_found":
+                return new ResponseEntity<>("Student does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
+            default:
+                return new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
 
@@ -89,6 +99,15 @@ public class AdminController {
             default:
                 return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @GetMapping("/listItem")
+    public ResponseEntity<List<Item>> readItems() {
+        List<Item> items = itemService.readItems();
+        if (items.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(items);
     }
 
 

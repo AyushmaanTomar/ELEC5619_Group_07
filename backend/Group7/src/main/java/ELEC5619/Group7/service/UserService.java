@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
-
-import java.util.Map;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -34,12 +31,13 @@ public class UserService {
             return "invalid_email";
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail()) > 0) {
             return "email_exists";
         }
 
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
+            System.out.println(user.toString());
             userRepository.save(user);
             return "success";
         } catch (Exception e) {
@@ -59,12 +57,12 @@ public class UserService {
 
     @Transactional
     public String updateUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail()) > 0) {
             try {
                 List<User> students = userRepository.findByEmail(user.getEmail());
                 students.stream().forEach(s -> {
                     User userToBeUpdate = userRepository.findById(s.getId()).get();
-                    userToBeUpdate.setName(user.getName());
+                    userToBeUpdate.setUserName(user.getUserName());
                     userToBeUpdate.setPassword(user.getPassword());
                     userToBeUpdate.setPhone(user.getPhone());
                     userRepository.save(userToBeUpdate);
@@ -80,7 +78,7 @@ public class UserService {
 
     @Transactional
     public String deleteUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail()) > 0) {
             try {
                 List<User> students = userRepository.findByEmail(user.getEmail());
                 students.forEach(userRepository::delete);
@@ -94,13 +92,15 @@ public class UserService {
     }
 
 
-    public String authenticateUser(User user) {
-        List<User> users = userRepository.findByEmail(user.getEmail());
+    public String authenticateUser(String userName, String password) {
+        List<User> users = userRepository.findAll();
         if (users.isEmpty()) {
             return "user_not_found";
         }
-        if (user.getPassword().equals(users.get(0).getPassword())) {
-            return "Authenticated successfully";
+        for (User i: users) {
+            if (i.getUserName().equals(userName) && i.getPassword().equals(password)) {
+                return "Authenticated successfully";
+            }
         }
         return "incorrect_password";
     }
@@ -170,7 +170,7 @@ public class UserService {
     }
 
     public boolean deleteUser(String username, String password) {
-        Optional<User> user = userRepository.findByuserNameAndPassword(username, password);
+        Optional<User> user = userRepository.findByUserNameAndPassword(username, password);
 
         if (user.isPresent()) {
             userRepository.delete(user.get());

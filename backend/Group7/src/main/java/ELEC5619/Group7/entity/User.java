@@ -10,10 +10,12 @@ public class User {
     @Column(name = "userID", unique = true)
     private int id;
 
-    @Column(name = "userName")
+    @Column(name = "location")
+    private String location;
+    @Column(name = "userName", nullable = false)
     private String userName;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "email", nullable = false)
@@ -26,6 +28,14 @@ public class User {
     private String profileImg;
 
     public User() {
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getId() {
@@ -52,12 +62,12 @@ public class User {
         this.email = email;
     }
 
-    public String getName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setName(String name) {
-        this.userName = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPhone() {
@@ -81,6 +91,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + userName + '\'' +
+                ", location='" + location + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +

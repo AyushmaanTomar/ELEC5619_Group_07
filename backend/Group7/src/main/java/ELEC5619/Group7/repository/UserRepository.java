@@ -12,9 +12,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
 
-    @Query(value = "SELECT EXISTS(SELECT 1 FROM User WHERE email = ?1", nativeQuery = true)
-    public boolean existsByEmail(String email);
-
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM User WHERE email = ?1)", nativeQuery = true)
+    public Integer existsByEmail(String email);
 
     @Query(value = "SELECT * from User where email = ?1", nativeQuery = true)
     public List<User> findByEmail(String email);
@@ -23,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("select max(u.id) from User u")
     public Integer findMaxId();
 
-    Optional<User> findByuserNameAndPassword(String username, String password);
+    Optional<User> findByUserNameAndPassword(String userName, String password);
 
 
     //Add User
