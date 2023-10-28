@@ -4,23 +4,23 @@ import Container from '@mui/material/Container';
 import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
-import axios from 'axios';
-
+import { useError } from 'src/errorContext';
 
 export default function LoginAccount() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const [formError, setFormError] = useState("");
+    const {showError} = useError();
 
     const StyledTextField = styled(TextField) ({
         "& input": {
-            color: "gray"
+            color: "white"
         },
         "& label" : {
             color: "white"
         },
         "& label.Mui-focused": {
-            color: "gray"
+            color: "white"
         },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
@@ -41,46 +41,18 @@ export default function LoginAccount() {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var username = data.get("username")?.toString();
+        var userName = data.get("userName")?.toString();
         var password = data.get("password")?.toString();
-
-        if (username == null || password == null) {
+        
+        if (userName == null || password == null ) {
             setFormError("Could not load data. Try again.");
             return;
         }
-
-        // Convert FormData to JSON
-        const data_json = JSON.stringify(Object.fromEntries(data.entries()));
-
+    
         try {
-            const response = await axios.post('http://localhost:8080/login', data_json, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log(response);
-            if (response.status === 200) {
-                navigate("/");
-            } else {
-                setFormError(response.data);
-            }
-        } catch (error) {
-            console.error("Error during login:", error);
-
-            if (axios.isAxiosError(error)) {
-                if (error.response) {
-                    setFormError(error.response.data);
-                } else if (error.request) {
-                    setFormError("No response from server. Please try again later.");
-                } else {
-                    setFormError("Error in sending request.");
-                }
-            } else {
-                setFormError("An unknown error occurred.");
-            }
-        }
-
+          await login(userName, password);
+          navigate("/");
+        } catch {}
     }
 
     return (
@@ -88,12 +60,12 @@ export default function LoginAccount() {
 
         <Container maxWidth="sm">
 
-        <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Register new account</Typography>
+        <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Login account</Typography>
 
         <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
 
             <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                <StyledTextField required id="username" label="Username" name="username" autoFocus />
+                <StyledTextField required id="userName" label="UserName" name="userName" autoFocus />
                 <StyledTextField required id="password" label="Password" name='password' type='password'/>
                 <Button type="submit" variant="contained">Login Account</Button>
             </Stack>

@@ -1,141 +1,148 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { productAPI } from '../items/itemAPI';
 import { useProducts } from '../items/itemHooks';
-import ItemList from '../items/itemList';
+import { Button, Container, Box, TextField, Stack } from '@mui/material';
+import  styled  from '@emotion/styled';
 
 interface Props {
     onAdd?: (product: any) => void;
 }
 
-const AddProducts: React.FC<Props> = ({ onAdd }) => {
+const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
+
+  console.log('Rendering AddProducts');
     const initialProduct = {
         name: "",
         description: "",
         imageUrl: "",
         seller: "",
-        listingDate: new Date().toISOString(),
+        listingDate: new Date().toISOString().split("T")[0],
         price: 0,
         isActive: true
     };
 
     const [product, setProduct] = useState(initialProduct);
+    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (onAdd) {
-            onAdd(product);
-        }
-        window.location.href = "/products";
-    };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setProduct(prev => ({ ...prev, [name]: value }));
-    };
+    const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      
+      if (product.price === 0) {
+        setErrorMessage("PRICE CANNOT BE 0!");
+        return;
+      }
 
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (onAdd) {
+          onAdd(product);
+      }
+      window.location.href = "/products";
+
+    }, [product]);
+
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setProduct(prev => {
+          if (prev[name as keyof typeof prev] !== value) {
+              return { ...prev, [name]: value };
+          }
+          return prev;
+      });
+  }, []);
+
+    const handleCheckboxChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, checked } = e.target;
         setProduct(prev => ({ ...prev, [name]: checked }));
-    };
+    }, []);
 
-  const formStyle: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px',
-    maxWidth: '500px',  
-    margin: '20px auto',
-    padding: '20px', 
-    backgroundColor: '#231F20',  
-    boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',  
-    borderRadius: '8px' 
-};
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | undefined>(undefined);
 
-const inputStyle: React.CSSProperties = {
-    padding: '12px 15px',
-    borderRadius: '6px', 
-    border: '1px solid #e0e0e0', 
-    fontSize: '1rem',
-    transition: 'border-color 0.3s ease, box-shadow 0.3s ease', 
-};
+    const handleImageChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
 
-const whiteTextStyle: React.CSSProperties = {
-    color: '#ffffff'
-};
+        const reader = new FileReader();
+        const file = e.target.files![0];
+
+        reader.onloadend = () => {
+            setProduct(prev => ({ ...prev, imageUrl: reader.result as string }));
+            setImagePreviewUrl(reader.result as string);
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }, []);
+
+  const StyledTextField = styled(TextField)({
+    "& input, & textarea": {
+      color: "white"
+    },
+    "& label": {
+        color: "white"
+    },
+    "& label.Mui-focused": {
+        color: "white"
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "white"
+      },
+      "&:hover fieldset": {
+        borderColor: "white",
+        borderWidth: 2
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "white"
+      }
+    }
+  });
 
   return (
-    <form style={formStyle} onSubmit={handleSubmit}>
-      <input 
-        style={inputStyle}
-        name="name" 
-        value={product.name} 
-        onChange={handleChange} 
-        placeholder="Product Name"
-        required = {true} 
-      />
+    <React.Fragment>
+      <Container maxWidth="sm" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
+        <Box className="bg-secondary" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
+          <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px">
+            <StyledTextField required id="name" label="Product Name" name="name" value={product.name} onChange={handleChange} />
+            <StyledTextField required id="description" label="Description" name="description" value={product.description} onChange={handleChange} multiline />
+            <input 
+                style={{ display: 'none' }}
+                type="file" 
+                id="fileInput"
+                name="imageUrl" 
+                accept="image/*"
+                onChange={handleImageChange} 
+            />
 
-      <textarea 
-        style={inputStyle}
-        name="description" 
-        value={product.description} 
-        onChange={handleChange} 
-        placeholder="Description"
-        required = {true} 
-      ></textarea>
+            <label htmlFor="fileInput" style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                cursor: 'pointer',
+                borderRadius: '5px',
+                border: '1px solid #ffffff',
+                background: '#231f21',
+                color: '#ffffff',
+                height: '40px',
+            }}>
+                {imagePreviewUrl ? "Change Image" : "Upload Image"}
+            </label>
 
-      <input 
-        style={inputStyle}
-        type="text" 
-        name="imageUrl" 
-        value={product.imageUrl} 
-        onChange={handleChange} 
-        placeholder="Image URL"
-        required = {true} 
-      />
-
-      <input 
-        style={inputStyle}
-        type="text" 
-        name="seller" 
-        value={product.seller} 
-        onChange={handleChange} 
-        placeholder="Seller"
-        required = {true} 
-      />
-
-      <input 
-        style={inputStyle}
-        type="number" 
-        name="price" 
-        value={product.price.toString()} 
-        onChange={handleChange} 
-        placeholder="Price"
-        required = {true} 
-      />
-
-      <input 
-        style={inputStyle}
-        type="date" 
-        name="listingDate" 
-        value={product.listingDate.split("T")[0]}  // extract YYYY-MM-DD part
-        onChange={handleChange} 
-        required = {true} 
-      />
-
-      <label style={whiteTextStyle}>
-        <span>Want to make this product as ongoing sale ??  </span>
-        <input id="red-checkbox"
-          type="checkbox" 
-          name="isActive" 
-          checked={product.isActive} 
-          onChange={handleCheckboxChange}
-          required = {true} 
-        />
-      </label>
-
-      <button className='bg-primary font-bold' type="submit" style={{ ...inputStyle, cursor: 'pointer' }}>Add Product</button>
-    </form>
+              {imagePreviewUrl && <img src={imagePreviewUrl} alt="Selected Preview" style={{ maxWidth: '100%', margin: '20px 0' }} />}
+            <StyledTextField required id="seller" label="Seller" name="seller" value={product.seller} onChange={handleChange} />
+            <StyledTextField required id="price" label="Price" name="price" value={product.price.toString()} onChange={handleChange} type="number" />
+            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" value={product.listingDate} InputProps={{ readOnly: true }} type="date" />
+            <label style={{ color: 'white' }}>
+              <span>Want to make this product as ongoing sale? </span>
+              <input id="isActive" type="checkbox" name="isActive" checked={product.isActive} onChange={handleCheckboxChange} style={{ margin: '0 10px' }} />
+            </label>
+            { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }
+            <Button type="submit" variant="contained">Add Product</Button>
+          </Stack>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
-}
+});
 
 export function AddProductsComponent() {
   const handleAddProduct = async (product: any) => {
@@ -152,7 +159,7 @@ export function AddProductsComponent() {
   return (
       <div>
           <AddProducts onAdd={handleAddProduct} />
-          {data && <ItemList projects={data} />}
       </div>
   );
 }
+
