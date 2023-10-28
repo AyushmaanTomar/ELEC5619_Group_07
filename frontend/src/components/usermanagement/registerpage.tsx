@@ -55,9 +55,9 @@ export default function RegisterAccount() {
         }
     
         try {
-        await register({name, email, password, phone});
-        await login(email, password);
-        navigate("/");
+          await register({name, email, password, phone});
+          await login(email, password);
+          navigate("/");
         } catch {}
     }
 
