@@ -120,4 +120,17 @@ public class UserController {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
         }
     }
+
+
+    @GetMapping("/getUserByName/{name}")
+    public ResponseEntity<User> getUserByName(@PathVariable String name) {
+        User user = userService.getUser(name);
+        if (user.equals(new User())) {
+            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND); // HTTP 404
+        } else {
+            return new ResponseEntity<>(user, HttpStatus.OK); // HTTP 200
+        }
+    }
+
+    
 }

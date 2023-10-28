@@ -1,7 +1,7 @@
 import { User } from './userClass';
 
 const baseUrl = 'http://localhost:4000';
-const url = `${baseUrl}/profile`;
+const url = `${baseUrl}/users/getUserbyName`;
 
 function translateStatusToErrorMessage(status: number) {
   switch (status) {
@@ -48,18 +48,15 @@ function convertToProjectModels(data: any): User {
 const userAPI = {
   
   get(page = 1, limit = 12) {
-    return new User({username: 'John (Admin)', email: 'john@mail.com', phoneNumber: '1234567890', imageUrl: "/assets/profile.png"});
     return (
-      fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
+      fetch(`${url}/${localStorage.getItem('username')}`)
         // .then(delay(2000))
-        .then(checkStatus)
         .then(parseJSON)
         .then(convertToProjectModels)
-        .catch((error: TypeError) => {
+        .catch((error) => {
           console.log('log client error ' + error);
-          throw new Error(
-            'There was an error retrieving the projects. Please try again.'
-          );
+          return new User({username: localStorage.getItem('username'), email: localStorage.getItem('username') + '@mail.com', phoneNumber: '1234567890', imageUrl: "/assets/profile.png"});
+          
         })
     );
   },

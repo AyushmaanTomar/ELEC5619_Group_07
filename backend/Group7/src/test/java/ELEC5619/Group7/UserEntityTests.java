@@ -34,9 +34,9 @@ class UserTest {
     }
 
     @Test
-    void testGetSetName() {
-        user.setName("John Doe");
-        assertEquals("John Doe", user.getName());
+    void testGetsetUserName() {
+        user.setUserName("John Doe");
+        assertEquals("John Doe", user.getUserName());
     }
 
     @Test
@@ -48,7 +48,7 @@ class UserTest {
     @Test
     void testToString() {
         user.setId(1);
-        user.setName("John Doe");
+        user.setUserName("John Doe");
         user.setPassword("password123");
         user.setEmail("test@example.com");
         user.setPhone("123-456-7890");

@@ -105,6 +105,19 @@ public class UserService {
         return "incorrect_password";
     }
 
+    public User getUser(String userName) {
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            return new User();
+        }
+        for (User i: users) {
+            if (i.getUserName().equals(userName)) {
+                return i;
+            }
+        }
+        return new User();
+    }
+
     public String changePassword(User user, String newPassword) {
         // Check if the new password is valid
         if (!isValidPassword(newPassword)) {
