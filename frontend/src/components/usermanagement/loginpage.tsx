@@ -5,12 +5,16 @@ import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
 import axios from 'axios';
-
+import ReCAPTCHA from "react-google-recaptcha";
+import './LoginPage.css';
 
 export default function LoginAccount() {
     const navigate = useNavigate();
     const { login } = useAuth();
     const [formError, setFormError] = useState("");
+    const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     const StyledTextField = styled(TextField) ({
         "& input": {
@@ -36,13 +40,19 @@ export default function LoginAccount() {
         }
     });
 
+    const handleCaptchaChange = (value: string | null) => {
+        setCaptchaValue(value);
+    }
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         setFormError("");
         event.preventDefault();
 
-        const data = new FormData(event.currentTarget);
-        var username = data.get("username")?.toString();
-        var password = data.get("password")?.toString();
+        // Check if reCAPTCHA is completed
+        if (!captchaValue) {
+            setFormError("Please verify that you are not a robot.");
+            return;
+        }
 
         if (username == null || password == null) {
             setFormError("Could not load data. Try again.");
@@ -50,7 +60,12 @@ export default function LoginAccount() {
         }
 
         // Convert FormData to JSON
-        const data_json = JSON.stringify(Object.fromEntries(data.entries()));
+        const requestData = {
+            username: username,
+            password: password
+        };
+
+        const data_json = JSON.stringify(requestData);
 
         try {
             const response = await axios.post('http://localhost:8080/login', data_json, {
@@ -84,22 +99,42 @@ export default function LoginAccount() {
     }
 
     return (
-    <React.Fragment>
+        <React.Fragment>
+            <Container maxWidth="sm">
+                <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Register new account</Typography>
+                <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
+                    <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
+                        <StyledTextField
+                            required
+                            id="username"
+                            label="Username"
+                            name="username"
+                            autoFocus
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <StyledTextField
+                            required
+                            id="password"
+                            label="Password"
+                            name='password'
+                            type='password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                            <ReCAPTCHA
+                                sitekey="6Lcs59coAAAAAMDbxh2K3Y7-oRiE8IosSxipYvWG"
+                                onChange={handleCaptchaChange}
+                            />
+                        </div>
+                        <Button type="submit" variant="contained">Login Account</Button>
+                    </Stack>
 
-        <Container maxWidth="sm">
+                    <Typography color="red" align='center'>{formError}</Typography>
+                </Box>
+            </Container>
 
-        <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Register new account</Typography>
-
-        <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
-
-            <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                <StyledTextField required id="username" label="Username" name="username" autoFocus />
-                <StyledTextField required id="password" label="Password" name='password' type='password'/>
-                <Button type="submit" variant="contained">Login Account</Button>
-            </Stack>
-            <Typography color="red" align='center'>{formError}</Typography>
-        </Box>
-      </Container>
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
