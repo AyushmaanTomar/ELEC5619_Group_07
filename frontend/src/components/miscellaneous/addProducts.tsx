@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { productAPI } from '../items/itemAPI';
+import { useProducts } from '../items/itemHooks';
+import ItemList from '../items/itemList';
 
 interface Props {
     onAdd?: (product: any) => void;
@@ -134,4 +137,22 @@ const whiteTextStyle: React.CSSProperties = {
   );
 }
 
-export default AddProducts;
+export function AddProductsComponent() {
+  const handleAddProduct = async (product: any) => {
+      try {
+          const newProduct = await productAPI.add(product);
+          console.log("Product added successfully:", newProduct);
+      } catch (error) {
+          console.error("Error adding product:", error);
+      }
+  };
+
+  const { data } = useProducts();
+
+  return (
+      <div>
+          <AddProducts onAdd={handleAddProduct} />
+          {data && <ItemList projects={data} />}
+      </div>
+  );
+}

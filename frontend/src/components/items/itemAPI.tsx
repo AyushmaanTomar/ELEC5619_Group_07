@@ -164,6 +164,7 @@ const productAPI = {
         );
       });
   },
+  
   add(product: Item) {
     return fetch(url, {
       method: 'POST',

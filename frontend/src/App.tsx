@@ -9,7 +9,8 @@ import './App.css';
 import HomePage from './components/home/homepage';
 import ProductPage from './components/items/listingPage';
 import ProductsPage from './components/items/listingsPage';
-import AddProducts from './components/miscellaneous/addProducts';
+import { AddProductsComponent } from './components/miscellaneous/addProducts';
+import UserList from './components/usermanagement/userList';
 import RegisterPage from './components/usermanagement/registerpage'
 import LoginPage from './components/usermanagement/loginpage'
 import UserProfile from './components/miscellaneous/userProfile';
@@ -26,7 +27,8 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/add" element={<AddProducts />} />
+            <Route path="/add" element={<AddProductsComponent />} />  
+            <Route path="/users" element={<UserList />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfile />} />
