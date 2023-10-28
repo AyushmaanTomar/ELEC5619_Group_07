@@ -5,7 +5,7 @@ import { useError } from "src/errorContext";
 const AuthContext = createContext({loggedIn: false, login:(s: string, p: string) => {}, logout: () => {}, register: (a: accountDetails) => {}});
 
 type accountDetails = {
-  name: string;
+  userName: string;
   email: string;
   password: string;
   phone: string;
@@ -19,11 +19,11 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   const [loggedIn, setLoggedIn] = useState(false);
   const {showError} = useError();
 
-  const login = async (email: string, password: string) => {
-    const result = await api.post("/users/login", {email, password})
+  const login = async (username: string, password: string) => {
+    const result = await api.post("/users/login?username=" + username + "&password=" + password)
       .then(() => {
         setLoggedIn(true);
-        localStorage.setItem("username", email);
+        localStorage.setItem("username", username);
       })
       .catch((error) => {
         showError(error.response.data);

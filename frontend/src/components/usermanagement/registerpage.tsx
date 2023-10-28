@@ -40,7 +40,7 @@ export default function RegisterAccount() {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var name = data.get("username")?.toString();
+        var userName = data.get("username")?.toString();
         var email = data.get("email")?.toString();
         var phone = data.get("phone")?.toString();
         var password = data.get("password")?.toString();
@@ -49,7 +49,7 @@ export default function RegisterAccount() {
 
 
 
-        if (name == null || email == null || password == null || cpassword == null || phone == null) {
+        if (userName == null || email == null || password == null || cpassword == null || phone == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
@@ -59,7 +59,7 @@ export default function RegisterAccount() {
         }
     
         try {
-          await register({name, email, password, phone});
+          await register({userName, email, password, phone});
           await login(email, password);
           navigate("/");
         } catch {}
