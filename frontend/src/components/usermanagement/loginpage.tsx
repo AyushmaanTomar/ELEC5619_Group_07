@@ -41,16 +41,16 @@ export default function LoginAccount() {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var username = data.get("username")?.toString();
+        var userName = data.get("userName")?.toString();
         var password = data.get("password")?.toString();
         
-        if (username == null || password == null ) {
+        if (userName == null || password == null ) {
             setFormError("Could not load data. Try again.");
             return;
         }
     
         try {
-          await login(username, password);
+          await login(userName, password);
           navigate("/");
         } catch {}
     }
@@ -65,7 +65,7 @@ export default function LoginAccount() {
         <Box className="bg-secondary" sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
 
             <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                <StyledTextField required id="username" label="Username" name="username" autoFocus />
+                <StyledTextField required id="userName" label="UserName" name="userName" autoFocus />
                 <StyledTextField required id="password" label="Password" name='password' type='password'/>
                 <Button type="submit" variant="contained">Login Account</Button>
             </Stack>

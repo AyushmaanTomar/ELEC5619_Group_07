@@ -60,7 +60,7 @@ export default function RegisterAccount() {
     
         try {
           await register({userName, email, password, phone});
-          await login(email, password);
+          await login(userName, password);
           navigate("/");
         } catch {}
     }

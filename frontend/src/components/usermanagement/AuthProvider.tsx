@@ -19,11 +19,11 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   const [loggedIn, setLoggedIn] = useState(false);
   const {showError} = useError();
 
-  const login = async (username: string, password: string) => {
-    const result = await api.post("/users/login?username=" + username + "&password=" + password)
+  const login = async (userName: string, password: string) => {
+    const result = await api.post("/users/login?username=" + userName + "&password=" + password)
       .then(() => {
         setLoggedIn(true);
-        localStorage.setItem("username", username);
+        localStorage.setItem("username", userName);
       })
       .catch((error) => {
         showError(error.response.data);
