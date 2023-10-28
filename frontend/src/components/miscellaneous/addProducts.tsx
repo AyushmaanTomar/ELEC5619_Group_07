@@ -3,6 +3,7 @@ import { productAPI } from '../items/itemAPI';
 import { useProducts } from '../items/itemHooks';
 import { Button, Container, Box, TextField, Stack } from '@mui/material';
 import  styled  from '@emotion/styled';
+import checkForModeration from '../miscellaneous/moderation';
 
 interface Props {
     onAdd?: (product: any) => void;
@@ -24,10 +25,15 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
     const [product, setProduct] = useState(initialProduct);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-
-    const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       
+      const isSafe = await checkForModeration(product.description);
+      if (!isSafe) {
+          setErrorMessage("The description contains inappropriate content.");
+          return;
+      }
+
       if (product.price === 0) {
         setErrorMessage("PRICE CANNOT BE 0!");
         return;

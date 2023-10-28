@@ -18,7 +18,7 @@ import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
 import { ErrorProvider } from './errorContext';
 import ErrorPane from './components/miscellaneous/errorPane';
-import LikePage from './components/miscellaneous/likePage';
+import LikePage from './components/usermanagement/likePage';
 
 function App() {
   return (
