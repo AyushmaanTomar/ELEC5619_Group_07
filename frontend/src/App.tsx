@@ -16,6 +16,8 @@ import LoginPage from './components/usermanagement/loginpage'
 import UserProfile from './components/miscellaneous/userProfile';
 import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
+import AdminPage from './components/Admin/AdminPage';
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </main>
       </Router>
