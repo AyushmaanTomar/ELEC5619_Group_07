@@ -16,11 +16,11 @@ type ListProps = {
 
 const List: React.FC<ListProps> = ({ items, title, handleToggle, handleDelete, selectedItems }) => (
     <div className="section">
-        <p>{title}</p>
-        <button className="delete-btn" onClick={handleDelete}>Delete</button>
-        <br />
+        <p>
+            {title}
+            <button className="delete-btn" onClick={handleDelete}>Delete</button>
+        </p>
         <hr />
-        <br />
         <ul className="list">
             {items.map(item => (
                 <li key={item.id}>

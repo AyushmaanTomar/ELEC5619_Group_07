@@ -1,31 +1,92 @@
 .admin-container {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .section {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 20px;
     margin-bottom: 20px;
     position: relative;
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.section > p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
 }
 
 .list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .list li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 0;
+    padding: 8px;
+    border-bottom: 1px solid #eaeaea;
+    transition: background-color 0.2s;
+}
+
+.list li:hover {
+    background-color: #f8f8f8;
+}
+
+.list li:last-child {
+    border-bottom: none;
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+    appearance: none;
+    background-color: #f5f5f5;
+    border: 1px solid #eaeaea;
+    padding: 5px;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #3498db;
+    border: 1px solid #3498db;
+}
+
+input[type="checkbox"]:checked:after {
+    content: '\2713';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
 }
