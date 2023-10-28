@@ -99,6 +99,7 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
 
   return (
     <React.Fragment>
+      <h2 className="text-2xl font-extrabold my-8">Add Products</h2>
       <Container maxWidth="sm" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
         <Box className="bg-secondary" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
           <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px">
