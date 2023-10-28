@@ -18,6 +18,7 @@ import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
 import { ErrorProvider } from './errorContext';
 import ErrorPane from './components/miscellaneous/errorPane';
+import LikePage from './components/miscellaneous/likePage';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/like" element={<LikePage />} />
             </Routes>
           </main>
         </Router>
