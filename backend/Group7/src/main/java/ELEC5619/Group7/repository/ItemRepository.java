@@ -20,4 +20,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     List<Item> findAllItemByCategory(Integer categoryID);
 
 
+
+
 }

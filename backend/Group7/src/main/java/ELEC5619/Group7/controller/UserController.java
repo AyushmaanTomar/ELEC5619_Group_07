@@ -22,14 +22,6 @@ public class UserController {
         return new ResponseEntity<>("The application is up...", HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "login", method = RequestMethod.POST)
-//    public Map<String, String> login(@RequestBody LoginRequest loginRequest) {
-//        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-//    }
-//
-//    @RequestMapping(value = "createsUser", method = RequestMethod.POST)
-//    public String createUser(@RequestBody User user){
-//        return userService.createStudent(user);
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
@@ -48,14 +40,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/listUsers")
-    public ResponseEntity<List<User>> readUser() {
-        List<User> users = userService.readUser();
-        if (users.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);  // HTTP 204
-        }
-        return ResponseEntity.ok(users);  // HTTP 200
-    }
 
     @PutMapping
     public ResponseEntity<String> updateUser(@RequestBody User user) {

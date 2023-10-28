@@ -11,7 +11,7 @@ public class User {
     private int id;
 
     @Column(name = "userName")
-    private String name;
+    private String userName;
 
     @Column(name = "password")
     private String password;
@@ -53,11 +53,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return userName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.userName = name;
     }
 
     public String getPhone() {
@@ -80,7 +80,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +

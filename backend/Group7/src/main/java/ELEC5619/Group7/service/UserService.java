@@ -11,6 +11,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,4 +168,15 @@ public class UserService {
             throw e;
         }
     }
+
+    public boolean deleteUser(String username, String password) {
+        Optional<User> user = userRepository.findByuserNameAndPassword(username, password);
+
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+            return true;
+        }
+        return false;
+    }
+
 }

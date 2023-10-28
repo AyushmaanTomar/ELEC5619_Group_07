@@ -6,17 +6,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+
+    @Query(value = "SELECT EXISTS(SELECT 1 FROM User WHERE email = ?1", nativeQuery = true)
     public boolean existsByEmail(String email);
 
-    public List<User> findByEmail(String email);
 
-//    public boolean existsByUsername(String username);
+    @Query(value = "SELECT * from User where email = ?1", nativeQuery = true)
+    public List<User> findByEmail(String email);
 
 
     @Query("select max(u.id) from User u")
     public Integer findMaxId();
+
+    Optional<User> findByuserNameAndPassword(String username, String password);
+
+
+    //Add User
 }

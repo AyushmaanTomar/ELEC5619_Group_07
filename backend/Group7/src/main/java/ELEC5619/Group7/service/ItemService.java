@@ -5,6 +5,7 @@ import ELEC5619.Group7.entity.ProductCategory;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.repository.ItemRepository;
 import ELEC5619.Group7.repository.LikeRepository;
+import ELEC5619.Group7.repository.ProductCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,56 @@ public class ItemService {
     @Autowired
     private LikeRepository likeRepository;
 
+    @Autowired
+    private ProductCategoryRepository productCategoryRepository;
+
     /*
-     * Add Item
+     * Add productCategory
      */
+    @Transactional
+    public boolean createProductCategoryRepository(ProductCategory productCategory) {
+        try {
+            productCategory.setId(null == productCategoryRepository.findMaxId() ? 0 : productCategoryRepository.findMaxId() + 1);
+            productCategoryRepository.save(productCategory);
+            return true;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Transactional
+    public String createNewItem (Item item) {
+        try {
+            if (item.getProductCategory() == null || item.getUser() == null ) {
+                return "Missing Item Entry";
+            }
+
+            if (itemRepository.existsById(item.getId()) == true) {
+                return "Item already exists in the database.";
+            } else {
+                productCategoryRepository.findById(item)
+            }
+
+        }
+    }
+
+//    @Transactional
+//    public String createItem(Item item) {
+//        try {
+//            if (item.getProductCategory() == null || item.getUser() == null ) {
+//                return "Missing Item Entry";
+//            }
+//            if (itemRepository.existsById(item.getId()) == true) {
+//                return "Item already exists in the database.";
+//            } else {
+//                productCategoryRepository.findById(item)
+//            }
+//        }
+//    }
     @Transactional
     public String createItem(Item item) {
         try {
-            if (!itemRepository.existsById(item.getId())) {
+            if (itemRepository.existsById(item.getId())) {
                 item.setId(null == itemRepository.findMaxId() ? 0 : itemRepository.findMaxId() + 1);
                 itemRepository.save(item);
                 return "Item record created successfully.";
