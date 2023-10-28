@@ -140,6 +140,13 @@ public class UserController {
             return new ResponseEntity<>("User and Item not match", HttpStatus.FORBIDDEN);
         }
 
-        itemService.
+        switch (itemService.updateItem(item, itemDescription, productName, price, active)) {
+            case "Update":
+                return new ResponseEntity<>("Item Update Successfully", HttpStatus.OK);
+            case "item_not_found":
+                return new ResponseEntity<>("Item is ", HttpStatus.BAD_REQUEST);
+            default:
+                return new ResponseEntity<>("Failed to modify", HttpStatus.BAD_REQUEST);
+        }
     }
 }

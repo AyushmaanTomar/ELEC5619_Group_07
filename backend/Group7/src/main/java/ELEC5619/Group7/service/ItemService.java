@@ -77,7 +77,13 @@ public class ItemService {
                 item.setPrice(price);
                 item.setSold(active);
                 item.setName(productName);
+                itemRepository.save(item);
+                return "Update";
+            } catch (Exception e) {
+                throw e;
             }
+        } else {
+            return "item_not_found";
         }
     }
 
