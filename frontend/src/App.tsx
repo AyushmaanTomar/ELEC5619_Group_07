@@ -16,26 +16,31 @@ import LoginPage from './components/usermanagement/loginpage'
 import UserProfile from './components/miscellaneous/userProfile';
 import Navbar from './components/base/navbar';
 import { AuthProvider } from './components/usermanagement/AuthProvider';
+import { ErrorProvider } from './errorContext';
+import ErrorPane from './components/miscellaneous/errorPane';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Navbar />
-        <main className="mx-10">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/add" element={<AddProductsComponent />} />  
-            <Route path="/users" element={<UserList />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<UserProfile />} />
-          </Routes>
-        </main>
-      </Router>
-    </AuthProvider>
+    <ErrorProvider>
+      <AuthProvider>
+        <ErrorPane />
+        <Router>
+          <Navbar />
+          <main className="mx-10">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/products/:id" element={<ProductPage />} />
+              <Route path="/add" element={<AddProductsComponent />} />  
+              <Route path="/users" element={<UserList />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/profile" element={<UserProfile />} />
+            </Routes>
+          </main>
+        </Router>
+      </AuthProvider>
+    </ErrorProvider>
   );
 }
 

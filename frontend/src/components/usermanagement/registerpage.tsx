@@ -40,7 +40,7 @@ export default function RegisterAccount() {
         event.preventDefault();
 
         const data = new FormData(event.currentTarget);
-        var username = data.get("username")?.toString();
+        var name = data.get("username")?.toString();
         var email = data.get("email")?.toString();
         var phone = data.get("phone")?.toString();
         var password = data.get("password")?.toString();
@@ -49,7 +49,7 @@ export default function RegisterAccount() {
 
 
 
-        if (username == null || email == null || password == null || cpassword == null || phone == null) {
+        if (name == null || email == null || password == null || cpassword == null || phone == null) {
             setFormError("Could not load data. Try again.");
             return;
         }
@@ -57,29 +57,12 @@ export default function RegisterAccount() {
             setFormError("Password and Confirm Password do not match!");
             return;
         }
-        const data_json = JSON.stringify(Object.fromEntries(data.entries()))
-
+    
         try {
-            const response = await axios.post('http://localhost:8080/users/register', data_json, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            console.log("sucessssss!")
-            if (response.status === 201) {
-                var result: boolean = login(username, password);
-                if (!result) {
-                    setFormError("Account registered but failed to log in!");
-                    return;
-                }
-                navigate("/");
-            } else {
-                setFormError(response.data);
-            }
-        } catch (error) {
-            console.error("Error during registration:", error);
-            setFormError("Failed to register. Please try again.");
-        }
+          await register({name, email, password, phone});
+          await login(email, password);
+          navigate("/");
+        } catch {}
     }
 
     return (
