@@ -104,7 +104,8 @@ public class UserController {
     @PutMapping("/{userId}/profileImage")
     public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId,
                                                       @RequestParam String imagePath) {
-        String result = userService.setUserProfileImage(userId, imagePath);
+        if (imagePath == null || imagePath.length() == 0) return new ResponseEntity<>("Input string path is not correct", HttpStatus.BAD_REQUEST);
+        String result = userService.setUserProfileImage(userId, imagePath) ;
         switch (result) {
             case "Profile image updated successfully.":
                 return new ResponseEntity<>("Profile image updated successfully", HttpStatus.OK); // HTTP 200
@@ -125,16 +126,31 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("/{userID}/item/{itemID}") ResponseEntity<Item> getItem (
+            @PathVariable Integer userID,
+            @PathVariable Integer itemID
+    ) {
+        Item item = itemService.getItemByID(itemID);
+        User user = userService.getUserById(userID);
+
+        if (user == null || item == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        if (!item.getUser().getEmail().equals(user.getEmail())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>(item, HttpStatus.OK);
+    }
     @PostMapping("/{userID}/item/{itemID}")
     public ResponseEntity<String> modifyItem (@RequestParam String itemDescription,
                                               @RequestParam String productName,
                                               @RequestParam Double price,
                                               @RequestParam Boolean active,
-                                              @PathVariable Integer userId,
+                                              @PathVariable Integer userID,
                                               @PathVariable Integer itemID) {
 
-        Item item = itemService.getItemByID(itemID);
-        User user = userService.getUserById(userId);
+        Item item = itemService.getItemByID(userID);
+        User user = userService.getUserById(itemID);
 
         if (!item.getUser().getEmail().equals(user.getEmail())) {
             return new ResponseEntity<>("User and Item not match", HttpStatus.FORBIDDEN);
