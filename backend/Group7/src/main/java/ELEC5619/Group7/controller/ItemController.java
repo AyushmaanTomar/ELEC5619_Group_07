@@ -1,7 +1,6 @@
 package ELEC5619.Group7.controller;
 
 import ELEC5619.Group7.entity.Item;
-import ELEC5619.Group7.entity.ProductCategory;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.service.ItemService;
 import ELEC5619.Group7.service.UserService;
@@ -10,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,7 +24,16 @@ public class ItemController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createItem(@RequestBody Item item) {
+        System.out.println(item.getUser().toString());
+        System.out.println(userService.getUserById(item.getUser().getId()));
+        if (userService.getUserById(item.getUser().getId()) == null) {
+            return new ResponseEntity<>("No such User", HttpStatus.BAD_REQUEST); // HTTP 400: BAD REQUEST
+        }
+
+        if (item.getName() == null) return new ResponseEntity<>("No such User (no item name)", HttpStatus.BAD_REQUEST);
+
         String result = itemService.createItem(item);
+
         if("success".equals(result)) {
             return new ResponseEntity<>("Item created successfully", HttpStatus.CREATED); // HTTP 201: CREATED
         }
@@ -50,14 +59,17 @@ public class ItemController {
         return new ResponseEntity<>(items, HttpStatus.OK); // HTTP 200: OK
     }
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<Item>> getItemWithSameCategory(@PathVariable Integer categoryId) {
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(categoryId);
-        List<Item> items = itemService.getItemWithSameCategoryWithCategory(productCategory);
-        if(items == null || items.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // HTTP 404: NOT FOUND
+    @PostMapping("/search")
+    public ResponseEntity<List<Item>> getItemByKeyName(@RequestParam String key) {
+        List<Item> items = itemService.readItems();
+        List<Item> keyNameItem = new ArrayList<Item>();
+
+        for (Item i: items) {
+            if (i.getName().contains(key)) {
+                keyNameItem.add(i);
+            }
         }
-        return new ResponseEntity<>(items, HttpStatus.OK); // HTTP 200: OK
+        if (keyNameItem.size() == 0) return new ResponseEntity<>(keyNameItem, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(keyNameItem, HttpStatus.OK);
     }
 }

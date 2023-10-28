@@ -1,7 +1,6 @@
 package ELEC5619.Group7.service;
 
 import ELEC5619.Group7.entity.Item;
-import ELEC5619.Group7.entity.ProductCategory;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.repository.ItemRepository;
 import ELEC5619.Group7.repository.LikeRepository;
@@ -19,18 +18,16 @@ public class ItemService {
 
     @Autowired
     private LikeRepository likeRepository;
-
-    /*
-     * Add Item
-     */
     @Transactional
     public String createItem(Item item) {
         try {
-            if (!itemRepository.existsById(item.getId())) {
+            List<Item> items = itemRepository.findAll();
+            if (!items.contains(item)) {
                 item.setId(null == itemRepository.findMaxId() ? 0 : itemRepository.findMaxId() + 1);
                 itemRepository.save(item);
-                return "Item record created successfully.";
+                return "success";
             } else {
+                System.out.print("Item already exists in the database.");
                 return "Item already exists in the database.";
             }
         } catch (Exception e) {
@@ -63,10 +60,10 @@ public class ItemService {
     }
 
     /*
-     * List all item with same Category
+     * List all item
      */
-    public List<Item> getItemWithSameCategoryWithCategory(ProductCategory productCategory) {
-        return itemRepository.findAllItemByCategory(productCategory.getId());
+    public List<Item> readItems() {
+        return itemRepository.findAll();
     }
 
 }

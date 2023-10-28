@@ -2,6 +2,7 @@ package ELEC5619.Group7.entity;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "User")
 public class User {
@@ -9,10 +10,12 @@ public class User {
     @Column(name = "userID", unique = true)
     private int id;
 
-    @Column(name = "userName")
-    private String name;
+    @Column(name = "location")
+    private String location;
+    @Column(name = "userName", nullable = false)
+    private String userName;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "email", nullable = false)
@@ -25,6 +28,14 @@ public class User {
     private String profileImg;
 
     public User() {
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getId() {
@@ -51,12 +62,12 @@ public class User {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPhone() {
@@ -79,15 +90,35 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + userName + '\'' +
+                ", location='" + location + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", profileImg='" + profileImg + '\'' +
                 "}";
     }
+}
 
-    public String getUsername() {
-        return name;
+@Entity
+@Table(name = "ProfilePic")
+class ProfilePic {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    private String filePath;
+
+    public ProfilePic() {
+        // Default profile picture file path
+        this.filePath = "../resources/static/default.jpg";
+    }
+
+    public String getProfilePic(){
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

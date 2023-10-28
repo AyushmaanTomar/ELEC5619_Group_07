@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import axios from 'axios';
-import axiosConfig from '../../axiosConfig';
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import api from "../../axiosConfig";
+import { useError } from "src/errorContext";
 
-const AuthContext = createContext({loggedIn: false, login:(s: string, p: string): boolean => {return false}, logout: () => {}, register: (a: accountDetails) => {}});
+const AuthContext = createContext({loggedIn: false, login:(s: string, p: string) => {}, logout: () => {}, register: (a: accountDetails) => {}});
 
 type accountDetails = {
-  name: string;
+  userName: string;
   email: string;
   password: string;
   phone: string;
@@ -17,12 +17,18 @@ interface AuthProviderProps {
 
 export function AuthProvider( {children} : AuthProviderProps ) {
   const [loggedIn, setLoggedIn] = useState(false);
+  const {showError} = useError();
 
-  const login = (username: string, password: string): boolean => {
-    // TODO: Implement password validation
-    setLoggedIn(true);
-    localStorage.setItem("username", username);
-    return true;
+  const login = async (userName: string, password: string) => {
+    const result = await api.post("/users/login?username=" + userName + "&password=" + password)
+      .then(() => {
+        setLoggedIn(true);
+        localStorage.setItem("username", userName);
+      })
+      .catch((error) => {
+        showError(error.response.data);
+        throw "Error";
+      });
   };
 
   const logout = () => {
@@ -31,8 +37,12 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   };
 
   const register = async (details: accountDetails) => {
-    const result = await axios.post("/createsUser", details, axiosConfig)
-    .catch((error) => console.log(error));
+    const result = await api.post("/users/register", details)
+      .then()
+      .catch((error) => {
+        showError(error.response.data);
+        throw "Error";
+      });
   }
 
   //   Need a useeffect to set logged
