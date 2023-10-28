@@ -12,13 +12,13 @@ export default function RegisterAccount() {
 
     const StyledTextField = styled(TextField) ({
         "& input": {
-            color: "gray"
+            color: "white"
         },
         "& label" : {
             color: "white"
         },
         "& label.Mui-focused": {
-            color: "gray"
+            color: "white"
         },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
