@@ -30,11 +30,7 @@ export default function ProductDetail({ project }: ProductDetailProps) {
 
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Seller: </span>{' '}
-<<<<<<< HEAD
-              {project.user.username} 
-=======
               {project.user.userName} 
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
             </p>
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Active: </span>{' '}
