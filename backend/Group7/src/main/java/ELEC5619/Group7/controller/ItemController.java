@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/items")
 public class ItemController {
 
@@ -35,6 +36,8 @@ public class ItemController {
 
         if("success".equals(result)) {
             return new ResponseEntity<>("Item created successfully", HttpStatus.CREATED); // HTTP 201: CREATED
+        } else if ("update".equals(result)) {
+            return new ResponseEntity<>("Item updated successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Failed to create item", HttpStatus.BAD_REQUEST); // HTTP 400: BAD REQUEST
     }
@@ -75,7 +78,7 @@ public class ItemController {
         List<Item> keyNameItem = new ArrayList<Item>();
 
         for (Item i: items) {
-            if (i.getName().contains(key)) {
+            if (i.getName().toLowerCase().contains(key.toLowerCase())) {
                 keyNameItem.add(i);
             }
         }
