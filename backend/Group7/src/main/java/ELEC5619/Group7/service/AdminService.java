@@ -54,23 +54,22 @@ public class AdminService {
 
     private boolean isValidName(String name) {
         List<String> names = adminRepository.findAllUserName();
+        System.out.println(names.toString());
+        System.out.println(names.contains(name)  +"" + name);
         return names.contains(name);
     }
 
 
     public String authenticateAdmin(String userName, String password) {
         List<Admin> admins = adminRepository.findAll();
-
         if (isValidName(userName) == false) {
             return "user_not_found";
         }
-
         for (Admin i: admins) {
             if (i.getUserName().equals(userName) && i.getPassword().equals(password)) {
                 return "Authenticated successfully";
             }
         }
-
         return "incorrect_password";
     }
 
