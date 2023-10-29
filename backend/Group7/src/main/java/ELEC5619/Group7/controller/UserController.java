@@ -149,4 +149,21 @@ public class UserController {
                 return new ResponseEntity<>("Failed to modify", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/checkEmail")
+    public ResponseEntity<String> checkEmailExists(@RequestParam String email) {
+        if (email == null || email.trim().isEmpty()) {
+            return new ResponseEntity<>("Email parameter is missing or empty", HttpStatus.BAD_REQUEST);
+        }
+
+        String result = userService.checkEmailExists(email);
+        switch (result) {
+            case "exists":
+                return new ResponseEntity<>("Email exists", HttpStatus.OK);  // HTTP 200
+            case "not_exists":
+                return new ResponseEntity<>("Email does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
+            default:
+                return new ResponseEntity<>("Failed to check email", HttpStatus.INTERNAL_SERVER_ERROR);  // HTTP 500
+        }
+    }
 }
