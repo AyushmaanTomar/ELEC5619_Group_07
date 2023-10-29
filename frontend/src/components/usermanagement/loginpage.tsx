@@ -74,7 +74,8 @@ export default function LoginAccount() {
             await login(userName, password);
             navigate("/");
         } catch (error: any) {
-            showError(error.response.data);
+            // showError(error?.response?.data || "An unexpected error occurred.");
+            setFormError("Incorrect login details.");
         }
 
     };
