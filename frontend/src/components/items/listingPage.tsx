@@ -8,6 +8,7 @@ import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
 import { useProfile } from '../usermanagement/profileHooks';
 import './Like.css'
+import axios from 'axios';
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,46 @@ function ProductPage(props: any) {
   const [likes, setLikes] = useState<number>(0);
   const numericId = Number(id);
 
+  const baseUrl = 'http://localhost:8080/api/likes'; // Update the URL as needed
+
+const likeItemByUser = async (itemId: number, userId: number) => {
+
+  try {
+    const response = await axios.post(baseUrl+'/like', null, {
+      params: {
+        itemId: itemId,
+        userId: userId
+      }
+    });
+
+    if (response.status === 201) {
+      console.log('Item liked successfully.');
+    } else {
+      console.error('Error liking the item.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+const unlikeItemByUser = async (itemId: number, userId: number) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/unlike`, {
+      params: {
+        itemId: itemId,
+        userId: userId
+      }
+    });
+
+    if (response.status === 200) {
+      console.log('Item unliked successfully.');
+    } else {
+      console.error('Error unliking the item.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
 
   useEffect(() => {
     async function fetchLikes() {
@@ -35,10 +76,15 @@ function ProductPage(props: any) {
 
 
   const handleLikeClick = () => {
+    if (id == undefined) {
+      return;
+    }
     if (liked) {
       setLikes(likes - 1);
+      unlikeItemByUser(1, parseInt(id, 10));
     } else {
       setLikes(likes + 1);
+      likeItemByUser(1, parseInt(id, 10));
     }
     setLiked(!liked);
   };
