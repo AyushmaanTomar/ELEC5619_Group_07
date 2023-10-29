@@ -35,8 +35,8 @@ class UserTest {
 
     @Test
     void testGetSetName() {
-        user.setName("John Doe");
-        assertEquals("John Doe", user.getName());
+        user.setUserName("John Doe");
+        assertEquals("John Doe", user.getUserName());
     }
 
     @Test
@@ -48,12 +48,12 @@ class UserTest {
     @Test
     void testToString() {
         user.setId(1);
-        user.setName("John Doe");
+        user.setUserName("John Doe");
         user.setPassword("password123");
         user.setEmail("test@example.com");
         user.setPhone("123-456-7890");
 
-        String expected = "User{id=1, name='John Doe', password='password123', email='test@example.com', phone='123-456-7890'}";
+        String expected = "User{id=1, name='John Doe', location='null', password='password123', email='test@example.com', phone='123-456-7890', profileImg='null'}";
         assertEquals(expected, user.toString());
     }
 }
