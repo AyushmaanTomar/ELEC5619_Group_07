@@ -11,7 +11,7 @@ function translateStatusToErrorMessage(status: number): string {
     case 403:
       return 'You do not have permission to view the product(s).';
     default:
-      return 'There was an error retrieving the product(s). Please try again.';
+      return status+' There was an error retrieving the product(s). Please try again.';
   }
 }
 
