@@ -154,7 +154,7 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
               className="checkbox ml-1"
               type="checkbox"
               name="isActive"
-              checked={project.isActive}
+              checked={project.sold}
               onChange={handleChange}
             />
           </div>

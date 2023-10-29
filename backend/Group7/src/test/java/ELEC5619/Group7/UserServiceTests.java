@@ -84,7 +84,11 @@ class UserServiceTest {
         assertEquals("Student record updated.", result);
 
         // Check if the user was updated correctly
+<<<<<<< HEAD
         assertEquals("Updated Name", existingUser.setUserName());
+=======
+        assertEquals("Updated Name", existingUser.getUserName());
+>>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
         assertEquals("newPassword", existingUser.getPassword());
         assertEquals("1234567890", existingUser.getPhone());
     }

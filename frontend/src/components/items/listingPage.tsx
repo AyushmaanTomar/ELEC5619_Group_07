@@ -3,7 +3,12 @@ import { productAPI } from './itemAPI';
 import ProductDetail from './itemDetail';
 import { Item } from './listings';
 import { useParams } from 'react-router-dom';
+<<<<<<< HEAD
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+=======
+import api from 'src/axiosConfig';
+import { useError } from 'src/errorContext';
+>>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
@@ -11,6 +16,7 @@ function ProductPage(props: any) {
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
   const id = Number(params.id);
+  const { showError } = useError();
 
   const mapStyles = {
     height: "450px",
@@ -24,16 +30,23 @@ function ProductPage(props: any) {
 
   useEffect(() => {
     setLoading(true);
-    productAPI
-      .find(id)
+    // productAPI
+    //   .find(id)
+    //   .then((data) => {
+    //     setProduct(data);
+    //     setLoading(false);
+    //   })
+    //   .catch((e) => {
+    //     setError(e);
+    //     setLoading(false);
+    //   });
+    api.get("/items/" + id)
       .then((data) => {
-        setProduct(data);
+        setProduct(data.data);
         setLoading(false);
+      }).catch((error) => {
+        showError(error.results.data);
       })
-      .catch((e) => {
-        setError(e);
-        setLoading(false);
-      });
   }, [id]);
 
   return (

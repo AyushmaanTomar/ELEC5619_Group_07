@@ -58,14 +58,14 @@ public class AdminService {
     }
 
 
-    public String authenticateAdmin(Admin admin) {
+    public String authenticateAdmin(String userName, String password) {
         List<Admin> Admins = adminRepository.findAll();
 
-        if (isValidName(admin.getUserName()) == false) {
+        if (isValidName(userName) == false) {
             return "user_not_found";
         }
 
-        if (admin.getPassword().equals(Admins.get(0).getPassword())) {
+        if (password.equals(Admins.get(0).getPassword())) {
             return "Authenticated successfully";
         }
 

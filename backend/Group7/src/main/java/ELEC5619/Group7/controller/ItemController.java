@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/items")
 public class ItemController {
 
@@ -41,8 +42,54 @@ public class ItemController {
 
         if("success".equals(result)) {
             return new ResponseEntity<>("Item created successfully", HttpStatus.CREATED); // HTTP 201: CREATED
+        } else if ("update".equals(result)) {
+            return new ResponseEntity<>("Item updated successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Failed to create item", HttpStatus.BAD_REQUEST); // HTTP 400: BAD REQUEST
+    }
+
+    @PostMapping("/addItem")
+    public ResponseEntity<String> addItem(@RequestParam String name,
+                                          @RequestParam String description,
+                                          @RequestParam String price,
+                                          @RequestParam String listingDate,
+                                          @RequestParam String imagePath,
+                                          @RequestParam String userName) {
+
+        if (name == null || description == null || price == null || listingDate == null || imagePath == null || userName == null) {
+            return new ResponseEntity<>("Required fields not set", HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userService.getUserByUsername(userName);
+        if (user == null) {
+            return new ResponseEntity<>("No such User", HttpStatus.BAD_REQUEST);
+        }
+
+        Double priceNum;
+        try {
+            priceNum = Double.parseDouble(price);
+        } catch(Exception e) {
+            return new ResponseEntity<>("Price was not a double", HttpStatus.BAD_REQUEST);
+        }
+
+        Item item = new Item();
+        item.setUser(user);
+        item.setName(name);
+        item.setDescription(description);
+        item.setPrice(priceNum);
+        item.setImagePath(imagePath);
+        item.setQty(1);
+        item.setLikeAmount(1);
+        item.setSold(false);
+        item.setListingDate(listingDate);
+
+        String result = itemService.createItem(item);
+
+        if("success".equals(result)) {
+            return new ResponseEntity<>("Item created successfully", HttpStatus.CREATED); // HTTP 201: CREATED
+        }
+
+        return new ResponseEntity<>("Failed to add item", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{id}")
@@ -81,7 +128,7 @@ public class ItemController {
         List<Item> keyNameItem = new ArrayList<Item>();
 
         for (Item i: items) {
-            if (i.getName().contains(key)) {
+            if (i.getName().toLowerCase().contains(key.toLowerCase())) {
                 keyNameItem.add(i);
             }
         }

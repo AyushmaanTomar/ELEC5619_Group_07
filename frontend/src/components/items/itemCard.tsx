@@ -16,20 +16,20 @@ function formatTitle(title: string, length: number): string {
 
 interface ProductCardProps {
   item: Item;
-  onEdit: (project: Item) => void;
+  // onEdit: (project: Item) => void;
 }
 
 function ProductCard(props: ProductCardProps) {
-  const { item, onEdit } = props;
+  const { item } = props;
 
-  const handleEditClick = (projectBeingEdited: Item) => {
-    onEdit(projectBeingEdited);
-  };
+  // const handleEditClick = (projectBeingEdited: Item) => {
+  //   onEdit(projectBeingEdited);
+  // };
 
   return (
     <div className="card card-bordered bg-gray-200 w-96">
       <figure>
-        <img src={item.imageUrl} alt={item.name} />
+        <img src={item.imagePath} alt={item.name} />
       </figure>
       <section className="card-body">
         <Link to={'/products/' + item.id}>
@@ -42,7 +42,7 @@ function ProductCard(props: ProductCardProps) {
             Price : $ {item.price.toLocaleString()}
           </p>
         </Link>
-        <div className="card-actions justify-start">
+        {/* <div className="card-actions justify-start">
           <button
             className="btn btn-link text-secondary pl-0 "
             onClick={() => {
@@ -51,7 +51,7 @@ function ProductCard(props: ProductCardProps) {
           >
             Edit
           </button>
-        </div>
+        </div> */}
       </section>
     </div>
   );

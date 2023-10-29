@@ -35,6 +35,10 @@ public class UserService {
             return "email_exists";
         }
 
+        if (userRepository.findByUserName(user.getUserName()) != null) {
+            return "username_exists";
+        }
+
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
             userRepository.save(user);
@@ -55,6 +59,14 @@ public class UserService {
             return null;
         }
         return userRepository.findByEmail(email).get(0);
+    }
+
+    public User getUserByUsername(String username) {
+        List<User> users = userRepository.findByUserName(username);
+        if (users.size() <= 0 || users == null) {
+            return null;
+        }
+        return users.get(0);
     }
 
 
