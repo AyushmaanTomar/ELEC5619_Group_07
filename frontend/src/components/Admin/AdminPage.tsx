@@ -25,8 +25,11 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         axios.get('http://localhost:8080/admin/listUsers')
             .then(response => {
-                console.log("Fetched users:", response.data);  // Log the fetched users
-                setUsers(response.data);
+                const transformedUsers = response.data.map((user:any) => ({
+                    id: user.id,
+                    name: user.userName // transform userName to name
+                }));
+                setUsers(transformedUsers);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
@@ -34,12 +37,14 @@ const AdminPage: React.FC = () => {
 
         axios.get('http://localhost:8080/admin/listItem')
             .then(response => {
+                // items already have the required structure
                 setItems(response.data);
             })
             .catch(error => {
                 console.error('Error fetching items:', error);
             });
     }, []);
+
 
     const handleDeleteUsers = () => {
         // Delete multiple users at once
