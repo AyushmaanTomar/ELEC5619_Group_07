@@ -46,7 +46,7 @@ export default function ForgotPassword() {
         }
 
         try {
-            const response = await fetch('/api/checkEmail', {
+            const response = await fetch('/users/checkEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,14 +56,17 @@ export default function ForgotPassword() {
 
             const result = await response.json();
 
-            if (result.exists) {
+            if (response.status === 200 && result.exists) {
                 setFormMessage("Sent email for resetting password.");
-            } else {
+            } else if (response.status === 200 && !result.exists) {
                 setFormError("Email does not exist in our database.");
+            } else {
+                setFormError(result.error || "There was an error checking the email. Please try again later.");
             }
         } catch (error) {
             setFormError("There was an error checking the email. Please try again later.");
         }
+
     }
 
 
