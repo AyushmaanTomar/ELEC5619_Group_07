@@ -10,11 +10,11 @@ public class Like {
     @Column(name = "likeID")
     private int likeID;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "itemID")
     private Item item;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "userID")
     private User user;
 

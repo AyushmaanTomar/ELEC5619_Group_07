@@ -5,10 +5,16 @@ import { Item } from './listings';
 import { useParams } from 'react-router-dom';
 <<<<<<< HEAD
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+<<<<<<< HEAD
 =======
 import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
 >>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
+=======
+import api from 'src/axiosConfig';
+import { useError } from 'src/errorContext';
+import { useProfile } from '../usermanagement/profileHooks';
+>>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
@@ -27,6 +33,11 @@ function ProductPage(props: any) {
     lat: -33.8540 , // Adjust this to your desired coordinates
     lng: 151.0507
   }
+
+  const {
+    data,
+    isLoading,
+} = useProfile();
 
   useEffect(() => {
     setLoading(true);
@@ -98,6 +109,11 @@ function ProductPage(props: any) {
           </LoadScript>
         </div>
       </div>
+      {data ? (
+        <div style={{ paddingBottom: '15px'}}>
+            <strong>Seller Phone Number:</strong> {data.phoneNumber}
+        </div>
+      ) : null }
       </>
     </div>
   );

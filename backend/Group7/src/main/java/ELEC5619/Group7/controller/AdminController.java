@@ -23,7 +23,6 @@ import java.util.Optional;
 @RequestMapping("/admin")
 public class AdminController {
 
-    //need to be test
     @Autowired
     private AdminService adminService;
 
@@ -33,13 +32,11 @@ public class AdminController {
     @Autowired
     private ItemService itemService;
 
-
     @PostMapping("/login")
     public ResponseEntity<String> loginAdmin(@RequestParam String userName,
                                              @RequestParam String password) {
         if (userName == null || password == null ) return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
         String result = adminService.authenticateAdmin(userName, password);
-
         switch(result) {
             case "Authenticated successfully":
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);  // HTTP 200
@@ -79,35 +76,22 @@ public class AdminController {
 
 
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/deleteUser")
     public ResponseEntity<String> deleteUser(
-                                    @PathVariable Integer userID
+                                    @RequestParam String userName
     ) {
-        User user = userService.getUserById(userID);
-        String result = userService.deleteUser(user);
+
+        User user = userService.getUserByUserName(userName);
+        if (user == null) return new ResponseEntity<>("Student does not exist (No User Name)", HttpStatus.NOT_FOUND);  // HTTP 404
+        String result = userService.deleteUser(userName);
         switch(result) {
             case "deleted":
-                return new ResponseEntity<>("User deleted successfully", HttpStatus.NO_CONTENT);  // HTTP 204
-            case "student_not_found":
-                return new ResponseEntity<>("Student does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
+                return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);  // HTTP 204
             default:
                 return new ResponseEntity<>("Failed to delete user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }
     }
 
-    @PostMapping("/addUser")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
-        switch (userService.createStudent(user)) {
-            case "Authenticated successfully":
-                return new ResponseEntity<>("Login successful", HttpStatus.OK);
-            case "user_not_found":
-                return new ResponseEntity<>("Unable to find username", HttpStatus.NOT_FOUND);
-            case "incorrect_password":
-                return new ResponseEntity<>("Incorrect password", HttpStatus.FORBIDDEN);
-            default:
-                return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
-        }
-    }
 
     @GetMapping("/listItem")
     public ResponseEntity<List<Item>> readItems() {

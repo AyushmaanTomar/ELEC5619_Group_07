@@ -1,6 +1,8 @@
 package ELEC5619.Group7.controller;
 
+
 import ELEC5619.Group7.entity.Item;
+
 import ELEC5619.Group7.repository.ItemRepository;
 import ELEC5619.Group7.repository.UserRepository;
 import ELEC5619.Group7.service.LikeService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/likes")
@@ -27,7 +30,7 @@ public class LikeController {
 
     /**
      * All users_id with the item_id associated
-     * **/
+     **/
     @GetMapping("/users/byItem/{itemId}")
     public ResponseEntity<Object> getAllUserIDWithItemID(@PathVariable Integer itemId) {
         Optional<Item> optionalItem = itemRepository.findById(itemId);
@@ -44,7 +47,7 @@ public class LikeController {
 
     /**
      * All item_ids with the user_id associated
-     * **/
+     **/
     @GetMapping("/items/byUser/{userId}")
     public ResponseEntity<Object> getAllItemIDWithUserID(@PathVariable Integer userId) {
         List<Integer> itemIds = likeService.getAllItemIDWithUserID(userRepository.getById(userId));
@@ -56,7 +59,7 @@ public class LikeController {
 
     /**
      * User likes an item
-     * **/
+     **/
     @PostMapping("/like")
     public ResponseEntity<String> likeItemByUser(@RequestParam Integer itemId, @RequestParam Integer userId) {
         try {
@@ -69,7 +72,7 @@ public class LikeController {
 
     /**
      * User unlikes an item
-     * **/
+     **/
     @DeleteMapping("/unlike")
     public ResponseEntity<String> unlikeItemByUser(@RequestParam Integer itemId, @RequestParam Integer userId) {
         try {
@@ -82,7 +85,7 @@ public class LikeController {
 
     /**
      * Check if user liked a specific item
-     * **/
+     **/
     @GetMapping("/hasLiked")
     public ResponseEntity<String> hasUserLikedItem(@RequestParam Integer itemId, @RequestParam Integer userId) {
         boolean hasLiked = likeService.hasUserLikedItem(userRepository.getById(userId), itemRepository.getById(itemId));
@@ -95,7 +98,7 @@ public class LikeController {
 
     /**
      * Total of users liking item
-     * **/
+     **/
     @GetMapping("/count/byItem/{itemId}")
     public ResponseEntity<Object> getTotalLikesForItem(@PathVariable Integer itemId) {
         int totalLikes = likeService.getTotalLikesForItem(itemRepository.getById(itemId));
@@ -107,7 +110,7 @@ public class LikeController {
 
     /**
      * Total of items likes by user
-     * **/
+     **/
     @GetMapping("/count/byUser/{userId}")
     public ResponseEntity<Object> getTotalItemsLikedByUser(@PathVariable Integer userId) {
         int totalItemsLiked = likeService.getTotalItemsLikedByUser(userRepository.getById(userId));

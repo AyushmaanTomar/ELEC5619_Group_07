@@ -22,7 +22,7 @@ public interface LikeRepository extends JpaRepository<Like, Integer> {
     List<Integer> getItemIDWithUser(Integer userID);
 
     @Modifying
-    @Query(value = "delete from Like where itemid = ?1 and userid = ?2 ", nativeQuery = true)
+    @Query(value = "delete from Like where itemid = ?1 and userid = ?2", nativeQuery = true)
     void deleteByItemIdAndUserId(Integer itemId, Integer userId);
 
 }

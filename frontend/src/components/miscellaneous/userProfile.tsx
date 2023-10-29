@@ -33,9 +33,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
     return (
         <>
             {data ? (
-                <div className="user-profile">
-                    <div className="profile-picture">
-                        <img src={selectedImage || data.imageUrl} alt="Profile Picture" style={{ width: '150px' }} />
+                <div className="user-profile" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className="profile-picture" style={{ flex: 1, marginRight: '20px' }}>
+                        <img src={selectedImage || data.imageUrl} alt="Profile Picture" style={{ width: '450px', height: '450px', objectFit: 'cover', paddingTop: '30px' }} />
 
                         {/* File Input */}
                         <input 
@@ -47,22 +47,28 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         />
 
                         {/* Button */}
-                        <button className="upload-button" onClick={handleButtonClick}>
+                        <button className="upload-button" onClick={handleButtonClick} style={{marginLeft : '130px'}}>
                             Change Profile Image
                         </button>
+                        
                     </div>
-                    <h2 className="text-2xl font-extrabold my-8">{data.username}</h2>
-                    <div className="profile-info">
-                        <div>
-                            <strong>Email:</strong> {data.email}
+                    <div style={{ flex: 1, paddingTop: '20px' }}>
+                        <h2 className="text-2xl font-extrabold my-8">{data.username}</h2>
+                        <div className="profile-info">
+                            <div style={{ paddingBottom: '3px'}}>
+                                <strong>Email:</strong> {data.email}
+                            </div>
+                            <div style={{ paddingBottom: '10px'}}>
+                                <strong>Phone Number:</strong> {data.phoneNumber}
+                            </div>
                         </div>
-                        <div>
-                            <strong>Phone Number:</strong> {data.phoneNumber}
-                        </div>
+                        <NavLink to="/like" className="goto-like-button" style={{backgroundColor: '#ef4444', display: 'inline-block', padding: '10px 15px', borderRadius: '5px' }}>
+                            Go to Like Page
+                        </NavLink>
+                        <NavLink to="/changePassword" className="bg-blue-700 goto-like-button" style={{display: 'inline-block', padding: '10px 15px', borderRadius: '5px', margin:'20px' }}>
+                            Change Password
+                        </NavLink>
                     </div>
-                    <NavLink to="/like" className="goto-like-button" style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block', padding: '10px 15px', border: '1px solid #333', borderRadius: '5px' }}>
-                        Go to Like Page
-                    </NavLink>
                 </div>
             ) : isLoading ? (
                 <div className="center-page">

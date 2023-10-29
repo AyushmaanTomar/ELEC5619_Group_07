@@ -35,8 +35,12 @@ public class UserService {
             return "email_exists";
         }
 
-        List<User> users = userRepository.findByUserName(user.getUserName());
-        if (users.size() != 0 ) return "username_exists";
+        if (userRepository.existsByPhone(user.getPhone()) > 0 ) {
+            return "invalid_phone_number";
+        }
+
+        Optional<User> optional = userRepository.findByUserName(user.getUserName());
+        if (optional.isPresent()) return "username_exists";
 
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
@@ -62,11 +66,11 @@ public class UserService {
     }
 
     public User getUserByUsername(String username) {
-        List<User> users = userRepository.findByUserName(username);
-        if (users.size() <= 0 || users == null) {
-            return null;
+        Optional<User> optional = userRepository.findByUserName(username);
+        if (optional.isPresent()) {
+            return optional.get();
         }
-        return users.get(0);
+        return null;
     }
 
 
@@ -92,18 +96,15 @@ public class UserService {
     }
 
     @Transactional
-    public String deleteUser(User user) {
-        if (userRepository.existsByEmail(user.getEmail()) > 0) {
-            try {
-                List<User> students = userRepository.findByEmail(user.getEmail());
-                students.forEach(userRepository::delete);
-                return "deleted";
-            } catch (Exception e) {
-                throw e;
-            }
-        } else {
-            return "student_not_found";
+    public String deleteUser(String userName) {
+        userRepository.deleteUserWithUsername(userName);
+
+        Optional<User> optional = userRepository.findByUserName(userName);
+
+        if (optional.isPresent()) {
+            return "no";
         }
+        return "deleted";
     }
 
 
@@ -120,13 +121,21 @@ public class UserService {
         return "incorrect_password";
     }
 
-    public String changePassword(User user, String newPassword) {
+
+    public User getUserByUserName(String userName) {
+        Optional<User> optional = userRepository.findByUserName(userName);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
+    public String changePassword(String email, String newPassword) {
         // Check if the new password is valid
         if (!isValidPassword(newPassword)) {
             return "invalid_password";
         }
 
-        List<User> users = userRepository.findByEmail(user.getEmail());
+        List<User> users = userRepository.findByEmail(email);
         if (!users.isEmpty()) {
             User existingUser = users.get(0);
             existingUser.setPassword(newPassword);
@@ -140,7 +149,7 @@ public class UserService {
     private boolean isValidPassword(String password) {
         if (password.length() < 6 || password.length() > 20)
             return false;
-        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9+]");
         Matcher matcher = specialCharPatten.matcher(password);
         if (!matcher.find())
             return false; // doesn't have a special character
@@ -150,6 +159,7 @@ public class UserService {
     private boolean isValidEmail(String email) {
         return email.endsWith("@uni.sydney.edu.au");
     }
+
 
     public User getUserById(Integer userId) {
         return userRepository.getOne(userId);
@@ -184,6 +194,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public boolean deleteUser(String username, String password) {
         Optional<User> user = userRepository.findByUserNameAndPassword(username, password);
 
@@ -192,6 +203,13 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public String checkEmailExists(String email) {
+        if (userRepository.existsByEmail(email) > 0) {
+            return "exists";
+        }
+        return "not_exists";
     }
 
 }

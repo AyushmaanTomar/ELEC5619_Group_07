@@ -1,5 +1,6 @@
 package ELEC5619.Group7.controller;
 
+import ELEC5619.Group7.entity.Item;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.service.ItemService;
 import ELEC5619.Group7.service.UserService;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/users")
@@ -17,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ItemService itemService;
 
 
     @PostMapping("/register")
@@ -36,6 +42,8 @@ public class UserController {
                 return new ResponseEntity<>("Password does not meet the requirements", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "invalid_email":
                 return new ResponseEntity<>("Email is not a valid university email", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "invalid_phone_number":
+                return new ResponseEntity<>("Phone number does not meet the requirements", HttpStatus.BAD_REQUEST);
             case "email_exists":
                 return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "username_exists":
@@ -83,11 +91,11 @@ public class UserController {
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody User user,
+    public ResponseEntity<String> changePassword(@RequestParam String email,
                                                  @RequestParam String newPassword) {
-        if (user == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
+        if (email == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
         if (newPassword == null) return new ResponseEntity<>("Password does not meet the requirements (password is null)", HttpStatus.BAD_REQUEST);
-        String result = userService.changePassword(user, newPassword);
+        String result = userService.changePassword(email, newPassword);
         switch(result) {
             case "success":
                 return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);  // HTTP 200
@@ -122,4 +130,50 @@ public class UserController {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
         }
     }
+
+
+    @PostMapping("/{userID}/item/{itemID}")
+    public ResponseEntity<String> modifyItem (@RequestParam String itemDescription,
+                                              @RequestParam String productName,
+                                              @RequestParam Double price,
+                                              @RequestParam Boolean active,
+                                              @PathVariable Integer userId,
+                                              @PathVariable Integer itemID) {
+
+        Item item = itemService.getItemByID(itemID);
+        User user = userService.getUserById(userId);
+
+        if (!item.getUser().getEmail().equals(user.getEmail())) {
+            return new ResponseEntity<>("User and Item not match", HttpStatus.FORBIDDEN);
+        }
+
+        switch (itemService.updateItem(item, itemDescription, productName, price, active)) {
+            case "Update":
+                return new ResponseEntity<>("Item Update Successfully", HttpStatus.OK);
+            case "item_not_found":
+                return new ResponseEntity<>("Item is ", HttpStatus.BAD_REQUEST);
+            default:
+                return new ResponseEntity<>("Failed to modify", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/checkEmail")
+    public ResponseEntity<Object> checkEmailExists(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+
+        if (email == null || email.trim().isEmpty()) {
+            return new ResponseEntity<>(Map.of("error", "Email parameter is missing or empty"), HttpStatus.BAD_REQUEST);
+        }
+
+        String result = userService.checkEmailExists(email);
+        switch (result) {
+            case "exists":
+                return new ResponseEntity<>(Map.of("exists", true), HttpStatus.OK);  // HTTP 200
+            case "not_exists":
+                return new ResponseEntity<>(Map.of("exists", false), HttpStatus.OK);  // HTTP 200
+            default:
+                return new ResponseEntity<>(Map.of("error", "Failed to check email"), HttpStatus.INTERNAL_SERVER_ERROR);  // HTTP 500
+        }
+    }
+
 }
