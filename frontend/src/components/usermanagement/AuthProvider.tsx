@@ -38,12 +38,9 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       setLoggedIn(true);
       localStorage.setItem("username", userName);
 
-    } catch (error) {
-      if (error && (error as any).response && (error as any).response.data === "Invalid credentials") {
-        throw new Error("username or password is incorrect");
-      } else {
-        throw new Error("username or password is incorrect");
-      }
+    } catch (error: any) {
+      showError(error.response.data);
+      throw "Error"
     }
   };
 

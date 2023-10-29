@@ -30,7 +30,7 @@ export default function ProductDetail({ project }: ProductDetailProps) {
 
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Seller: </span>{' '}
-              {project.user.username} 
+              {project.user.userName} 
             </p>
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Active: </span>{' '}

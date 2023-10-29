@@ -35,9 +35,8 @@ public class UserService {
             return "email_exists";
         }
 
-        if (userRepository.findByUserName(user.getUserName()) != null) {
-            return "username_exists";
-        }
+        List<User> users = userRepository.findByUserName(user.getUserName());
+        if (users.size() != 0 ) return "username_exists";
 
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
