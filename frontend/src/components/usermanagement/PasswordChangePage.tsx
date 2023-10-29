@@ -49,7 +49,7 @@ export default function ChangePassword() {
             return;
         }
 
-        if (currentPassword === newPassword) {
+        if (currentPassword == newPassword) {
             setFormError("Incorrect current password.");
             return;
         }
@@ -79,17 +79,18 @@ export default function ChangePassword() {
         }
     };
 
+
     return (
         <React.Fragment>
             <Container maxWidth="sm">
                 <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Change Password</Typography>
                 <Box className="bg-secondary" sx={{ height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px" }}>
                     <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
-                    <StyledTextField required id="email" label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        <StyledTextField required id="currentPassword" label="Current Password" name="currentPassword" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-                        <StyledTextField required id="newPassword" label="New Password" name="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                        <StyledTextField required id="reEnteredPassword" label="Re-enter New Password" name="reEnteredPassword" type="password" value={reEnteredPassword} onChange={(e) => setReEnteredPassword(e.target.value)} />
-                        <Button type="submit" variant="contained">Change Password</Button>
+                    <StyledTextField required id="email" label="Email" name="email" defaultValue={email} onBlur={(e) => setEmail(e.target.value)} />
+                    <StyledTextField required id="currentPassword" label="Current Password" name="currentPassword" type="password" defaultValue={currentPassword} onBlur={(e) => {setCurrentPassword(e.target.value);}} />
+                    <StyledTextField required id="newPassword" label="New Password" name="newPassword" type="password" defaultValue={newPassword} onBlur={(e) => setNewPassword(e.target.value)} />
+                    <StyledTextField required id="reEnteredPassword" label="Re-enter New Password" name="reEnteredPassword" type="password" defaultValue={reEnteredPassword} onBlur={(e) => setReEnteredPassword(e.target.value)} />
+                    <Button type="submit" variant="contained">Change Password</Button>
                     </Stack>
                     <Typography color="red" align='center'>{formError}</Typography>
                 </Box>
