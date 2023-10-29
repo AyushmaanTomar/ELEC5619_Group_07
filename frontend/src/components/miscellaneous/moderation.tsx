@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const OPENAI_API_ENDPOINT = "https://api.openai.com/v1/engines/davinci-codex/completions";
+const OPENAI_API_ENDPOINT = "https://api.openai.com/v1/moderations";
 
 async function checkForModeration(text: string): Promise<boolean> {
     const response = await axios.post(
@@ -8,7 +8,7 @@ async function checkForModeration(text: string): Promise<boolean> {
         { prompt: `Is this text safe for all audiences? ${text}`, max_tokens: 10 },
         {
             headers: {
-                'Authorization': `Bearer YOUR_OPENAI_API_KEY`,
+                'Authorization': `Bearer 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`,
                 'Content-Type': 'application/json',
             },
         }
