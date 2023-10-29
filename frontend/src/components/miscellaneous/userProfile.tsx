@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useProfile } from '../usermanagement/profileHooks';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
+import { setUserProfileImage, getUserProfileImage } from '../../API/UserAPI';
+import {useAuth} from "../usermanagement/AuthProvider";
 
 interface UserProfileProps {
     columns?: number;
@@ -9,6 +11,7 @@ interface UserProfileProps {
 const UserProfile: React.FC<UserProfileProps> = () => {
     const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const { userId } = useAuth();
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -18,6 +21,16 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                 setSelectedImage(reader.result as string);
             }
             reader.readAsDataURL(file);
+        }
+    };
+
+    const uploadProfileImage = async () => {
+        try {
+            // Assuming you have a user ID stored somewhere; for demonstration, I'll use 1
+            const result = await setUserProfileImage(userId, selectedImage);
+            console.log(result);  // Log the result or handle it accordingly
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
         }
     };
 
