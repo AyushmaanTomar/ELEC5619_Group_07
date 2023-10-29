@@ -64,6 +64,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         <NavLink to="/like" className="goto-like-button" style={{backgroundColor: '#ef4444', display: 'inline-block', padding: '10px 15px', borderRadius: '5px' }}>
                             Go to Like Page
                         </NavLink>
+                        <NavLink to="/changePassword" className="bg-blue-700 goto-like-button" style={{display: 'inline-block', padding: '10px 15px', borderRadius: '5px', margin:'20px' }}>
+                            Change Password
+                        </NavLink>
                     </div>
                 </div>
             ) : isLoading ? (
