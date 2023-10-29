@@ -17,6 +17,12 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
+
+//    Test
+//    different user and ite,
+//    Search
+//    getAllItemByUser
+//    getItemByID
     @Autowired
     private ItemService itemService;
 

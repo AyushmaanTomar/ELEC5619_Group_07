@@ -25,7 +25,7 @@ public class AdminService {
             return "invalid_password";
         }
 
-        if (!isValidName(admin.getUserName())) {
+        if (isValidName(admin.getUserName())) {
             return "invalid_username";
         }
 
@@ -44,7 +44,7 @@ public class AdminService {
     private boolean isValidPassword(String password) {
         if (password.length() < 6 || password.length() > 20)
             return false;
-        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9]");
+        Pattern specialCharPatten = Pattern.compile("[^a-zA-Z0-9+]");
         Matcher matcher = specialCharPatten.matcher(password);
         if (!matcher.find())
             return false;
@@ -59,18 +59,21 @@ public class AdminService {
 
 
     public String authenticateAdmin(String userName, String password) {
-        List<Admin> Admins = adminRepository.findAll();
+        List<Admin> admins = adminRepository.findAll();
 
         if (isValidName(userName) == false) {
             return "user_not_found";
         }
 
-        if (password.equals(Admins.get(0).getPassword())) {
-            return "Authenticated successfully";
+        for (Admin i: admins) {
+            if (i.getUserName().equals(userName) && i.getPassword().equals(password)) {
+                return "Authenticated successfully";
+            }
         }
 
         return "incorrect_password";
     }
+
 
 
 }

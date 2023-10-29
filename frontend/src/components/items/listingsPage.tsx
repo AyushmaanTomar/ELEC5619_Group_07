@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 const getProducts = async (setData: any, showError: any) => {
   await api.get("/admin/listItem")
     .then((res) => {;
-      setData(res.data);
+      setData(sortAlphabeticallyByName(res.data));
     })
     .catch((error) => {
       showError(error.request.data);
@@ -23,12 +23,16 @@ const getProducts = async (setData: any, showError: any) => {
       if (res.status == 204) {
         console.log("No results found");
       }
-      setData(res.data);
+      setData(sortAlphabeticallyByName(res.data));
     })
     .catch((error) => {
       showError(error.request.data);
   });
  };
+
+ const sortAlphabeticallyByName = (productList: any) => {
+  return productList.sort((a: Item, b: Item) => a.name.localeCompare(b.name));
+};
 
 function ProductsPage() {
 
