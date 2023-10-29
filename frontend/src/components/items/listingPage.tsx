@@ -102,7 +102,7 @@ function ProductPage(props: any) {
         </div>
       </div>
       {data ? (
-        <div style={{ paddingBottom: '10px'}}>
+        <div style={{ paddingBottom: '15px'}}>
             <strong>Seller Phone Number:</strong> {data.phoneNumber}
         </div>
       ) : null }

@@ -35,7 +35,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             {data ? (
                 <div className="user-profile" style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div className="profile-picture" style={{ flex: 1, marginRight: '20px' }}>
-                        <img src={selectedImage || data.imageUrl} alt="Profile Picture" style={{ width: '450px' }} />
+                        <img src={selectedImage || data.imageUrl} alt="Profile Picture" style={{ width: '450px', height: '450px', objectFit: 'cover', paddingTop: '30px' }} />
 
                         {/* File Input */}
                         <input 
