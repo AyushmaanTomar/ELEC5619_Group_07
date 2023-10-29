@@ -3,6 +3,7 @@ import { productAPI } from './itemAPI';
 import ProductDetail from './itemDetail';
 import { Item } from './listings';
 import { useParams } from 'react-router-dom';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,16 @@ function ProductPage(props: any) {
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
   const id = Number(params.id);
+
+  const mapStyles = {
+    height: "450px",
+    width: "80%"
+  };
+  
+  const defaultCenter = {
+    lat: -33.8540 , // Adjust this to your desired coordinates
+    lng: 151.0507
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -28,7 +39,16 @@ function ProductPage(props: any) {
   return (
     <div>
       <>
-        <h2 className="text-2xl font-extrabold my-8">Product Detail</h2>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ flex: 1, marginRight: '20px' }}>
+          <h2 className="text-2xl font-extrabold my-8">Product Detail</h2>
+        </div>
+
+        <div style={{ flex: 1, marginRight: '20px' }}>
+          <h2 className="text-xl font-extrabold my-8">Seller's Nearby Location</h2>
+        </div>
+      </div>
 
         {loading && (
           <div className="center-page">
@@ -49,7 +69,22 @@ function ProductPage(props: any) {
           </div>
         )}
 
-        {product && <ProductDetail project={product} />}
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ flex: 1, marginRight: '20px' }}>
+          {product && <ProductDetail project={product} />}
+        </div>
+
+        <div style={{ flex: 1 }}>
+          <LoadScript googleMapsApiKey="AIzaSyA99t4ghcD2-QR5wXTQg8aHOSu0admetDY">
+            <GoogleMap
+              mapContainerStyle={mapStyles}
+              zoom={13}
+              center={defaultCenter}
+            >
+            </GoogleMap>
+          </LoadScript>
+        </div>
+      </div>
       </>
     </div>
   );

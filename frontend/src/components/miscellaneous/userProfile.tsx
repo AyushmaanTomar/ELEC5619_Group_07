@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useProfile } from '../usermanagement/profileHooks';
+import { NavLink } from 'react-router-dom'; 
 
 interface UserProfileProps {
     columns?: number;
@@ -59,6 +60,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                             <strong>Phone Number:</strong> {data.phoneNumber}
                         </div>
                     </div>
+                    <NavLink to="/like" className="goto-like-button" style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block', padding: '10px 15px', border: '1px solid #333', borderRadius: '5px' }}>
+                        Go to Like Page
+                    </NavLink>
                 </div>
             ) : isLoading ? (
                 <div className="center-page">

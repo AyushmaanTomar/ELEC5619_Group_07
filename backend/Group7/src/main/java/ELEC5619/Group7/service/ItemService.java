@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -64,6 +65,26 @@ public class ItemService {
      */
     public List<Item> readItems() {
         return itemRepository.findAll();
+    }
+
+    @Transactional
+    public String updateItem(Item item, String itemDescription,
+                             String productName, Double price,
+                             Boolean active) {
+        if (itemRepository.existsById(item.getId())) {
+            try {
+                item.setDescription(itemDescription);
+                item.setPrice(price);
+                item.setSold(active);
+                item.setName(productName);
+                itemRepository.save(item);
+                return "Update";
+            } catch (Exception e) {
+                throw e;
+            }
+        } else {
+            return "item_not_found";
+        }
     }
 
 }

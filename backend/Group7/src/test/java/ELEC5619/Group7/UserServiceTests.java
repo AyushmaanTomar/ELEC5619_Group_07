@@ -59,22 +59,22 @@ class UserServiceTest {
     //     assertEquals("Student already exists in the database.", result);
     // }
 
-    // @Test
-    // void testUpdateUser() {
-    //     User userToUpdate = new User();
-    //     userToUpdate.setEmail("test@example.com");
-    //     userToUpdate.setUserName("Updated Name");
-    //     userToUpdate.setPassword("newPassword");
-    //     userToUpdate.setPhone("1234567890");
+    @Test
+    void testUpdateUser() {
+        User userToUpdate = new User();
+        userToUpdate.setEmail("test@example.com");
+        userToUpdate.setUserName("Updated Name");
+        userToUpdate.setPassword("newPassword");
+        userToUpdate.setPhone("1234567890");
 
-    //     List<User> users = new ArrayList<>();
-    //     User existingUser = new User();
-    //     existingUser.setId(1);
-    //     existingUser.setEmail("test@example.com");
-    //     existingUser.setUserName("Original Name");
-    //     existingUser.setPassword("originalPassword");
-    //     existingUser.setPhone("9876543210");
-    //     users.add(existingUser);
+        List<User> users = new ArrayList<>();
+        User existingUser = new User();
+        existingUser.setId(1);
+        existingUser.setEmail("test@example.com");
+        existingUser.setUserName("Original Name");
+        existingUser.setPassword("originalPassword");
+        existingUser.setPhone("9876543210");
+        users.add(existingUser);
 
     //     Mockito.when(userRepository.existsByEmail(userToUpdate.getEmail()) > 0).thenReturn(true);
     //     Mockito.when(userRepository.findByEmail(userToUpdate.getEmail())).thenReturn(users);
@@ -83,11 +83,11 @@ class UserServiceTest {
     //     String result = userService.updateUser(userToUpdate);
     //     assertEquals("Student record updated.", result);
 
-    //     // Check if the user was updated correctly
-    //     assertEquals("Updated Name", existingUser.getUserName());
-    //     assertEquals("newPassword", existingUser.getPassword());
-    //     assertEquals("1234567890", existingUser.getPhone());
-    // }
+        // Check if the user was updated correctly
+        assertEquals("Updated Name", existingUser.getUserName());
+        assertEquals("newPassword", existingUser.getPassword());
+        assertEquals("1234567890", existingUser.getPhone());
+    }
 
     // @Test
     // void testUpdateUserNotFound() {

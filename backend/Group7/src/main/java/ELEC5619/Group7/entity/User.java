@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
     @Id
-    @Column(name = "userID", unique = true)
+    @Column(name = "ID", unique = true)
     private int id;
 
     @Column(name = "location")
@@ -27,8 +27,7 @@ public class User {
     @Column(name = "profileImg", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'default_image_path.jpg'")
     private String profileImg;
 
-    public User() {
-    }
+    public User() {}
 
     public String getLocation() {
         return location;
@@ -100,25 +99,3 @@ public class User {
     }
 }
 
-@Entity
-@Table(name = "ProfilePic")
-class ProfilePic {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    private String filePath;
-
-    public ProfilePic() {
-        // Default profile picture file path
-        this.filePath = "../resources/static/default.jpg";
-    }
-
-    public String getProfilePic(){
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-}
