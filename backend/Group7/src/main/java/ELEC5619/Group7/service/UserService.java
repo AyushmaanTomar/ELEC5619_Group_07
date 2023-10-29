@@ -35,6 +35,10 @@ public class UserService {
             return "email_exists";
         }
 
+        if (userRepository.findByUserName(user.getUserName()) != null) {
+            return "username_exists";
+        }
+
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
             System.out.println(user.toString());
