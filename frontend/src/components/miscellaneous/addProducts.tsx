@@ -135,9 +135,7 @@ const AddProducts = memo(() => {
       <Container maxWidth="sm" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
         <Box className="bg-secondary" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
           <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px">
-            <StyledTextField required id="name" label="Product Name" name="name" />
-            <StyledTextField required id="description" label="Description" name="description" multiline />
-            <input 
+          <input 
                 style={{ display: 'none' }}
                 type="file" 
                 id="fileInput"
@@ -161,6 +159,8 @@ const AddProducts = memo(() => {
             </label>
 
               {imagePreviewUrl && <img src={imagePreviewUrl} alt="Selected Preview" style={{ maxWidth: '100%', margin: '20px 0' }} />}
+            <StyledTextField required id="name" label="Product Name" name="name" />
+            <StyledTextField required id="description" label="Description" name="description" multiline />
             <StyledTextField required id="price" label="Price" name="price" type="number" />
             <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" />
             { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }

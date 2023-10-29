@@ -50,11 +50,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         <button className="upload-button" onClick={handleButtonClick} style={{marginLeft : '130px'}}>
                             Change Profile Image
                         </button>
-                        <a href="/changePassword">
-                        <button className="upload-button" style={{marginLeft : '130px'}}>
-                            Change Password
-                        </button>
-                        </a>
                         
                     </div>
                     <div style={{ flex: 1, paddingTop: '20px' }}>
