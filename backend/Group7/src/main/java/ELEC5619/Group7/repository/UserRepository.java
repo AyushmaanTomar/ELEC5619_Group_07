@@ -34,5 +34,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "Delete from User where user_name = ?1", nativeQuery = true)
     void deleteUserWithUsername(String userName);
 
-    //Add User
 }

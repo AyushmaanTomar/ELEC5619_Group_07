@@ -9,6 +9,7 @@ import listingsPage from '../items/listingsPage';
 import { useError } from 'src/errorContext';
 import api from 'src/axiosConfig';
 
+
 interface UserProfileProps {
     columns?: number;
 }
