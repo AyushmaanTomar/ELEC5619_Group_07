@@ -13,7 +13,7 @@ const LikePage: React.FC = () => {
 
             {/* Button to navigate back to the UserProfile Page */}
             <NavLink 
-                to="/" 
+                to="/profile" 
                 style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block', padding: '10px 15px', border: '1px solid #333', borderRadius: '5px', marginTop: '20px' }}
             >
                 Back to Profile

@@ -64,12 +64,17 @@ const AddProducts = memo(() => {
 
       const priceDouble = parseFloat(product.price);
       if (isNaN(priceDouble)) {
-        setErrorMessage("Not a valid price!");
+        setErrorMessage("NOT A VALID PRICE!");
         return;
       }
 
       if (priceDouble == 0.0) {
         setErrorMessage("PRICE CANNOT BE 0!");
+        return;
+      }
+
+      if (priceDouble < 0.0) {
+        setErrorMessage("PRICE CANNOT BE NEGATIVE!");
         return;
       }
 

@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
+import { useProfile } from '../usermanagement/profileHooks';
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,11 @@ function ProductPage(props: any) {
     lat: -33.8540 , // Adjust this to your desired coordinates
     lng: 151.0507
   }
+
+  const {
+    data,
+    isLoading,
+} = useProfile();
 
   useEffect(() => {
     setLoading(true);
@@ -95,6 +101,11 @@ function ProductPage(props: any) {
           </LoadScript>
         </div>
       </div>
+      {data ? (
+        <div style={{ paddingBottom: '15px'}}>
+            <strong>Seller Phone Number:</strong> {data.phoneNumber}
+        </div>
+      ) : null }
       </>
     </div>
   );
