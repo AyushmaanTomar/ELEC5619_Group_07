@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
+
     @Autowired
     private ItemService itemService;
 
@@ -104,6 +105,16 @@ public class ItemController {
         return new ResponseEntity<>(item.getUser(), HttpStatus.OK); // HTTP 200: OK
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<List> getItemByUser(@RequestParam String username) {
+        List<Item> items = itemService.getAllItemByUser(userService.getUserByUsername(username));
+
+        if(items == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // HTTP 404: NOT FOUND
+        }
+        return new ResponseEntity<>(items, HttpStatus.OK); // HTTP 200: OK
+    }
+
 
 
     @GetMapping("/user/{userId}")
@@ -129,7 +140,7 @@ public class ItemController {
         if (keyNameItem.size() == 0) return new ResponseEntity<>(keyNameItem, HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(keyNameItem, HttpStatus.OK);
     }
-
+  
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteItem(@RequestParam Integer itemId) {
 

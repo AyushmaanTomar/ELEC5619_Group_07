@@ -1,12 +1,13 @@
 package ELEC5619.Group7.service;
 
 import ELEC5619.Group7.entity.Item;
-import ELEC5619.Group7.entity.LikeTo;
+import ELEC5619.Group7.entity.Like;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,16 +26,16 @@ public class LikeService {
     }
 
     public void likeItemByUser(Item item, User user) {
-        LikeTo likeTo = new LikeTo();
+        Like likeTo = new Like();
         likeTo.setItem(item);
         likeTo.setUser(user);
-        likeTo.setLike(likeRepository.findMaxId() + 1); // Setting the next available ID
+        likeTo.setLike(null == likeRepository.findMaxId() ? 0 : likeRepository.findMaxId() + 1); // Setting the next available ID
         likeRepository.save(likeTo);
     }
 
-    public void unlikeItemByUser(Item item, User user) {
-        Optional<LikeTo> optionalLikeTo = likeRepository.findById(item.getId());
-        optionalLikeTo.ifPresent(likeRepository::delete);
+    @Transactional
+    public void unlikeItemByUser(Integer itemid, Integer userID) {
+        likeRepository.deleteByItemIdAndUserId(itemid, userID);
     }
 
     public boolean hasUserLikedItem(User user, Item item) {

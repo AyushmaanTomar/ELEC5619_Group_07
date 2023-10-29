@@ -7,14 +7,87 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
 import { useProfile } from '../usermanagement/profileHooks';
+import './Like.css'
+import axios from 'axios';
 
 function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<Item | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const params = useParams();
-  const id = Number(params.id);
+  const { id } = useParams<{ id: string }>();
   const { showError } = useError();
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);  // Initialize this with the actual count from the server if needed
+  const [likes, setLikes] = useState<number>(0);
+  const numericId = Number(id);
+
+  const baseUrl = 'http://localhost:8080/api/likes'; // Update the URL as needed
+
+const likeItemByUser = async (itemId: number, userId: number) => {
+
+  try {
+    const response = await axios.post(baseUrl+'/like', null, {
+      params: {
+        itemId: itemId,
+        userId: userId
+      }
+    });
+
+    if (response.status === 201) {
+      console.log('Item liked successfully.');
+    } else {
+      console.error('Error liking the item.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+const unlikeItemByUser = async (itemId: number, userId: number) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/unlike`, {
+      params: {
+        itemId: itemId,
+        userId: userId
+      }
+    });
+
+    if (response.status === 200) {
+      console.log('Item unliked successfully.');
+    } else {
+      console.error('Error unliking the item.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+  useEffect(() => {
+    async function fetchLikes() {
+      const numericId = Number(id);
+      if (!isNaN(numericId)) {
+        const totalLikes = await productAPI.getTotalLikesForItem(numericId);
+        setLikes(totalLikes);
+      }
+    }
+
+    fetchLikes();  // call the async function
+  }, [id]);
+
+
+  const handleLikeClick = () => {
+    if (id == undefined) {
+      return;
+    }
+    if (liked) {
+      setLikes(likes - 1);
+      unlikeItemByUser(1, parseInt(id, 10));
+    } else {
+      setLikes(likes + 1);
+      likeItemByUser(1, parseInt(id, 10));
+    }
+    setLiked(!liked);
+  };
 
   const mapStyles = {
     height: "450px",
@@ -43,13 +116,16 @@ function ProductPage(props: any) {
   }, [id]);
 
   return (
-    <div>
-      <>
-
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ flex: 1, marginRight: '20px' }}>
-          <h2 className="text-2xl font-extrabold my-8">Product Detail</h2>
-        </div>
+      <div>
+        <>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ flex: 1, marginRight: '20px' }}>
+              <h2 className="text-2xl font-extrabold my-8">Product Detail</h2>
+              <button className="like-button" onClick={handleLikeClick}>
+                {liked ? 'Unlike' : 'Like'}
+              </button>
+              <span className="like-total">{likes}</span> {/* Notice the change from likeCount to likes */}
+            </div>
 
         <div style={{ flex: 1, marginRight: '20px' }}>
           <h2 className="text-xl font-extrabold my-8">Seller's Nearby Location</h2>

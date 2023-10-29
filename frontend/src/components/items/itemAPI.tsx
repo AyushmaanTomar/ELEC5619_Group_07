@@ -11,18 +11,19 @@ function translateStatusToErrorMessage(status: number): string {
     case 403:
       return 'You do not have permission to view the product(s).';
     default:
-      return 'There was an error retrieving the product(s). Please try again.';
+      return status+' There was an error retrieving the product(s). Please try again.';
   }
 }
 
-function handleAxiosError(error: any): never {
+function handleAxiosError(error: any)  {
   if (error.response) {
     console.log(`log server http error: ${JSON.stringify(error.response.data)}`);
 
     let errorMessage = translateStatusToErrorMessage(error.response.status);
+    return errorMessage;
     throw new Error(errorMessage);
   } else if (error.request) {
-    throw new Error('No response received from the server.');
+    return 'No response received from the server.';
   } else {
     throw error;
   }
@@ -41,6 +42,7 @@ const productAPI = {
       return convertToProductModels(response.data);
     } catch (error) {
       handleAxiosError(error);
+      return [];
     }
   },
 
@@ -50,6 +52,7 @@ const productAPI = {
       return new Item(response.data);
     } catch (error) {
       handleAxiosError(error);
+      return new Item({});
     }
   },
 
@@ -69,6 +72,20 @@ const productAPI = {
       handleAxiosError(error);
     }
   },
+  async getTotalLikesForItem(itemId: number): Promise<number> {
+    try {
+      const response = await api.get(`/api/likes/count/byItem/${itemId}`);
+      if (typeof response.data === 'number') {
+        return response.data;
+      } else {
+        throw new Error('Unexpected response format from server');
+      }
+    } catch (error) {
+      handleAxiosError(error);
+      return 0;
+    }
+  }
+
 };
 
 export { productAPI };

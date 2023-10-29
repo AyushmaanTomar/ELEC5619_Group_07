@@ -3,7 +3,6 @@ import axios from 'axios';
 const checkForModeration = async (text: string) => {
   try {
     const response = await axios.post('YOUR_RAPID_API_ENDPOINT', {
-      // Your payload if necessary. It's just an example; adjust it based on your API documentation.
       text: text,
     }, {
       headers: {
@@ -12,8 +11,6 @@ const checkForModeration = async (text: string) => {
       }
     });
 
-    // Interpret the response. This depends on the API's response structure.
-    // For example, if the API returns a boolean `safe` field:
     return response.data.safe;
 
   } catch (error) {

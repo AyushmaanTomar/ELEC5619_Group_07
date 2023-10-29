@@ -78,7 +78,8 @@ public class AdminController {
 
     @DeleteMapping("/deleteUser")
     public ResponseEntity<String> deleteUser(
-            @RequestParam String userName
+
+          @RequestParam String userName
     ) {
         User user = userService.getUserByUserName(userName);
         if (user == null) return new ResponseEntity<>("Student does not exist (No User Name)", HttpStatus.NOT_FOUND);  // HTTP 404

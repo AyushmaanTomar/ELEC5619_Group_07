@@ -166,7 +166,7 @@ const AddProducts = memo(() => {
             <StyledTextField required id="name" label="Product Name" name="name" />
             <StyledTextField required id="description" label="Description" name="description" multiline />
             <StyledTextField required id="price" label="Price" name="price" type="number" />
-            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" />
+            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" value={initialProduct.listingDate} disabled />
             { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }
             <Button type="submit" variant="contained">Add Product</Button>
           </Stack>
