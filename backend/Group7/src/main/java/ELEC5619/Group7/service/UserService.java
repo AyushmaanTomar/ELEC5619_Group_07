@@ -57,6 +57,14 @@ public class UserService {
         return userRepository.findByEmail(email).get(0);
     }
 
+    public User getUserByUsername(String username) {
+        List<User> users = userRepository.findByUserName(username);
+        if (users.size() <= 0 || users == null) {
+            return null;
+        }
+        return users.get(0);
+    }
+
 
     @Transactional
     public String updateUser(User user) {

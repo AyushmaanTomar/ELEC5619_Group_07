@@ -16,6 +16,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class MainController {
 
     private static final SecureRandom randomNumberGenerator = new SecureRandom();
