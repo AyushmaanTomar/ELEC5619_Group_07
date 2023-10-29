@@ -85,7 +85,7 @@ public class UserController {
 
     @PutMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody User user,
-                                                 @RequestParam String newPassword) {
+                                                 @RequestBody String newPassword) {
         if (user == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
         if (newPassword == null) return new ResponseEntity<>("Password does not meet the requirements (password is null)", HttpStatus.BAD_REQUEST);
         String result = userService.changePassword(user, newPassword);
