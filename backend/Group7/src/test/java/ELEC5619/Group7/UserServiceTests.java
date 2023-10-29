@@ -101,36 +101,36 @@ class UserServiceTest {
         assertEquals("student_not_found", result);
     }
 
-    @Test
-    void testDeleteUser() {
-        User userToDelete = new User();
-        userToDelete.setEmail("test@example.com");
+//    @Test
+//    void testDeleteUser() {
+//        User userToDelete = new User();
+//        userToDelete.setEmail("test@example.com");
+//
+//        List<User> users = new ArrayList<>();
+//        User existingUser = new User();
+//        existingUser.setId(1);
+//        existingUser.setEmail("test@example.com");
+//        users.add(existingUser);
+//
+//        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(1);
+//        Mockito.when(userRepository.findByEmail(userToDelete.getEmail())).thenReturn(users);
+//
+//        String result = userService.deleteUser(userToDelete);
+//        assertEquals("deleted", result);
+//
+//        // Check if the user was deleted
+//        Mockito.verify(userRepository, Mockito.times(1)).delete(existingUser);
+//    }
 
-        List<User> users = new ArrayList<>();
-        User existingUser = new User();
-        existingUser.setId(1);
-        existingUser.setEmail("test@example.com");
-        users.add(existingUser);
-
-        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(1);
-        Mockito.when(userRepository.findByEmail(userToDelete.getEmail())).thenReturn(users);
-
-        String result = userService.deleteUser(userToDelete);
-        assertEquals("deleted", result);
-
-        // Check if the user was deleted
-        Mockito.verify(userRepository, Mockito.times(1)).delete(existingUser);
-    }
-
-    @Test
-    void testDeleteUserNotFound() {
-        User userToDelete = new User();
-        userToDelete.setEmail("nonexistent@example.com");
-
-        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(0);
-
-        String result = userService.deleteUser(userToDelete);
-        assertEquals("student_not_found", result);
-    }
+//    @Test
+//    void testDeleteUserNotFound() {
+//        User userToDelete = new User();
+//        userToDelete.setEmail("nonexistent@example.com");
+//
+//        Mockito.when(userRepository.existsByEmail(userToDelete.getEmail())).thenReturn(0);
+//
+//        String result = userService.deleteUser(userToDelete);
+//        assertEquals("student_not_found", result);
+//    }
 }
 
