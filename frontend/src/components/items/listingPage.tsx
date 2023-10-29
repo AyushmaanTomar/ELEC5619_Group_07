@@ -33,16 +33,6 @@ function ProductPage(props: any) {
 
   useEffect(() => {
     setLoading(true);
-    // productAPI
-    //   .find(id)
-    //   .then((data) => {
-    //     setProduct(data);
-    //     setLoading(false);
-    //   })
-    //   .catch((e) => {
-    //     setError(e);
-    //     setLoading(false);
-    //   });
     api.get("/items/" + id)
       .then((data) => {
         setProduct(data.data);
