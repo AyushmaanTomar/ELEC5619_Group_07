@@ -110,6 +110,16 @@ public class ItemController {
         return new ResponseEntity<>(item.getUser(), HttpStatus.OK); // HTTP 200: OK
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<List> getItemByUser(@RequestParam String username) {
+        List<Item> items = itemService.getAllItemByUser(userService.getUserByUsername(username));
+
+        if(items == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // HTTP 404: NOT FOUND
+        }
+        return new ResponseEntity<>(items, HttpStatus.OK); // HTTP 200: OK
+    }
+
 
 
     @GetMapping("/user/{userId}")
