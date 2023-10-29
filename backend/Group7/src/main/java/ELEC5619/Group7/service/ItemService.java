@@ -87,4 +87,14 @@ public class ItemService {
         }
     }
 
+    @Transactional
+    public boolean deleteItemByID(Integer id) {
+        itemRepository.deleteItemByID(id);
+
+        if (itemRepository.existsById(id)) {
+            return false;
+        }
+        return true;
+    }
+
 }
