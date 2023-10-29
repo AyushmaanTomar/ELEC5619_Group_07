@@ -52,7 +52,7 @@
     },
     {
       "id": 6,
-      "name": "Alexis's Backpack ",
+      "name": "Backpack ",
       "description": "Stylish and spacious backpack for your daily commute for your easy use",
       "imageUrl": "/assets/placeimg_500_300_arch6.jpg",
       "seller": "FashionFusion",
@@ -152,7 +152,7 @@
     },
     {
       "id": 16,
-      "name": "Backpack",
+      "name": "PS5",
       "description": "Durable backpack with multiple compartments. Ideal for carrying books, laptops, and other essentials.",
       "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
       "seller": "5",
@@ -162,7 +162,7 @@
     },
     {
       "id": 17,
-      "name": "Desk Lamp",
+      "name": "Lamp",
       "description": "Adjustable desk lamp with LED lighting. Perfect for late-night study sessions.",
       "imageUrl": "/assets/placeimg_500_300_arch11.jpg",
       "seller": "4",
@@ -221,14 +221,14 @@
       "isActive": true
     },
     {
-      "name": "Ayush's PS5",
+      "id": 23,
+      "name": "PS5",
       "description": "Limited Edition",
       "imageUrl": "/assets/placeimg_500_300_arch2.jpg",
       "seller": "John",
       "listingDate": "2023-10-27T14:36:24.290Z",
       "price": "1000",
-      "isActive": true,
-      "id": 23
+      "isActive": true
     }
   ]
 }

@@ -2,7 +2,13 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import api from "../../axiosConfig";
 import { useError } from "src/errorContext";
 
-const AuthContext = createContext({loggedIn: false, login:(s: string, p: string) => {}, logout: () => {}, register: (a: accountDetails) => {}});
+const AuthContext = createContext({
+  loggedIn: false,
+  login: (s: string, p: string) => {},
+  logout: () => {},
+  register: (a: accountDetails) => {},
+  changePassword: (currentPassword: string, newPassword: string) => {} // Add this line
+});
 
 type accountDetails = {
   userName: string;
@@ -36,6 +42,19 @@ export function AuthProvider( {children} : AuthProviderProps ) {
     localStorage.removeItem("username");
   };
 
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    // Adjust the API endpoint and payload based on your backend's requirements.
+    await api.post("/users/changePassword", { currentPassword, newPassword })
+        .then(() => {
+          // Handle successful password change if needed
+        })
+        .catch((error) => {
+          showError(error.response.data);
+          throw "Error";
+        });
+  };
+
+
   const register = async (details: accountDetails) => {
     const result = await api.post("/users/register", details)
       .then()
@@ -45,7 +64,6 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       });
   }
 
-  //   Need a useeffect to set logged
   useEffect(() => {
     if (localStorage.getItem("username") != null) {
       setLoggedIn(true);
@@ -53,9 +71,9 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ loggedIn, login, logout, register }}>
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider value={{ loggedIn, login, logout, register, changePassword }}>
+        {children}
+      </AuthContext.Provider>
   );
 }
 

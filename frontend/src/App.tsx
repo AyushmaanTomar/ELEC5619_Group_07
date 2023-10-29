@@ -19,6 +19,7 @@ import { AuthProvider } from './components/usermanagement/AuthProvider';
 import { ErrorProvider } from './errorContext';
 import ErrorPane from './components/miscellaneous/errorPane';
 import LikePage from './components/usermanagement/likePage';
+import ChangePassword from './components/usermanagement/PasswordChangePage';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/like" element={<LikePage />} />
+              <Route path="/changePassword" element={<ChangePassword />} />
             </Routes>
           </main>
         </Router>
