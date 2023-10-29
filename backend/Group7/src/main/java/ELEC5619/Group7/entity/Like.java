@@ -4,8 +4,8 @@ package ELEC5619.Group7.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "LikeTo")
-public class LikeTo {
+@Table(name = "like")
+public class Like {
     @Id
     @Column(name = "likeID")
     private int likeID;

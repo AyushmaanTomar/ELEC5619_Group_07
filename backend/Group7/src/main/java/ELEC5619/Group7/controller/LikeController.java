@@ -1,5 +1,6 @@
 package ELEC5619.Group7.controller;
 
+import ELEC5619.Group7.entity.Item;
 import ELEC5619.Group7.repository.ItemRepository;
 import ELEC5619.Group7.repository.UserRepository;
 import ELEC5619.Group7.service.LikeService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/likes")
@@ -28,7 +30,12 @@ public class LikeController {
      * **/
     @GetMapping("/users/byItem/{itemId}")
     public ResponseEntity<Object> getAllUserIDWithItemID(@PathVariable Integer itemId) {
+        Optional<Item> optionalItem = itemRepository.findById(itemId);
+        if (!optionalItem.isPresent()) {
+            return new ResponseEntity<>("No item found for the given item ID.", HttpStatus.NOT_FOUND);
+        }
         List<Integer> userIds = likeService.getAllUserIDWithItemID(itemRepository.getById(itemId));
+
         if (userIds.isEmpty()) {
             return new ResponseEntity<>("No users found for the given item ID.", HttpStatus.NOT_FOUND);
         }
@@ -66,7 +73,7 @@ public class LikeController {
     @DeleteMapping("/unlike")
     public ResponseEntity<String> unlikeItemByUser(@RequestParam Integer itemId, @RequestParam Integer userId) {
         try {
-            likeService.unlikeItemByUser(itemRepository.getById(itemId), userRepository.getById(userId));
+            likeService.unlikeItemByUser(itemId, userId);
             return new ResponseEntity<>("Item unliked successfully.", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error unliking the item.", HttpStatus.INTERNAL_SERVER_ERROR);
