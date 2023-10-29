@@ -3,28 +3,15 @@ import { productAPI } from '../items/itemAPI';
 import { useProducts } from '../items/itemHooks';
 import { Button, Container, Box, TextField, Stack } from '@mui/material';
 import  styled  from '@emotion/styled';
-<<<<<<< HEAD
 import checkForModeration from '../miscellaneous/moderation';
-<<<<<<< HEAD
-=======
 import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
 import { useNavigate } from 'react-router-dom';
->>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
-=======
-import api from 'src/axiosConfig';
-import { useError } from 'src/errorContext';
-import { useNavigate } from 'react-router-dom';
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
 
 const handleAddProduct = async (product: any, showError: any) => {
   await api.post("/items/addItem?name=" + product.name + "&description=" + product.description + "&price=" 
     + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imagePath=" + product.imgPath)
-<<<<<<< HEAD
-    .catch((error) => { showError(error.request.data); });
-=======
       .catch((error) => { showError(error.request.data); });
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
 };
 
 const AddProducts = memo(() => {
@@ -44,15 +31,7 @@ const AddProducts = memo(() => {
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
     const navigate = useNavigate();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-=======
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
->>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
-=======
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
       e.preventDefault();
 
       const data = new FormData(e.currentTarget);
@@ -66,29 +45,21 @@ const AddProducts = memo(() => {
         return;
       }
 
+      await checkForModeration(product.description).then((res) => {
+        if (!res) {
+          setErrorMessage("The description contains inappropriate content.");
+          return;
+        }
+      })
+      .catch((error) => { 
+        showError("Error in content moderation check."); 
+        return;
+      });
+
       product.name = tempName;
       product.description = tempDescription;
       product.price = tempPrice;
-      product.listingDate = tempListingDate;
-      
-<<<<<<< HEAD
-<<<<<<< HEAD
-      const isSafe = await checkForModeration(product.description);
-      if (!isSafe) {
-          setErrorMessage("The description contains inappropriate content.");
-=======
-      await checkForModeration(product.description)
-        .then((res) => {
-          if (!res) {
-            setErrorMessage("The description contains inappropriate content.");
-            return;
-          }
-        })
-        .catch((error) => { 
-          showError(error.request.data); 
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
-          return;
-        });
+      product.listingDate = tempListingDate
 
       const priceDouble = parseFloat(product.price);
       if (isNaN(priceDouble)) {
@@ -98,21 +69,11 @@ const AddProducts = memo(() => {
 
       if (priceDouble == 0.0) {
         setErrorMessage("PRICE CANNOT BE 0!");
-=======
-      const priceDouble = parseFloat(product.price);
-      if (isNaN(priceDouble)) {
-        setErrorMessage("Not a valid price!");
->>>>>>> 75e5d8cfd49a88c2b0af81f66086e458771cb24d
         return;
       }
 
-<<<<<<< HEAD
-      if (priceDouble == 0.0) {
-        setErrorMessage("PRICE CANNOT BE 0!");
-=======
       if (priceDouble < 0.0) {
         setErrorMessage("PRICE CANNOT BE NEGATIVE!");
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
         return;
       }
 
@@ -178,13 +139,7 @@ const AddProducts = memo(() => {
       <Container maxWidth="sm" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
         <Box className="bg-secondary" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
           <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px">
-<<<<<<< HEAD
-            <StyledTextField required id="name" label="Product Name" name="name" />
-            <StyledTextField required id="description" label="Description" name="description" multiline />
-            <input 
-=======
           <input 
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
                 style={{ display: 'none' }}
                 type="file" 
                 id="fileInput"
@@ -208,11 +163,8 @@ const AddProducts = memo(() => {
             </label>
 
               {imagePreviewUrl && <img src={imagePreviewUrl} alt="Selected Preview" style={{ maxWidth: '100%', margin: '20px 0' }} />}
-<<<<<<< HEAD
-=======
             <StyledTextField required id="name" label="Product Name" name="name" />
             <StyledTextField required id="description" label="Description" name="description" multiline />
->>>>>>> a90094e288aa8aa90842dcbec8ec57f6163acb4e
             <StyledTextField required id="price" label="Price" name="price" type="number" />
             <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" />
             { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }
