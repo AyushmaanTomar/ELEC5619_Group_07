@@ -54,18 +54,16 @@ export default function ChangePassword() {
             return;
         }
 
-        const requestData = {
-            user: email,
-            newPassword: newPassword,
-        };
 
+        const emailURL = encodeURIComponent(email);
+        const newPasswordURL = encodeURIComponent(newPassword);
         try {
-            const response = await fetch('http://localhost:8080/users/changePassword', {
+            const response = await fetch('http://localhost:8080/users/changePassword?email='+emailURL+'&newPassword='+ newPasswordURL, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(requestData),
+                
             });
 
             if (response.ok) {
@@ -89,7 +87,7 @@ export default function ChangePassword() {
                     <StyledTextField required id="email" label="Email" name="email" defaultValue={email} onBlur={(e) => setEmail(e.target.value)} />
                     <StyledTextField required id="currentPassword" label="Current Password" name="currentPassword" type="password" defaultValue={currentPassword} onBlur={(e) => {setCurrentPassword(e.target.value);}} />
                     <StyledTextField required id="newPassword" label="New Password" name="newPassword" type="password" defaultValue={newPassword} onBlur={(e) => setNewPassword(e.target.value)} />
-                    <StyledTextField required id="reEnteredPassword" label="Re-enter New Password" name="reEnteredPassword" type="password" defaultValue={reEnteredPassword} onBlur={(e) => setReEnteredPassword(e.target.value)} />
+                    <StyledTextField required id="reEnteredPassword" label="Re-enter New Password" name="reEnteredPassword" type="password" defaultValue={reEnteredPassword} onChange={(e) => setReEnteredPassword(e.target.value)} />
                     <Button type="submit" variant="contained">Change Password</Button>
                     </Stack>
                     <Typography color="red" align='center'>{formError}</Typography>
