@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom'; // To allow navigating back to the U
 
 const LikePage: React.FC = () => {
     return (
-        <div style={{ padding: '20px' }}>
-            <h2>This is the Like Page</h2>
+        <div style={{ paddingBottom: '20px' }}>
+            <h2 className="text-2xl font-extrabold my-8">Like Page</h2>
             <p>
                 Here you might have a list of things the user has liked, 
                 or any other relevant content you'd like to showcase.
