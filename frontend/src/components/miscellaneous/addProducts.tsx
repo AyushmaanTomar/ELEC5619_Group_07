@@ -45,22 +45,21 @@ const AddProducts = memo(() => {
         return;
       }
 
+      await checkForModeration(product.description).then((res) => {
+        if (!res) {
+          setErrorMessage("The description contains inappropriate content.");
+          return;
+        }
+      })
+      .catch((error) => { 
+        showError("Error in content moderation check."); 
+        return;
+      });
+
       product.name = tempName;
       product.description = tempDescription;
       product.price = tempPrice;
-      product.listingDate = tempListingDate;
-      
-      await checkForModeration(product.description)
-        .then((res) => {
-          if (!res) {
-            setErrorMessage("The description contains inappropriate content.");
-            return;
-          }
-        })
-        .catch((error) => { 
-          showError(error.request.data); 
-          return;
-        });
+      product.listingDate = tempListingDate
 
       const priceDouble = parseFloat(product.price);
       if (isNaN(priceDouble)) {

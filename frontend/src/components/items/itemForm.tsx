@@ -21,10 +21,10 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
     event.preventDefault();
     
     const isSafe = await checkForModeration(project.description);
-    if (!isSafe) {
-        setErrors(prevErrors => ({ ...prevErrors, description: 'The description contains inappropriate content.' }));
-        return;
-    }
+      if (!isSafe) {
+          setErrors(prevErrors => ({ ...prevErrors, description: 'The description contains inappropriate content.' }));
+          return;
+      }
 
     if (!isValid()) return;
     updateProduct(project);
