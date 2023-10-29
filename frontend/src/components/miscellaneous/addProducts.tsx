@@ -38,7 +38,7 @@ const AddProducts = memo(() => {
       let tempName = data.get("name")?.toString();
       let tempPrice = data.get("price")?.toString();
       let tempDescription = data.get("description")?.toString();
-      let tempListingDate = data.get("listingDate")?.toString();
+      let tempListingDate = initialProduct.listingDate;
 
       if (tempName == null || tempPrice == null || tempDescription == null || tempListingDate == null) {
         setErrorMessage("Could not load data. Try again.");
@@ -166,7 +166,7 @@ const AddProducts = memo(() => {
             <StyledTextField required id="name" label="Product Name" name="name" />
             <StyledTextField required id="description" label="Description" name="description" multiline />
             <StyledTextField required id="price" label="Price" name="price" type="number" />
-            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" value={initialProduct.listingDate} disabled />
+            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date"  value={initialProduct.listingDate} />
             { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }
             <Button type="submit" variant="contained">Add Product</Button>
           </Stack>
