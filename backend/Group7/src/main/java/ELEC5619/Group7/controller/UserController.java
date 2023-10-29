@@ -41,6 +41,8 @@ public class UserController {
                 return new ResponseEntity<>("Email is not a valid university email", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "email_exists":
                 return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "username_exists":
+                return new ResponseEntity<>("Username already exists", HttpStatus.BAD_REQUEST);  // HTTP 400
             default:
                 return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);  // HTTP 400
         }

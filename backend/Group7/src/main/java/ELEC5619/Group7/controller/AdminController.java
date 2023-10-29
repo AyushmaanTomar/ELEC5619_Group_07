@@ -19,6 +19,7 @@ import java.util.Optional;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -33,8 +34,11 @@ public class AdminController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginAdmin(Admin admin) {
-        String result = adminService.authenticateAdmin(admin);
+    public ResponseEntity<String> loginAdmin(@RequestParam String userName,
+                                             @RequestParam String password) {
+        if (userName == null || password == null ) return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
+        String result = adminService.authenticateAdmin(userName, password);
+
         switch(result) {
             case "Authenticated successfully":
                 return new ResponseEntity<>("Login successful", HttpStatus.OK);  // HTTP 200
@@ -49,7 +53,7 @@ public class AdminController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerAdmin(Admin admin) {
+    public ResponseEntity<String> registerAdmin(@RequestBody Admin admin) {
         String result = adminService.createAdmin(admin);
         switch(result) {
             case "success":
@@ -74,8 +78,11 @@ public class AdminController {
 
 
 
-    @DeleteMapping
-    public ResponseEntity<String> deleteUser(@RequestBody User user) {
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(
+                                    @PathVariable Integer userID
+    ) {
+        User user = userService.getUserById(userID);
         String result = userService.deleteUser(user);
         switch(result) {
             case "deleted":

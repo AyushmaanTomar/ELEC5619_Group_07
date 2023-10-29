@@ -8,25 +8,25 @@ interface ProductListProps {
 }
 
 function ItemList({ projects }: ProductListProps) {
-  const [projectBeingEdited, setProjectBeingEdited] = useState({});
+  // const [projectBeingEdited, setProjectBeingEdited] = useState({});
 
-  const handleEdit = (project: Item) => {
-    setProjectBeingEdited(project);
-  };
+  // const handleEdit = (project: Item) => {
+  //   setProjectBeingEdited(project);
+  // };
 
-  const cancelEditing = () => {
-    setProjectBeingEdited({});
-  };
+  // const cancelEditing = () => {
+  //   setProjectBeingEdited({});
+  // };
 
   return (
     <div className="flex flex-wrap gap-6">
       {projects.map((project) => (
         <div key={project.id}>
-          {project === projectBeingEdited ? (
+          {/* {project === projectBeingEdited ? (
             <ProductForm project={project} onCancel={cancelEditing} />
-          ) : (
-            <ProductCard item ={project} onEdit={handleEdit} />
-          )}
+          ) : ( */}
+            <ProductCard item ={project} />
+          {/* )} */}
         </div>
       ))}
     </div>
