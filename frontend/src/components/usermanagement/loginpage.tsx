@@ -5,6 +5,8 @@ import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
 import { useError } from 'src/errorContext';
+import ReCAPTCHA from "react-google-recaptcha";
+import './LoginPage.css';
 
 export default function LoginAccount() {
     const navigate = useNavigate();
@@ -74,6 +76,10 @@ export default function LoginAccount() {
                      sx={{height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px"}}>
 
                     <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
+                        <ReCAPTCHA className="recaptcha-container"
+                            sitekey="6Lcs59coAAAAAMDbxh2K3Y7-oRiE8IosSxipYvWG"
+                            onChange={handleCaptchaChange}
+                        />
                         <StyledTextField required id="userName" label="UserName" name="userName" autoFocus/>
                         <StyledTextField required id="password" label="Password" name='password' type='password'/>
                         <Button type="submit" variant="contained">Login Account</Button>
