@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useProfile } from '../usermanagement/profileHooks';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
+
 
 interface UserProfileProps {
     columns?: number;
