@@ -78,11 +78,11 @@ export function AuthProvider( {children} : AuthProviderProps ) {
 
   const register = async (details: accountDetails) => {
     const result = await api.post("/users/register", details)
-      .then()
-      .catch((error) => {
-        showError(error.response.data);
-        throw "Error";
-      });
+        .then()
+        .catch((error) => {
+          showError(error.response.data);
+          throw "Error";
+        });
   }
 
   useEffect(() => {
