@@ -21,6 +21,7 @@ import ErrorPane from './components/miscellaneous/errorPane';
 import LikePage from './components/usermanagement/likePage';
 import ChangePassword from './components/usermanagement/PasswordChangePage';
 import ForgotPassword from './components/usermanagement/ForgotPasswordPage';
+import AdminPage from './components/Admin/AdminPage';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               <Route path="/like" element={<LikePage />} />
               <Route path="/changePassword" element={<ChangePassword />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/admin" element={<AdminPage />} />
             </Routes>
           </main>
         </Router>
