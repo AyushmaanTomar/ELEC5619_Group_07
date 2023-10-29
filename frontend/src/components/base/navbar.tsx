@@ -27,12 +27,16 @@ export function Navbar() {
                     <li>
                         <NavLink to="/products/" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Products</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/add" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Add Products</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/user" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Users List</NavLink>
-                    </li>
+                    {loggedIn ? (
+                        <>
+                        <li>
+                            <NavLink to="/add" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Add Products</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/user" className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-red-500 duration-300">Users List</NavLink>
+                        </li>
+                        </>
+                    ) : <> </>}
                 </ul>
             </div>
 
