@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -86,8 +87,13 @@ public class UserController {
     @PutMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody User user,
                                                  @RequestParam String newPassword) {
-        if (user == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
-        if (newPassword == null) return new ResponseEntity<>("Password does not meet the requirements (password is null)", HttpStatus.BAD_REQUEST);
+        if (user == null)
+            return new ResponseEntity<>("Login error", HttpStatus.UNAUTHORIZED);
+
+        String currentPassword = user.getPassword();  // This remains the same, as you've renamed it to password
+        if (newPassword == null || currentPassword == null)
+            return new ResponseEntity<>("Invalid password data", HttpStatus.BAD_REQUEST);
+
         String result = userService.changePassword(user, newPassword);
         switch(result) {
             case "success":
@@ -150,20 +156,23 @@ public class UserController {
         }
     }
 
-    @GetMapping("/checkEmail")
-    public ResponseEntity<String> checkEmailExists(@RequestParam String email) {
+    @PostMapping("/checkEmail")
+    public ResponseEntity<Object> checkEmailExists(@RequestBody Map<String, String> payload) {
+        String email = payload.get("email");
+
         if (email == null || email.trim().isEmpty()) {
-            return new ResponseEntity<>("Email parameter is missing or empty", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("error", "Email parameter is missing or empty"), HttpStatus.BAD_REQUEST);
         }
 
         String result = userService.checkEmailExists(email);
         switch (result) {
             case "exists":
-                return new ResponseEntity<>("Email exists", HttpStatus.OK);  // HTTP 200
+                return new ResponseEntity<>(Map.of("exists", true), HttpStatus.OK);  // HTTP 200
             case "not_exists":
-                return new ResponseEntity<>("Email does not exist", HttpStatus.NOT_FOUND);  // HTTP 404
+                return new ResponseEntity<>(Map.of("exists", false), HttpStatus.OK);  // HTTP 200
             default:
-                return new ResponseEntity<>("Failed to check email", HttpStatus.INTERNAL_SERVER_ERROR);  // HTTP 500
+                return new ResponseEntity<>(Map.of("error", "Failed to check email"), HttpStatus.INTERNAL_SERVER_ERROR);  // HTTP 500
         }
     }
+
 }
