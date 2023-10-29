@@ -172,4 +172,32 @@ public class UserController {
         }
     }
 
+    @PostMapping("/getProfile")
+    public ResponseEntity<Map> getUserProfile(@RequestParam String username) {
+        if (username == null || username.isEmpty()) {
+            return new ResponseEntity<>(Map.of(
+                    "message", "Bad username",
+                    "profile", "")
+                    , HttpStatus.BAD_REQUEST);
+        }
+
+        User user = userService.getUserByUsername(username);
+
+        if (user == null) {
+            return new ResponseEntity<>(Map.of(
+                    "message", "Could not fetch user data",
+                    "profile", "")
+                    , HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(Map.of(
+                "message", "success",
+                "profile", Map.of(
+                        "name", user.getUserName(),
+                        "email", user.getEmail(),
+                        "phone", user.getPhone()
+                ))
+                , HttpStatus.OK);
+    }
+
 }
