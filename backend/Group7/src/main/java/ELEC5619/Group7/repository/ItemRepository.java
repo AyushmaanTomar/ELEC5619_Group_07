@@ -23,5 +23,4 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query(value = "delete from Item where itemid = ?1", nativeQuery = true)
     void deleteItemByID(Integer itemid);
 
-
 }

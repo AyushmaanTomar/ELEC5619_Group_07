@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Item } from './listings';
 import ProductCard from './itemCard';
 import ProductForm from './itemForm';
+import api from 'src/axiosConfig';
 
 interface ProductListProps {
   projects: Item[];
+  canDelete: boolean;
 }
 
-function ItemList({ projects }: ProductListProps) {
+function ItemList({ projects, canDelete }: ProductListProps) {
   // const [projectBeingEdited, setProjectBeingEdited] = useState({});
 
   // const handleEdit = (project: Item) => {
@@ -25,7 +27,7 @@ function ItemList({ projects }: ProductListProps) {
           {/* {project === projectBeingEdited ? (
             <ProductForm project={project} onCancel={cancelEditing} />
           ) : ( */}
-            <ProductCard item ={project} />
+            <ProductCard item ={project} canDelete={canDelete} />
           {/* )} */}
         </div>
       ))}
