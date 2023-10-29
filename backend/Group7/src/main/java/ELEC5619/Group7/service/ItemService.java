@@ -27,8 +27,8 @@ public class ItemService {
                 itemRepository.save(item);
                 return "success";
             } else {
-                System.out.print("Item already exists in the database.");
-                return "Item already exists in the database.";
+                itemRepository.save(item);
+                return "update";
             }
         } catch (Exception e) {
             throw e;

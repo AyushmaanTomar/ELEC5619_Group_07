@@ -3,6 +3,8 @@ import { productAPI } from '../items/itemAPI';
 import { useProducts } from '../items/itemHooks';
 import { Button, Container, Box, TextField, Stack } from '@mui/material';
 import  styled  from '@emotion/styled';
+import api from 'src/axiosConfig';
+import { useError } from 'src/errorContext';
 
 interface Props {
     onAdd?: (product: any) => void;
@@ -145,16 +147,12 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
 });
 
 export function AddProductsComponent() {
-  const handleAddProduct = async (product: any) => {
-      try {
-          const newProduct = await productAPI.add(product);
-          console.log("Product added successfully:", newProduct);
-      } catch (error) {
-          console.error("Error adding product:", error);
-      }
-  };
+  const { showError } = useError();
 
-  const { data } = useProducts();
+  const handleAddProduct = async (product: any) => {
+    await api.post("/admin/createItem", product)
+      .catch((error) => { showError(error.request.data); });
+  };
 
   return (
       <div>
