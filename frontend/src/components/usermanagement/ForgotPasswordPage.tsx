@@ -34,6 +34,7 @@ export default function ForgotPassword() {
         }
     });
 
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -42,6 +43,7 @@ export default function ForgotPassword() {
 
         if (!enteredEmail) {
             setFormError("Please enter a valid email.");
+            setFormMessage(""); // Clear out formMessage
             return;
         }
 
@@ -58,17 +60,20 @@ export default function ForgotPassword() {
 
             if (response.status === 200 && result.exists) {
                 setFormMessage("Sent email for resetting password.");
+                setFormError(""); // Clear out formError
             } else if (response.status === 200 && !result.exists) {
                 setFormError("Email does not exist.");
+                setFormMessage(""); // Clear out formMessage
             } else {
                 setFormError(result.error || "There was an error checking the email. Please try again later.");
+                setFormMessage(""); // Clear out formMessage
             }
         } catch (error) {
             setFormError("There was an error checking the email. Please try again later.");
+            setFormMessage(""); // Clear out formMessage
         }
 
     }
-
 
     return (
         <React.Fragment>
