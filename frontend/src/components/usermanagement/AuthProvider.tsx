@@ -32,16 +32,21 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       const result = await api.post("/users/login?username=" + userName + "&password=" + password);
 
       if (result && result.data && result.data.email) {
-        setLoggedInEmail(result.data.email); // Assuming the email is returned from your API
+        setLoggedInEmail(result.data.email);
       }
 
       setLoggedIn(true);
       localStorage.setItem("username", userName);
 
     } catch (error) {
-      showError("An unexpected error occurred.");
+      if (error && (error as any).response && (error as any).response.data === "Invalid credentials") {
+        throw new Error("username or password is incorrect");
+      } else {
+        throw new Error("username or password is incorrect");
+      }
     }
   };
+
 
   const logout = () => {
     setLoggedIn(false);
