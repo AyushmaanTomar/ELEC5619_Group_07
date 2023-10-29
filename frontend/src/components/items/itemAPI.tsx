@@ -15,14 +15,15 @@ function translateStatusToErrorMessage(status: number): string {
   }
 }
 
-function handleAxiosError(error: any): never {
+function handleAxiosError(error: any)  {
   if (error.response) {
     console.log(`log server http error: ${JSON.stringify(error.response.data)}`);
 
     let errorMessage = translateStatusToErrorMessage(error.response.status);
+    return errorMessage;
     throw new Error(errorMessage);
   } else if (error.request) {
-    throw new Error('No response received from the server.');
+    return 'No response received from the server.';
   } else {
     throw error;
   }
@@ -41,6 +42,7 @@ const productAPI = {
       return convertToProductModels(response.data);
     } catch (error) {
       handleAxiosError(error);
+      return [];
     }
   },
 
@@ -50,6 +52,7 @@ const productAPI = {
       return new Item(response.data);
     } catch (error) {
       handleAxiosError(error);
+      return new Item({});
     }
   },
 
@@ -79,6 +82,7 @@ const productAPI = {
       }
     } catch (error) {
       handleAxiosError(error);
+      return 0;
     }
   }
 
