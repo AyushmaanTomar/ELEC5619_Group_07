@@ -123,7 +123,7 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             <p>No results found</p>
             </div>
         ) :
-        (<ItemList projects={productData} />)}
+        (<ItemList projects={productData} canDelete={true} />)}
         </div>
         </>
     );

@@ -153,4 +153,28 @@ public class ItemController {
         return new ResponseEntity<>("Delete Fail", HttpStatus.BAD_REQUEST);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteItem(@RequestParam Integer itemId) {
+
+        if (itemService.getItemByID(itemId) == null) {
+            return new ResponseEntity<>("No Such Item to be Deleted", HttpStatus.NO_CONTENT);
+        }
+        if (itemService.deleteItemByID(itemId)) {
+            return new ResponseEntity<>("Delete Successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Delete Fail", HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteItem(@RequestParam Integer itemId) {
+
+        if (itemService.getItemByID(itemId) == null) {
+            return new ResponseEntity<>("No Such Item to be Deleted", HttpStatus.NO_CONTENT);
+        }
+        if (itemService.deleteItemByID(itemId)) {
+            return new ResponseEntity<>("Delete Successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Delete Fail", HttpStatus.BAD_REQUEST);
+    }
+
 }

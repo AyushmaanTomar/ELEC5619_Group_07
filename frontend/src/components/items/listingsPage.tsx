@@ -81,7 +81,7 @@ function ProductsPage() {
               </div>
             </div>
           )} */}
-          <ItemList projects={data} />
+          <ItemList projects={data} canDelete={false} />
           {/* <div>
             <div>Current page: {page + 1}</div>
             <div>
