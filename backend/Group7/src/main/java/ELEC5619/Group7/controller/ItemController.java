@@ -24,13 +24,12 @@ public class ItemController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createItem(@RequestBody Item item) {
-        System.out.println(item.getUser().toString());
-        System.out.println(userService.getUserById(item.getUser().getId()));
-        if (userService.getUserById(item.getUser().getId()) == null) {
+        System.out.println(item.getUser().getEmail());
+        System.out.println(userService.getUserByEmail(item.getUser().getEmail()));
+        if (userService.getUserByEmail(item.getUser().getEmail()) == null) {
             return new ResponseEntity<>("No such User", HttpStatus.BAD_REQUEST); // HTTP 400: BAD REQUEST
         }
-
-        if (item.getName() == null) return new ResponseEntity<>("No such User (no item name)", HttpStatus.BAD_REQUEST);
+        if (item.getName() == null || item.getName().length() == 0) return new ResponseEntity<>("Input Item name is not correct", HttpStatus.BAD_REQUEST);
 
         String result = itemService.createItem(item);
 
@@ -48,6 +47,17 @@ public class ItemController {
         }
         return new ResponseEntity<>(item, HttpStatus.OK); // HTTP 200: OK
     }
+    @GetMapping("/{id}/user")
+    public ResponseEntity<User> getUserByItem(@PathVariable Integer id,
+                                              @PathVariable Integer userID) {
+        Item item = itemService.getItemByID(id);
+        if(item == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // HTTP 404: NOT FOUND
+        }
+        return new ResponseEntity<>(item.getUser(), HttpStatus.OK); // HTTP 200: OK
+    }
+
+
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Item>> getAllItemByUser(@PathVariable Integer userId) {
@@ -72,4 +82,5 @@ public class ItemController {
         if (keyNameItem.size() == 0) return new ResponseEntity<>(keyNameItem, HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(keyNameItem, HttpStatus.OK);
     }
+
 }

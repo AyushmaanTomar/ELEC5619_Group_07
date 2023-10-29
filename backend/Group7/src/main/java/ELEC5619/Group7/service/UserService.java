@@ -37,7 +37,6 @@ public class UserService {
 
         try {
             user.setId(null == userRepository.findMaxId() ? 0 : userRepository.findMaxId() + 1);
-            System.out.println(user.toString());
             userRepository.save(user);
             return "success";
         } catch (Exception e) {
@@ -51,6 +50,10 @@ public class UserService {
     }
 
     public User getUserByEmail(String email){
+        List <User> users = userRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            return null;
+        }
         return userRepository.findByEmail(email).get(0);
     }
 

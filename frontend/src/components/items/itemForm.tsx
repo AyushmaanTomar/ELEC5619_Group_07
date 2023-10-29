@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { Item } from './listings';
 import { updateProduct, useSaveProduct } from './itemHooks';
+import checkForModeration from '../miscellaneous/moderation';
 
 interface ProjectFormProps {
   project: Item;
@@ -16,8 +17,15 @@ function ProductForm({ project: initialProject, onCancel }: ProjectFormProps) {
   });
 
   const { mutate: updateProduct, isLoading } = useSaveProduct();
-  const handleSubmit = (event: SyntheticEvent) => {
+  const handleSubmit = async (event: SyntheticEvent) => {
     event.preventDefault();
+    
+    const isSafe = await checkForModeration(project.description);
+    if (!isSafe) {
+        setErrors(prevErrors => ({ ...prevErrors, description: 'The description contains inappropriate content.' }));
+        return;
+    }
+
     if (!isValid()) return;
     updateProduct(project);
     setTimeout(() => {

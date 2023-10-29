@@ -1,5 +1,6 @@
 package ELEC5619.Group7.controller;
 
+import ELEC5619.Group7.entity.Item;
 import ELEC5619.Group7.entity.User;
 import ELEC5619.Group7.service.ItemService;
 import ELEC5619.Group7.service.UserService;
@@ -18,10 +19,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ItemService itemService;
+
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
-
         if (user == null) return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);
         if (user.getPassword() == null || user.getUserName() == null
                 || user.getEmail() == null || user.getPhone() == null
@@ -99,7 +102,8 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/profileImage")
-    public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId, @RequestParam String imagePath) {
+    public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId,
+                                                      @RequestParam String imagePath) {
         String result = userService.setUserProfileImage(userId, imagePath);
         switch (result) {
             case "Profile image updated successfully.":
@@ -121,16 +125,28 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{userID}/item/{itemID}")
+    public ResponseEntity<String> modifyItem (@RequestParam String itemDescription,
+                                              @RequestParam String productName,
+                                              @RequestParam Double price,
+                                              @RequestParam Boolean active,
+                                              @PathVariable Integer userId,
+                                              @PathVariable Integer itemID) {
 
-    @GetMapping("/getUserByName/{name}")
-    public ResponseEntity<User> getUserByName(@PathVariable String name) {
-        User user = userService.getUser(name);
-        if (user.equals(new User())) {
-            return new ResponseEntity<>(user, HttpStatus.NOT_FOUND); // HTTP 404
-        } else {
-            return new ResponseEntity<>(user, HttpStatus.OK); // HTTP 200
+        Item item = itemService.getItemByID(itemID);
+        User user = userService.getUserById(userId);
+
+        if (!item.getUser().getEmail().equals(user.getEmail())) {
+            return new ResponseEntity<>("User and Item not match", HttpStatus.FORBIDDEN);
+        }
+
+        switch (itemService.updateItem(item, itemDescription, productName, price, active)) {
+            case "Update":
+                return new ResponseEntity<>("Item Update Successfully", HttpStatus.OK);
+            case "item_not_found":
+                return new ResponseEntity<>("Item is ", HttpStatus.BAD_REQUEST);
+            default:
+                return new ResponseEntity<>("Failed to modify", HttpStatus.BAD_REQUEST);
         }
     }
-
-    
 }
