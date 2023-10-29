@@ -10,6 +10,7 @@ export default function ChangePassword() {
     const navigate = useNavigate();
     const [formError, setFormError] = useState<string>("");
 
+    const [email, setEmail] = useState<string>("");
     const [currentPassword, setCurrentPassword] = useState<string>("");
     const [reEnteredPassword, setReEnteredPassword] = useState<string>("");
     const [newPassword, setNewPassword] = useState<string>("");
@@ -54,7 +55,7 @@ export default function ChangePassword() {
         }
 
         const requestData = {
-            user: loggedInEmail,
+            user: email,
             newPassword: newPassword,
         };
 
@@ -84,6 +85,7 @@ export default function ChangePassword() {
                 <Typography paddingTop="50px" paddingBottom="15px" align='center' variant='h4' color={'common.black'}>Change Password</Typography>
                 <Box className="bg-secondary" sx={{ height: "auto", border: '1px solid #21262d', borderRadius: '20px', padding: "25px" }}>
                     <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px" paddingX="px">
+                    <StyledTextField required id="email" label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                         <StyledTextField required id="currentPassword" label="Current Password" name="currentPassword" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
                         <StyledTextField required id="newPassword" label="New Password" name="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
                         <StyledTextField required id="reEnteredPassword" label="Re-enter New Password" name="reEnteredPassword" type="password" value={reEnteredPassword} onChange={(e) => setReEnteredPassword(e.target.value)} />

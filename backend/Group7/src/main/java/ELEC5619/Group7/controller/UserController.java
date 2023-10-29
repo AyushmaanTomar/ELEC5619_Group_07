@@ -84,11 +84,11 @@ public class UserController {
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestBody User user,
+    public ResponseEntity<String> changePassword(@RequestBody String email,
                                                  @RequestBody String newPassword) {
-        if (user == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
+        if (email == null) return new ResponseEntity<>("Login error (user is null)", HttpStatus.UNAUTHORIZED);
         if (newPassword == null) return new ResponseEntity<>("Password does not meet the requirements (password is null)", HttpStatus.BAD_REQUEST);
-        String result = userService.changePassword(user, newPassword);
+        String result = userService.changePassword(email, newPassword);
         switch(result) {
             case "success":
                 return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);  // HTTP 200

@@ -108,13 +108,13 @@ public class UserService {
         return "incorrect_password";
     }
 
-    public String changePassword(User user, String newPassword) {
+    public String changePassword(String email, String newPassword) {
         // Check if the new password is valid
         if (!isValidPassword(newPassword)) {
             return "invalid_password";
         }
 
-        List<User> users = userRepository.findByEmail(user.getEmail());
+        List<User> users = userRepository.findByEmail(email);
         if (!users.isEmpty()) {
             User existingUser = users.get(0);
             existingUser.setPassword(newPassword);
