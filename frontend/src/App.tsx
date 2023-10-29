@@ -20,6 +20,7 @@ import { ErrorProvider } from './errorContext';
 import ErrorPane from './components/miscellaneous/errorPane';
 import LikePage from './components/usermanagement/likePage';
 import ChangePassword from './components/usermanagement/PasswordChangePage';
+import ForgotPassword from './components/usermanagement/ForgotPasswordPage';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/like" element={<LikePage />} />
               <Route path="/changePassword" element={<ChangePassword />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
             </Routes>
           </main>
         </Router>
