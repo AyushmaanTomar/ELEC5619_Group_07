@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const handleAddProduct = async (product: any, showError: any) => {
   await api.post("/items/addItem?name=" + product.name + "&description=" + product.description + "&price=" 
     + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imagePath=" + product.imgPath)
-    .catch((error) => { showError(error.request.data); });
+      .catch((error) => { showError(error.request.data); });
 };
 
 const AddProducts = memo(() => {
@@ -50,12 +50,17 @@ const AddProducts = memo(() => {
       product.price = tempPrice;
       product.listingDate = tempListingDate;
       
-      const isSafe = await checkForModeration(product.description);
-      if (!isSafe) {
-          setErrorMessage("The description contains inappropriate content.");
+      await checkForModeration(product.description)
+        .then((res) => {
+          if (!res) {
+            setErrorMessage("The description contains inappropriate content.");
+            return;
+          }
+        })
+        .catch((error) => { 
+          showError(error.request.data); 
           return;
-      }
-
+        });
 
       const priceDouble = parseFloat(product.price);
       if (isNaN(priceDouble)) {

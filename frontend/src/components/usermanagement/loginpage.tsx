@@ -52,6 +52,11 @@ export default function LoginAccount() {
         var userName = data.get("userName")?.toString();
         var password = data.get("password")?.toString();
 
+        if (captchaValue == null) { 
+            setFormError("Please complete the captcha.");
+            return;
+        }
+
         if (userName == null || password == null) {
             setFormError("Could not load data. Try again.");
             return;
