@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -26,6 +27,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+
         if (user == null) return new ResponseEntity<>("Failed to create user", HttpStatus.BAD_REQUEST);
         if (user.getPassword() == null || user.getUserName() == null
                 || user.getEmail() == null || user.getPhone() == null
@@ -40,6 +42,8 @@ public class UserController {
                 return new ResponseEntity<>("Password does not meet the requirements", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "invalid_email":
                 return new ResponseEntity<>("Email is not a valid university email", HttpStatus.BAD_REQUEST);  // HTTP 400
+            case "invalid_phone_number":
+                return new ResponseEntity<>("Phone number does not meet the requirements", HttpStatus.BAD_REQUEST);
             case "email_exists":
                 return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);  // HTTP 400
             case "username_exists":
@@ -105,8 +109,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/profileImage")
-    public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId,
-                                                      @RequestParam String imagePath) {
+    public ResponseEntity<String> setUserProfileImage(@PathVariable Integer userId, @RequestParam String imagePath) {
         String result = userService.setUserProfileImage(userId, imagePath);
         switch (result) {
             case "Profile image updated successfully.":
@@ -127,6 +130,7 @@ public class UserController {
             return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // HTTP 404
         }
     }
+
 
     @PostMapping("/{userID}/item/{itemID}")
     public ResponseEntity<String> modifyItem (@RequestParam String itemDescription,
