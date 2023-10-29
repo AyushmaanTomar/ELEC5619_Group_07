@@ -13,24 +13,25 @@ function ProductPage(props: any) {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<Item | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { showError } = useError();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);  // Initialize this with the actual count from the server if needed
   const [likes, setLikes] = useState<number>(0);
+  const numericId = Number(id);
 
-  // useEffect(() => {
-  //   async function fetchLikes() {
-  //     if (id) { // Check if id is defined
-  //       const numericId = Number(id);
-  //       if (!isNaN(numericId)) { // Ensure that id is a valid number
-  //         const totalLikes = await productAPI.getTotalLikesForItem(numericId);
-  //         setLikes(totalLikes);
-  //       }
-  //     }
-  //   }
-  //   fetchLikes();
-  // }, [id]);
+
+  useEffect(() => {
+    async function fetchLikes() {
+      const numericId = Number(id);
+      if (!isNaN(numericId)) {
+        const totalLikes = await productAPI.getTotalLikesForItem(numericId);
+        setLikes(totalLikes);
+      }
+    }
+
+    fetchLikes();  // call the async function
+  }, [id]);
 
 
   const handleLikeClick = () => {

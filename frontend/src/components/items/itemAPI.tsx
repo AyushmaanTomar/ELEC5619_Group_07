@@ -69,14 +69,19 @@ const productAPI = {
       handleAxiosError(error);
     }
   },
-  // async getTotalLikesForItem(itemId: number): Promise<number> {
-  //   try {
-  //     const response = await api.get(`/api/likes/count/byItem/${itemId}`);
-  //     return response.data;
-  //   } catch (error) {
-  //     handleAxiosError(error);
-  //   }
-  // },
+  async getTotalLikesForItem(itemId: number): Promise<number> {
+    try {
+      const response = await api.get(`/api/likes/count/byItem/${itemId}`);
+      if (typeof response.data === 'number') {
+        return response.data;
+      } else {
+        throw new Error('Unexpected response format from server');
+      }
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
+
 };
 
 export { productAPI };
