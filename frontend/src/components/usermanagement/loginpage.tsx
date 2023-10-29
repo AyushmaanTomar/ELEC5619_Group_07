@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Button, Stack, TextField, Typography, styled } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
 import { useError } from 'src/errorContext';
 
@@ -78,6 +78,7 @@ export default function LoginAccount() {
                         <StyledTextField required id="password" label="Password" name='password' type='password'/>
                         <Button type="submit" variant="contained">Login Account</Button>
                     </Stack>
+                    <NavLink to='/forgotPassword' style={{color:'white', marginLeft:'370px'}}>Forgot Password ?</NavLink>
                     <Typography color="red" align='center'>{formError}</Typography>
                 </Box>
             </Container>

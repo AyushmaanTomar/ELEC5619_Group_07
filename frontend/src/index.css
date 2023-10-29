@@ -2,23 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-  font-family: GI, Overpass, Arial, sans-serif;
-} */
-
 h2, h3, h6 {
   text-transform: uppercase;
 }
-
-/* h2.break,
-h6.break {
-  flex-basis: 100%;
-  height: 0;
-} */
-
-/* h2 {
-  display: inline-block;
-} */
 
 h3.card-title, h6.card-title{
     display: block;
@@ -32,16 +18,6 @@ h2:after, h3:after, h6:after {
   margin: 5px auto 0 0;
   width: 60px;
 }
-
-/* h2:after,
-.card-title:after {
-  background: #ffcc01;
-  content: '';
-  display: flex;
-  height: 5px;
-  margin: 10px auto 0;
-  width: 60px;
-} */
 
 header.navbar ul.menu a {
   text-transform: uppercase;
