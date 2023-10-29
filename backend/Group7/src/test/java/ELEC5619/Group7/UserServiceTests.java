@@ -63,7 +63,7 @@ class UserServiceTest {
     void testUpdateUser() {
         User userToUpdate = new User();
         userToUpdate.setEmail("test@example.com");
-        userToUpdate.setName("Updated Name");
+        userToUpdate.setUserName("Updated Name");
         userToUpdate.setPassword("newPassword");
         userToUpdate.setPhone("1234567890");
 
@@ -71,7 +71,7 @@ class UserServiceTest {
         User existingUser = new User();
         existingUser.setId(1);
         existingUser.setEmail("test@example.com");
-        existingUser.setName("Original Name");
+        existingUser.setUserName("Original Name");
         existingUser.setPassword("originalPassword");
         existingUser.setPhone("9876543210");
         users.add(existingUser);
@@ -84,7 +84,7 @@ class UserServiceTest {
         assertEquals("Student record updated.", result);
 
         // Check if the user was updated correctly
-        assertEquals("Updated Name", existingUser.getName());
+        assertEquals("Updated Name", existingUser.getUserName());
         assertEquals("newPassword", existingUser.getPassword());
         assertEquals("1234567890", existingUser.getPhone());
     }
