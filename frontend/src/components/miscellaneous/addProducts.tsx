@@ -7,7 +7,8 @@ import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
 
 const handleAddProduct = async (product: any, showError: any) => {
-  await api.post("/admin/createItem", product)
+  await api.post("/items/addItem?name=" + product.name + "&description=" + product.description + "&price=" 
+    + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imgPath=" + product.imgPath)
     .catch((error) => { showError(error.request.data); });
 };
 
@@ -16,15 +17,12 @@ const AddProducts = memo(() => {
 
   console.log('Rendering AddProducts');
     const initialProduct = {
-        user: localStorage.getItem("username"),
+        userName: localStorage.getItem("username"),
         name: "",
-        price: 0,
-        qty: 0,
-        likeAmount: 0,
+        price: "0.0",
         description: "",
         listingDate: new Date().toISOString().split("T")[0],
-        isSold: false,
-        imagePath: "",
+        imgPath: "",
     };
 
     const [product, setProduct] = useState(initialProduct);
@@ -46,10 +44,16 @@ const AddProducts = memo(() => {
 
       product.name = tempName;
       product.description = tempDescription;
-      product.price = parseInt(tempPrice);
+      product.price = tempPrice;
       product.listingDate = tempListingDate;
       
-      if (product.price === 0) {
+      const priceDouble = parseFloat(product.price);
+      if (isNaN(priceDouble)) {
+        setErrorMessage("Not a valid price!");
+        return;
+      }
+
+      if (priceDouble == 0.0) {
         setErrorMessage("PRICE CANNOT BE 0!");
         return;
       }
