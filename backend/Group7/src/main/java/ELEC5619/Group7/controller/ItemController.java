@@ -47,10 +47,10 @@ public class ItemController {
                                           @RequestParam String description,
                                           @RequestParam String price,
                                           @RequestParam String listingDate,
-                                          @RequestParam String imgPath,
+                                          @RequestParam String imagePath,
                                           @RequestParam String userName) {
 
-        if (name == null || description == null || price == null || listingDate == null || imgPath == null || userName == null) {
+        if (name == null || description == null || price == null || listingDate == null || imagePath == null || userName == null) {
             return new ResponseEntity<>("Required fields not set", HttpStatus.BAD_REQUEST);
         }
 
@@ -71,7 +71,7 @@ public class ItemController {
         item.setName(name);
         item.setDescription(description);
         item.setPrice(priceNum);
-        item.setImagePath(imgPath);
+        item.setImagePath(imagePath);
         item.setQty(1);
         item.setLikeAmount(1);
         item.setSold(false);

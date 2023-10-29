@@ -6,10 +6,11 @@ import  styled  from '@emotion/styled';
 import checkForModeration from '../miscellaneous/moderation';
 import api from 'src/axiosConfig';
 import { useError } from 'src/errorContext';
+import { useNavigate } from 'react-router-dom';
 
 const handleAddProduct = async (product: any, showError: any) => {
   await api.post("/items/addItem?name=" + product.name + "&description=" + product.description + "&price=" 
-    + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imgPath=" + product.imgPath)
+    + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imagePath=" + product.imgPath)
     .catch((error) => { showError(error.request.data); });
 };
 
@@ -28,6 +29,7 @@ const AddProducts = memo(() => {
 
     const [product, setProduct] = useState(initialProduct);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -70,23 +72,14 @@ const AddProducts = memo(() => {
       console.log(product.description);
       console.log(product.price);
       console.log(product.listingDate);
-      console.log(imagePreviewUrl)
+      console.log(product.imgPath)
 
+      try {
       handleAddProduct(product, showError);
- 
-      // window.location.href = "/products";
+      navigate("/products");
+      } catch {}
 
     };
-
-  //   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //     const { name, value } = e.target;
-  //     setProduct(prev => {
-  //         if (prev[name as keyof typeof prev] !== value) {
-  //             return { ...prev, [name]: value };
-  //         }
-  //         return prev;
-  //     });
-  // }, []);
 
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | undefined>(undefined);
 
@@ -95,12 +88,11 @@ const AddProducts = memo(() => {
 
         const reader = new FileReader();
         const file = e.target.files![0];
-        let path = e.target.value;
-        console.log(file);
+        let path = "/assets/" + file.name;
+        product.imgPath = path;
 
         reader.onloadend = () => {
-            // setProduct(prev => ({ ...prev, imageUrl: reader.result as string }));
-            setImagePreviewUrl(reader.result as string);
+            setImagePreviewUrl(path);
         };
 
         if (file) {
