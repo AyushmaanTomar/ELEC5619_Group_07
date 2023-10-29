@@ -4,62 +4,87 @@ import { useProducts } from '../items/itemHooks';
 import { Button, Container, Box, TextField, Stack } from '@mui/material';
 import  styled  from '@emotion/styled';
 import checkForModeration from '../miscellaneous/moderation';
+import api from 'src/axiosConfig';
+import { useError } from 'src/errorContext';
+import { useNavigate } from 'react-router-dom';
 
-interface Props {
-    onAdd?: (product: any) => void;
-}
+const handleAddProduct = async (product: any, showError: any) => {
+  await api.post("/items/addItem?name=" + product.name + "&description=" + product.description + "&price=" 
+    + product.price + "&listingDate=" + product.listingDate + "&userName=" + product.userName + "&imagePath=" + product.imgPath)
+      .catch((error) => { showError(error.request.data); });
+};
 
-const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
+const AddProducts = memo(() => {
+  const { showError } = useError();
 
   console.log('Rendering AddProducts');
     const initialProduct = {
+        userName: localStorage.getItem("username"),
         name: "",
+        price: "0.0",
         description: "",
-        imageUrl: "",
-        seller: "",
         listingDate: new Date().toISOString().split("T")[0],
-        price: 0,
-        isActive: true
+        imgPath: "",
     };
 
     const [product, setProduct] = useState(initialProduct);
     const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+    const navigate = useNavigate();
 
-    const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      
-      const isSafe = await checkForModeration(product.description);
-      if (!isSafe) {
-          setErrorMessage("The description contains inappropriate content.");
-          return;
+
+      const data = new FormData(e.currentTarget);
+      let tempName = data.get("name")?.toString();
+      let tempPrice = data.get("price")?.toString();
+      let tempDescription = data.get("description")?.toString();
+      let tempListingDate = data.get("listingDate")?.toString();
+
+      if (tempName == null || tempPrice == null || tempDescription == null || tempListingDate == null) {
+        setErrorMessage("Could not load data. Try again.");
+        return;
       }
 
-      if (product.price === 0) {
+      product.name = tempName;
+      product.description = tempDescription;
+      product.price = tempPrice;
+      product.listingDate = tempListingDate;
+      
+      await checkForModeration(product.description)
+        .then((res) => {
+          if (!res) {
+            setErrorMessage("The description contains inappropriate content.");
+            return;
+          }
+        })
+        .catch((error) => { 
+          showError(error.request.data); 
+          return;
+        });
+
+      const priceDouble = parseFloat(product.price);
+      if (isNaN(priceDouble)) {
+        setErrorMessage("Not a valid price!");
+        return;
+      }
+
+      if (priceDouble == 0.0) {
         setErrorMessage("PRICE CANNOT BE 0!");
         return;
       }
 
-      if (onAdd) {
-          onAdd(product);
-      }
-      window.location.href = "/products";
+      console.log(product.name);
+      console.log(product.description);
+      console.log(product.price);
+      console.log(product.listingDate);
+      console.log(product.imgPath)
 
-    }, [product]);
+      try {
+      handleAddProduct(product, showError);
+      navigate("/products");
+      } catch {}
 
-    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value } = e.target;
-      setProduct(prev => {
-          if (prev[name as keyof typeof prev] !== value) {
-              return { ...prev, [name]: value };
-          }
-          return prev;
-      });
-  }, []);
-
-    const handleCheckboxChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = e.target;
-        setProduct(prev => ({ ...prev, [name]: checked }));
-    }, []);
+    };
 
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | undefined>(undefined);
 
@@ -68,10 +93,11 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
 
         const reader = new FileReader();
         const file = e.target.files![0];
+        let path = "/assets/" + file.name;
+        product.imgPath = path;
 
         reader.onloadend = () => {
-            setProduct(prev => ({ ...prev, imageUrl: reader.result as string }));
-            setImagePreviewUrl(reader.result as string);
+            setImagePreviewUrl(path);
         };
 
         if (file) {
@@ -109,9 +135,7 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
       <Container maxWidth="sm" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
         <Box className="bg-secondary" sx={{height: "auto", borderRadius: '20px', padding: "30px"}}>
           <Stack component="form" onSubmit={handleSubmit} spacing={2} paddingBottom="25px">
-            <StyledTextField required id="name" label="Product Name" name="name" value={product.name} onChange={handleChange} />
-            <StyledTextField required id="description" label="Description" name="description" value={product.description} onChange={handleChange} multiline />
-            <input 
+          <input 
                 style={{ display: 'none' }}
                 type="file" 
                 id="fileInput"
@@ -135,13 +159,10 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
             </label>
 
               {imagePreviewUrl && <img src={imagePreviewUrl} alt="Selected Preview" style={{ maxWidth: '100%', margin: '20px 0' }} />}
-            <StyledTextField required id="seller" label="Seller" name="seller" value={product.seller} onChange={handleChange} />
-            <StyledTextField required id="price" label="Price" name="price" value={product.price.toString()} onChange={handleChange} type="number" />
-            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" value={product.listingDate} InputProps={{ readOnly: true }} type="date" />
-            <label style={{ color: 'white' }}>
-              <span>Want to make this product as ongoing sale? </span>
-              <input id="isActive" type="checkbox" name="isActive" checked={product.isActive} onChange={handleCheckboxChange} style={{ margin: '0 10px' }} />
-            </label>
+            <StyledTextField required id="name" label="Product Name" name="name" />
+            <StyledTextField required id="description" label="Description" name="description" multiline />
+            <StyledTextField required id="price" label="Price" name="price" type="number" />
+            <StyledTextField required id="listingDate" label="Listing Date" name="listingDate" type="date" />
             { errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p> }
             <Button type="submit" variant="contained">Add Product</Button>
           </Stack>
@@ -152,20 +173,10 @@ const AddProducts: React.FC<Props> = memo(({ onAdd }) => {
 });
 
 export function AddProductsComponent() {
-  const handleAddProduct = async (product: any) => {
-      try {
-          const newProduct = await productAPI.add(product);
-          console.log("Product added successfully:", newProduct);
-      } catch (error) {
-          console.error("Error adding product:", error);
-      }
-  };
-
-  const { data } = useProducts();
 
   return (
       <div>
-          <AddProducts onAdd={handleAddProduct} />
+          <AddProducts />
       </div>
   );
 }

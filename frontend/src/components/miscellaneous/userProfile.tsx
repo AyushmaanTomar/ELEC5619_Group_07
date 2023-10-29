@@ -50,11 +50,6 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         <button className="upload-button" onClick={handleButtonClick} style={{marginLeft : '130px'}}>
                             Change Profile Image
                         </button>
-                        <a href="/changePassword">
-                        <button className="upload-button" style={{marginLeft : '130px'}}>
-                            Change Password
-                        </button>
-                        </a>
                         
                     </div>
                     <div style={{ flex: 1, paddingTop: '20px' }}>
@@ -69,6 +64,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                         </div>
                         <NavLink to="/like" className="goto-like-button" style={{backgroundColor: '#ef4444', display: 'inline-block', padding: '10px 15px', borderRadius: '5px' }}>
                             Go to Like Page
+                        </NavLink>
+                        <NavLink to="/changePassword" className="bg-blue-700 goto-like-button" style={{display: 'inline-block', padding: '10px 15px', borderRadius: '5px', margin:'20px' }}>
+                            Change Password
                         </NavLink>
                     </div>
                 </div>

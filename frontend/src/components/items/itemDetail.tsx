@@ -12,7 +12,7 @@ export default function ProductDetail({ project }: ProductDetailProps) {
           <figure>
             <img
               className=""
-              src={project.imageUrl}
+              src={project.imagePath}
               alt={project.name}
               width={500}
               height={300}
@@ -30,11 +30,11 @@ export default function ProductDetail({ project }: ProductDetailProps) {
 
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Seller: </span>{' '}
-              {project.seller}
+              {project.user.userName} 
             </p>
             <p className=" text-gray-500">
               <span className="text-gray-800 font-semibold">Active: </span>{' '}
-              {project.isActive ? 'active' : 'inactive'}
+              {project.sold ? 'Sold' : 'For-Sale'}
             </p>
           </section>
         </div>

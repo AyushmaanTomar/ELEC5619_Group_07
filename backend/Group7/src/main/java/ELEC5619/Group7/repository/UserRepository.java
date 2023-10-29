@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT * from User where email = ?1", nativeQuery = true)
     public List<User> findByEmail(String email);
 
+    @Query(value = "SELECT * from User where user_name = ?1", nativeQuery = true)
+    public List<User> findByUserName(String userName);
 
     @Query("select max(u.id) from User u")
     public Integer findMaxId();

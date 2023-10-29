@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Button, Stack, TextField, Typography, styled } from '@mui/material';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
-import { useError } from 'src/errorContext';
+import { useError } from "src/errorContext";
 import ReCAPTCHA from "react-google-recaptcha";
 import './LoginPage.css';
 
@@ -15,6 +15,8 @@ export default function LoginAccount() {
     const [captchaValue, setCaptchaValue] = useState<string | null>(null);
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+
+    const { showError } = useError();
 
     const StyledTextField = styled(TextField)({
         "& input": {
@@ -48,9 +50,20 @@ export default function LoginAccount() {
         setFormError("");
         event.preventDefault();
 
+        // Check if reCAPTCHA is completed
+        if (!captchaValue) {
+            setFormError("Please verify that you are not a robot.");
+            return;
+        }
+
         const data = new FormData(event.currentTarget);
         var userName = data.get("userName")?.toString();
         var password = data.get("password")?.toString();
+
+        if (captchaValue == null) { 
+            setFormError("Please complete the captcha.");
+            return;
+        }
 
         if (userName == null || password == null) {
             setFormError("Could not load data. Try again.");
@@ -60,9 +73,12 @@ export default function LoginAccount() {
         try {
             await login(userName, password);
             navigate("/");
-        } catch {
+        } catch (error: any) {
+            showError(error.response.data);
         }
-    }
+
+    };
+
 
     return (
         <React.Fragment>

@@ -32,16 +32,18 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       const result = await api.post("/users/login?username=" + userName + "&password=" + password);
 
       if (result && result.data && result.data.email) {
-        setLoggedInEmail(result.data.email); // Assuming the email is returned from your API
+        setLoggedInEmail(result.data.email);
       }
 
       setLoggedIn(true);
       localStorage.setItem("username", userName);
 
-    } catch (error) {
-      showError("An unexpected error occurred.");
+    } catch (error: any) {
+      showError(error.response.data);
+      throw "Error"
     }
   };
+
 
   const logout = () => {
     setLoggedIn(false);
@@ -76,11 +78,11 @@ export function AuthProvider( {children} : AuthProviderProps ) {
 
   const register = async (details: accountDetails) => {
     const result = await api.post("/users/register", details)
-      .then()
-      .catch((error) => {
-        showError(error.response.data);
-        throw "Error";
-      });
+        .then()
+        .catch((error) => {
+          showError(error.response.data);
+          throw "Error";
+        });
   }
 
   useEffect(() => {
