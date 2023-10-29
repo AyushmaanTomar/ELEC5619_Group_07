@@ -48,7 +48,7 @@ function convertToProjectModels(data: any): User {
 const userAPI = {
   
   get(page = 1, limit = 12) {
-    return new User({username: 'John (Admin)', email: 'john@mail.com', phoneNumber: '1234567890', imageUrl: "/assets/profile.png"});
+    return new User({username: localStorage.getItem('username'), email: localStorage.getItem('username')?.substring(0,4).toLowerCase() + '0274@uni.sydney.edu.au', phoneNumber: '0494567891', imageUrl: "/assets/profile.png"});
     return (
       fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
         // .then(delay(2000))
