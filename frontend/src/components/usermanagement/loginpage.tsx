@@ -60,6 +60,11 @@ export default function LoginAccount() {
         var userName = data.get("userName")?.toString();
         var password = data.get("password")?.toString();
 
+        if (captchaValue == null) { 
+            setFormError("Please complete the captcha.");
+            return;
+        }
+
         if (userName == null || password == null) {
             setFormError("Could not load data. Try again.");
             return;
@@ -68,14 +73,10 @@ export default function LoginAccount() {
         try {
             await login(userName, password);
             navigate("/");
-        } catch (error) {
-            if ((error as any).response && (error as any).response.data === "Invalid credentials") {
-            console.error("Login error:", error);
-                throw new Error("username or password is incorrect");
-            } else {
-                setFormError("username or password is incorrect");
-            }
+        } catch (error: any) {
+            showError(error.response.data);
         }
+
     };
 
 

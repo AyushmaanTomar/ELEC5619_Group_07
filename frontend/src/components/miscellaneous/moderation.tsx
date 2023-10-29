@@ -12,7 +12,7 @@ async function checkForModeration(text: string): Promise<boolean> {
                 'Content-Type': 'application/json',
             },
         }
-    );
+    ).catch((error) => { throw error; })
 
     const answer = response.data.choices[0].text.trim().toLowerCase();
     return answer === "yes";
