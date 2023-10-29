@@ -203,4 +203,11 @@ public class UserService {
         return false;
     }
 
+    public String checkEmailExists(String email) {
+        if (userRepository.existsByEmail(email) > 0) {
+            return "exists";
+        }
+        return "not_exists";
+    }
+
 }
