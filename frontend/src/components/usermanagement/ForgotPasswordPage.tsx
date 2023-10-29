@@ -59,7 +59,7 @@ export default function ForgotPassword() {
             if (response.status === 200 && result.exists) {
                 setFormMessage("Sent email for resetting password.");
             } else if (response.status === 200 && !result.exists) {
-                setFormError("Email does not exist in our database.");
+                setFormError("Email does not exist.");
             } else {
                 setFormError(result.error || "There was an error checking the email. Please try again later.");
             }

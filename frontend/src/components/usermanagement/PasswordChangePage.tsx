@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../usermanagement/AuthProvider';
 
 export default function ChangePassword() {
+    const { changePassword, loggedInEmail } = useAuth();
     const navigate = useNavigate();
-    const { changePassword } = useAuth(); // Assuming you have a changePassword function in useAuth
     const [formError, setFormError] = useState<string>("");
 
     const [currentPassword, setCurrentPassword] = useState<string>("");
@@ -57,15 +57,19 @@ export default function ChangePassword() {
             return;
         }
 
+        if (!loggedInEmail) {
+            setFormError("User is not authenticated. Please log in.");
+            return;
+        }
+
         try {
-            await changePassword(currentPwd, newPwd);
+            await changePassword(loggedInEmail, currentPwd, newPwd);
             navigate("/"); // Navigate to a suitable path after password change, maybe a profile page or home
         } catch {
             // Handle error appropriately
             setFormError("Failed to change password. Try again.");
         }
     }
-
 
     return (
         <React.Fragment>

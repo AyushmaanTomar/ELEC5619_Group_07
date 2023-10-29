@@ -4,10 +4,11 @@ import { useError } from "src/errorContext";
 
 const AuthContext = createContext({
   loggedIn: false,
+  loggedInEmail: null,
   login: (s: string, p: string) => {},
   logout: () => {},
   register: (a: accountDetails) => {},
-  changePassword: (currentPassword: string, newPassword: string) => {} // Add this line
+  changePassword: (loggedInEmail: string, currentPassword: string, newPassword: string) => {}
 });
 
 type accountDetails = {
@@ -22,19 +23,24 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider( {children} : AuthProviderProps ) {
+  const [loggedInEmail, setLoggedInEmail] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const {showError} = useError();
 
   const login = async (userName: string, password: string) => {
-    const result = await api.post("/users/login?username=" + userName + "&password=" + password)
-      .then(() => {
-        setLoggedIn(true);
-        localStorage.setItem("username", userName);
-      })
-      .catch((error) => {
-        showError(error.response.data);
-        throw "Error";
-      });
+    try {
+      const result = await api.post("/users/login?username=" + userName + "&password=" + password);
+
+      if (result && result.data && result.data.email) {
+        setLoggedInEmail(result.data.email); // Assuming the email is returned from your API
+      }
+
+      setLoggedIn(true);
+      localStorage.setItem("username", userName);
+
+    } catch (error) {
+      showError("An unexpected error occurred.");
+    }
   };
 
   const logout = () => {
@@ -42,14 +48,27 @@ export function AuthProvider( {children} : AuthProviderProps ) {
     localStorage.removeItem("username");
   };
 
-  const changePassword = async (currentPassword: string, newPassword: string) => {
-    // Adjust the API endpoint and payload based on your backend's requirements.
-    await api.post("/users/changePassword", { currentPassword, newPassword })
+  const changePassword = async (loggedInEmail:string, currentPassword: string, newPassword: string) => {
+    const user = {
+      email: loggedInEmail,
+      currentPassword: currentPassword
+    };
+
+    await api.put("/users/changePassword", user, {
+      params: {
+        newPassword: newPassword
+      }
+    })
         .then(() => {
-          // Handle successful password change if needed
+          alert("Password changed successfully!");
         })
         .catch((error) => {
-          showError(error.response.data);
+          console.log("Error:", error);
+          if (error && error.response && error.response.data) {
+            showError(error.response.data);
+          } else {
+            showError("An unexpected error occurred.");
+          }
           throw "Error";
         });
   };
@@ -71,7 +90,7 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   }, []);
 
   return (
-      <AuthContext.Provider value={{ loggedIn, login, logout, register, changePassword }}>
+      <AuthContext.Provider value={{ loggedIn, loggedInEmail, login, logout, register, changePassword }}>
         {children}
       </AuthContext.Provider>
   );
