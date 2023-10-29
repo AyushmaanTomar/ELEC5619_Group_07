@@ -32,7 +32,7 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       const result = await api.post("/users/login?username=" + userName + "&password=" + password);
 
       if (result && result.data && result.data.email) {
-        setLoggedInEmail(result.data.email); // Assuming the email is returned from your API
+        setLoggedInEmail(result.data.email);
       }
 
       setLoggedIn(true);
@@ -43,6 +43,7 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       throw "Error"
     }
   };
+
 
   const logout = () => {
     setLoggedIn(false);

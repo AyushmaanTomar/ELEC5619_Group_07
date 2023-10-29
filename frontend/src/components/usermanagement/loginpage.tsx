@@ -65,9 +65,15 @@ export default function LoginAccount() {
         try {
             await login(userName, password);
             navigate("/");
-        } catch {
+        } catch (error) {
+            if ((error as any).response && (error as any).response.data === "Invalid credentials") {
+                throw new Error("username or password is incorrect");
+            } else {
+                setFormError("username or password is incorrect");
+            }
         }
-    }
+
+    };
 
     return (
         <React.Fragment>
