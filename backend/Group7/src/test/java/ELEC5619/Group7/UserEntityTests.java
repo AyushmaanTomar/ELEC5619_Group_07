@@ -53,7 +53,7 @@ class UserTest {
         user.setEmail("test@example.com");
         user.setPhone("123-456-7890");
 
-        String expected = "User{id=1, name='John Doe', password='password123', email='test@example.com', phone='123-456-7890'}";
+        String expected = "User{id=1, name='John Doe', location='null', password='password123', email='test@example.com', phone='123-456-7890', profileImg='null'}";
         assertEquals(expected, user.toString());
     }
 }
