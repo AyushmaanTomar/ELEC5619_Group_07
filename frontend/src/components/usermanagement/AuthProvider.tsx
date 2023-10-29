@@ -38,8 +38,9 @@ export function AuthProvider( {children} : AuthProviderProps ) {
       setLoggedIn(true);
       localStorage.setItem("username", userName);
 
-    } catch (error) {
-      showError("An unexpected error occurred.");
+    } catch (error: any) {
+      showError(error.response.data);
+      throw "Error"
     }
   };
 
