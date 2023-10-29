@@ -45,16 +45,17 @@ const AddProducts = memo(() => {
         return;
       }
 
-      await checkForModeration(product.description).then((res) => {
-        if (!res) {
+      const bad = await checkForModeration(tempDescription).then((res) => {
+        if (res) {
           setErrorMessage("The description contains inappropriate content.");
-          return;
+          throw("The description contains inappropriate content.")
         }
       })
       .catch((error) => { 
-        showError("Error in content moderation check."); 
-        return;
+        showError(error); 
+        return true;
       });
+      if (bad) {return}
 
       product.name = tempName;
       product.description = tempDescription;
