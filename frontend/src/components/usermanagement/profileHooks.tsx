@@ -1,14 +1,26 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { userAPI } from './profileAPI';
+import { useError } from 'src/errorContext';
 
-export function useProfile() {
+export function useProfile(): any {
   const [page, setPage] = useState(0);
-  let queryInfo = useQuery(['profile', page], () => userAPI.get(page + 1), {
+  const { showError } = useError();
+
+  try {
+  let data = userAPI();
+  } catch (error: any) {
+    showError(error);
+  }
+
+  let queryInfo = useQuery(['profile', page], () => userAPI(), {
     keepPreviousData: true,
-    // staleTime: 5000,
   });
-  // console.log(queryInfo);
+
+  if (queryInfo.error) {
+    console.error("Error fetching profile:", queryInfo.error);
+  }
+
   return { ...queryInfo, page, setPage };
 }
 

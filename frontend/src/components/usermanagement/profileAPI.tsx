@@ -1,4 +1,7 @@
+import api from 'src/axiosConfig';
 import { User } from './userClass';
+import { useError } from 'src/errorContext';
+import { useEffect } from 'react';
 
 const baseUrl = 'http://localhost:4000';
 const url = `${baseUrl}/profile`;
@@ -44,26 +47,40 @@ function convertToProjectModels(data: any): User {
   return profile;
 }
 
+const getUserProfile = async () => {
+  const username = localStorage.getItem('username')
+  const a = await api.post('/users/getProfile?username=' + username).then((response) => {
+    return response.data.profile;
+  }).catch((error) => {
+    throw(error.response.data);
+  });
+  return a;
+}
 
-const userAPI = {
-  
-  get(page = 1, limit = 12) {
-    return new User({username: localStorage.getItem('username'), email: localStorage.getItem('username')?.substring(0,4).toLowerCase() + '0274@uni.sydney.edu.au', phoneNumber: '0494567891', imageUrl: "/assets/profile.png"});
-    return (
-      fetch(`${url}?_page=${page}&_limit=${limit}&_sort=name`)
-        // .then(delay(2000))
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(convertToProjectModels)
-        .catch((error: TypeError) => {
-          console.log('log client error ' + error);
-          throw new Error(
-            'There was an error retrieving the projects. Please try again.'
-          );
-        })
-    );
-  },
+const profile = {
+  username: "",
+  email: "",
+  phoneNumber: "",
+}
 
+const userAPI = () => {
+    // try {
+    //   const data: any = await getUserProfile();
+    //   console.log(data);
+    //   profile.username = data.username;
+    //   profile.email = data.email;
+    //   profile.phoneNumber = data.phoneNumber;
+    // } catch (error) {
+    //   throw error;
+    // }
+    getUserProfile().then(
+      (data: any) => {
+        profile.username = data.name;
+        profile.email = data.email;
+        profile.phoneNumber = data.phone;
+      }
+    ).catch((error) => { throw error; })
+    return new User({username: profile.username, email: profile.email, phoneNumber: profile.phoneNumber, imageUrl: "/assets/profile.png"});
   
 };
 

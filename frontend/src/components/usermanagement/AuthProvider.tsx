@@ -5,6 +5,7 @@ import { useError } from "src/errorContext";
 const AuthContext = createContext({
   loggedIn: false,
   loggedInEmail: null,
+  userId: null,  // Add this line
   login: (s: string, p: string) => {},
   logout: () => {},
   register: (a: accountDetails) => {},
@@ -24,6 +25,7 @@ interface AuthProviderProps {
 
 export function AuthProvider( {children} : AuthProviderProps ) {
   const [loggedInEmail, setLoggedInEmail] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const {showError} = useError();
 
@@ -31,8 +33,13 @@ export function AuthProvider( {children} : AuthProviderProps ) {
     try {
       const result = await api.post("/users/login?username=" + userName + "&password=" + password);
 
-      if (result && result.data && result.data.email) {
-        setLoggedInEmail(result.data.email);
+      if (result && result.data) {
+        if(result.data.email) {
+          setLoggedInEmail(result.data.email);
+        }
+        if(result.data.userId) {  // Assuming the backend returns `userId` in the response
+          setUserId(result.data.userId);
+        }
       }
 
       setLoggedIn(true);
@@ -92,7 +99,7 @@ export function AuthProvider( {children} : AuthProviderProps ) {
   }, []);
 
   return (
-      <AuthContext.Provider value={{ loggedIn, loggedInEmail, login, logout, register, changePassword }}>
+      <AuthContext.Provider value={{ loggedIn, loggedInEmail, userId, login, logout, register, changePassword }}>
         {children}
       </AuthContext.Provider>
   );

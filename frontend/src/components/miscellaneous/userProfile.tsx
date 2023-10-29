@@ -1,14 +1,33 @@
 import * as React from 'react';
 import { useProfile } from '../usermanagement/profileHooks';
-import { NavLink } from 'react-router-dom'; 
+import { NavLink } from 'react-router-dom';
+import { setUserProfileImage, getUserProfileImage } from '../../API/UserAPI';
+import {useAuth} from "../usermanagement/AuthProvider";
+import ItemList from '../items/itemList';
+import { useState } from 'react';
+import listingsPage from '../items/listingsPage';
+import { useError } from 'src/errorContext';
+import api from 'src/axiosConfig';
 
 interface UserProfileProps {
     columns?: number;
 }
 
+const getProducts = async (setData: any, showError: any) => {
+    await api.post("/items/user?username=" + localStorage.getItem("username"))
+      .then((res) => {;
+        setData(res.data);
+      })
+      .catch((error) => {
+        showError(error.response.data);
+    });
+   };
+  
+
 const UserProfile: React.FC<UserProfileProps> = () => {
     const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const { userId } = useAuth();
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -21,6 +40,16 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         }
     };
 
+    const uploadProfileImage = async () => {
+        try {
+            // Assuming you have a user ID stored somewhere; for demonstration, I'll use 1
+            const result = await setUserProfileImage(userId, selectedImage);
+            console.log(result);  // Log the result or handle it accordingly
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
+        }
+    };
+
     const handleButtonClick = () => {
         fileInputRef.current?.click();
     };
@@ -29,6 +58,10 @@ const UserProfile: React.FC<UserProfileProps> = () => {
         data,
         isLoading,
     } = useProfile();
+
+    const [productData, setProductData] = useState(null);
+    const {showError} = useError();
+    getProducts(setProductData, showError);
 
     return (
         <>
@@ -76,6 +109,21 @@ const UserProfile: React.FC<UserProfileProps> = () => {
                     <p>LOADING...</p>
                 </div>
             ) : null}
+
+        <div className='py-32'>
+        {productData == null || isLoading ? (
+            <div className="center-page">
+            <span className="spinner primary"></span>
+            <p>LOADING...</p>
+            </div>
+        ) : productData == 0 ? (
+            <div className="center-page">
+            <span className="spinner primary"></span>
+            <p>No results found</p>
+            </div>
+        ) :
+        (<ItemList projects={productData} />)}
+        </div>
         </>
     );
 }

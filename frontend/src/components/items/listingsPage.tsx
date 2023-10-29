@@ -13,7 +13,7 @@ const getProducts = async (setData: any, showError: any) => {
       setData(sortAlphabeticallyByName(res.data));
     })
     .catch((error) => {
-      showError(error.request.data);
+      showError(error.response.data);
   });
  };
 
@@ -26,7 +26,7 @@ const getProducts = async (setData: any, showError: any) => {
       setData(sortAlphabeticallyByName(res.data));
     })
     .catch((error) => {
-      showError(error.request.data);
+      showError(error.response.data);
   });
  };
 
